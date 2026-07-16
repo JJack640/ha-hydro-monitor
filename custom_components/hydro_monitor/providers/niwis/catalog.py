@@ -189,7 +189,7 @@ class NiwisCatalog:
                     institution=station.institution,
                     source_url=station.source_url,
                     license_name=station.license_name,
-                    distance_km=round(station_distance, 1),
+                    distance_km=round(station_distance / 1000, 1),
                 )
             )
 
