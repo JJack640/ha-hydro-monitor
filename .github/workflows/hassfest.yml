@@ -5,9 +5,17 @@ on:
   pull_request:
   schedule:
     - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions: {}
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: home-assistant/actions/hassfest@master
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run Hassfest
+        uses: home-assistant/actions/hassfest@master
