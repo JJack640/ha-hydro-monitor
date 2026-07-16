@@ -1,0 +1,11 @@
+{
+  "domain": "hydro_monitor",
+  "name": "Hydro Monitor",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/christophreimer/ha-hydro-monitor",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/christophreimer/ha-hydro-monitor/issues",
+  "version": "0.1.0-alpha1"
+}

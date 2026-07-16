@@ -1,0 +1,25 @@
+{
+  "title": "Hydro Monitor",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Select measurement type",
+        "description": "Which information would you like to monitor?",
+        "data": {
+          "measurement_type": "Measurement type"
+        }
+      },
+      "station": {
+        "title": "Select a nearby station",
+        "description": "The nearest stations for {measurement_type} are sorted by distance from your Home Assistant location.",
+        "data": {
+          "station_id": "Station"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Already configured.",
+      "cannot_connect": "Could not connect to NIWIS."
+    }
+  }
+}

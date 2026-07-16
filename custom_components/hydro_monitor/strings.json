@@ -1,0 +1,25 @@
+{
+  "title": "Hydro Monitor",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Hydrologische Messgröße auswählen",
+        "description": "Welche Information möchtest du beobachten?",
+        "data": {
+          "measurement_type": "Messgröße"
+        }
+      },
+      "station": {
+        "title": "Nahe Messstelle auswählen",
+        "description": "Die nächstgelegenen Messstellen für {measurement_type} sind nach Entfernung zu deinem Home-Assistant-Standort sortiert. Der erste Aufbau kann etwas dauern.",
+        "data": {
+          "station_id": "Messstelle"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Diese Messstelle und Messgröße sind bereits eingerichtet.",
+      "cannot_connect": "Die Verbindung zu NIWIS ist fehlgeschlagen."
+    }
+  }
+}
