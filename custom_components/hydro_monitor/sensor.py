@@ -43,6 +43,7 @@ SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="value",
         name=None,
+        icon="mdi:waves-arrow-up",
         value_fn=lambda observation: observation.value,
         unit_fn=lambda observation: observation.unit,
         is_primary=True,
@@ -50,12 +51,14 @@ SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="change_1d",
         name="Trend 1 Tag",
+        icon="mdi:trending-up",
         value_fn=lambda observation: observation.change_1d,
         unit_fn=lambda observation: observation.unit,
     ),
     HydroSensorEntityDescription(
         key="change_7d",
         name="Trend 7 Tage",
+        icon="mdi:chart-line",
         value_fn=lambda observation: observation.change_7d,
         unit_fn=lambda observation: observation.unit,
     ),
