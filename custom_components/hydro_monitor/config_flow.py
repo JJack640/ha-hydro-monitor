@@ -19,8 +19,8 @@ from .const import (
     NEARBY_STATION_LIMIT,
     PROVIDER_NIWIS,
 )
+from .core.station_discovery import StationDiscoveryService
 from .models import HydroMeasurementType
-from .providers.niwis.catalog import NiwisCatalog
 
 LABELS = {
     HydroMeasurementType.GROUNDWATER_LEVEL: "Grundwasserstand",
@@ -61,8 +61,10 @@ class HydroMonitorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return await self.async_step_user()
         if not self.stations:
             try:
-                stations = await NiwisCatalog(self.hass).async_nearby_stations(
-                    self.mt, NEARBY_STATION_LIMIT
+                discovery = StationDiscoveryService(self.hass)
+                stations = await discovery.async_discover(
+                    self.mt,
+                    limit=NEARBY_STATION_LIMIT,
                 )
             except Exception:
                 return self.async_abort(reason="cannot_connect")
