@@ -61,6 +61,41 @@ def _trend_icon(change_mm: float | int | None) -> str:
     return "mdi:arrow-down-thin"
 
 
+TREND_STATE_OPTIONS = [
+    "stark_steigend",
+    "steigend",
+    "stabil",
+    "fallend",
+    "stark_fallend",
+]
+
+
+def _trend_state(
+    observation: HydroObservation,
+) -> str | None:
+    """Return a categorized seven-day trend state."""
+    change = observation.change_7d
+
+    if change is None:
+        return None
+
+    change_mm = change * 1000
+
+    if change_mm >= 25:
+        return "stark_steigend"
+
+    if change_mm >= 2:
+        return "steigend"
+
+    if change_mm <= -25:
+        return "stark_fallend"
+
+    if change_mm <= -2:
+        return "fallend"
+
+    return "stabil"
+
+
 def _measurement_datetime(
     observation: HydroObservation,
 ) -> datetime | None:
@@ -106,6 +141,7 @@ class HydroSensorEntityDescription(SensorEntityDescription):
 
     value_fn: Callable[[HydroObservation], Any]
     unit_fn: Callable[[HydroObservation], str | None]
+    options: list[str] | None = None
     is_primary: bool = False
 
 
@@ -140,6 +176,15 @@ SENSOR_DESCRIPTIONS = (
             else None
         ),
         unit_fn=lambda observation: "mm",
+    ),
+    HydroSensorEntityDescription(
+        key="trend_state",
+        name="Wasserstandstendenz",
+        icon="mdi:chart-timeline-variant",
+        device_class=SensorDeviceClass.ENUM,
+        options=TREND_STATE_OPTIONS,
+        value_fn=_trend_state,
+        unit_fn=lambda observation: None,
     ),
     HydroSensorEntityDescription(
         key="maximum_30d",
@@ -212,6 +257,9 @@ class HydroObservationSensor(
         """Initialize the sensor."""
         super().__init__(coordinator)
         self.entity_description = description
+
+        if description.options is not None:
+            self._attr_options = description.options
 
         station = coordinator.station
         measurement_type = coordinator.measurement_type
