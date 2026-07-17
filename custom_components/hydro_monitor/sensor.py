@@ -33,6 +33,32 @@ NAMES = {
     HydroMeasurementType.SPRING_DISCHARGE: "Quellschüttung",
 }
 
+TREND_SENSOR_KEYS = {"change_1d", "change_7d"}
+
+
+def _trend_icon(change_mm: float | int | None) -> str:
+    """Return a direction and strength icon for a trend in millimetres."""
+    if change_mm is None:
+        return "mdi:trending-neutral"
+
+    absolute_change = abs(float(change_mm))
+
+    if absolute_change < 2:
+        return "mdi:trending-neutral"
+
+    if change_mm > 0:
+        if absolute_change >= 25:
+            return "mdi:arrow-up-bold"
+        if absolute_change >= 10:
+            return "mdi:arrow-up"
+        return "mdi:arrow-up-thin"
+
+    if absolute_change >= 25:
+        return "mdi:arrow-down-bold"
+    if absolute_change >= 10:
+        return "mdi:arrow-down"
+    return "mdi:arrow-down-thin"
+
 
 def _measurement_age_hours(
     observation: HydroObservation,
@@ -69,7 +95,7 @@ SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="value",
         name=None,
-        icon="mdi:waves-arrow-up",
+        icon="mdi:trending-neutral",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.value,
         unit_fn=lambda observation: observation.unit,
@@ -78,18 +104,24 @@ SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="change_1d",
         name="Trend 1 Tag",
-        icon="mdi:trending-up",
-        state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda observation: observation.change_1d,
-        unit_fn=lambda observation: observation.unit,
+        icon="mdi:trending-neutral",
+        value_fn=lambda observation: (
+            round(observation.change_1d * 1000)
+            if observation.change_1d is not None
+            else None
+        ),
+        unit_fn=lambda observation: "mm",
     ),
     HydroSensorEntityDescription(
         key="change_7d",
         name="Trend 7 Tage",
         icon="mdi:chart-line",
-        state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda observation: observation.change_7d,
-        unit_fn=lambda observation: observation.unit,
+        value_fn=lambda observation: (
+            round(observation.change_7d * 1000)
+            if observation.change_7d is not None
+            else None
+        ),
+        unit_fn=lambda observation: "mm",
     ),
     HydroSensorEntityDescription(
         key="last_measurement",
@@ -176,6 +208,13 @@ class HydroObservationSensor(
         )
 
     @property
+    def icon(self) -> str | None:
+        """Return a dynamic icon for trend sensors."""
+        if self.entity_description.key in TREND_SENSOR_KEYS:
+            return _trend_icon(self.native_value)
+
+        return self.entity_description.icon
+
     def native_value(self) -> Any:
         """Return the sensor value."""
         return self.entity_description.value_fn(self.coordinator.data)
