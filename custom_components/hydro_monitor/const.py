@@ -5,7 +5,8 @@ CONF_PROVIDER = "provider"
 CONF_STATION_ID = "station_id"
 CONF_MEASUREMENT_TYPE = "measurement_type"
 PROVIDER_NIWIS = "niwis"
-DEFAULT_UPDATE_INTERVAL = timedelta(minutes=30)
-MEASUREMENT_STALE_AFTER = timedelta(hours=12)
+
+DEFAULT_UPDATE_INTERVAL = timedelta(hours=6)
+
 CATALOG_CACHE_HOURS = 24
 NEARBY_STATION_LIMIT = 25
