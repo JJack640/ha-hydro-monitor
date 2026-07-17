@@ -62,11 +62,11 @@ def _trend_icon(change_mm: float | int | None) -> str:
 
 
 TREND_STATE_OPTIONS = [
-    "stark_steigend",
-    "steigend",
-    "stabil",
-    "fallend",
-    "stark_fallend",
+    "strong_rising",
+    "rising",
+    "stable",
+    "falling",
+    "strong_falling",
 ]
 
 
@@ -82,18 +82,18 @@ def _trend_state(
     change_mm = change * 1000
 
     if change_mm >= 25:
-        return "stark_steigend"
+        return "strong_rising"
 
     if change_mm >= 2:
-        return "steigend"
+        return "rising"
 
     if change_mm <= -25:
-        return "stark_fallend"
+        return "strong_falling"
 
     if change_mm <= -2:
-        return "fallend"
+        return "falling"
 
-    return "stabil"
+    return "stable"
 
 
 def _measurement_datetime(
@@ -179,7 +179,8 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="trend_state",
-        name="Wasserstandstendenz",
+        translation_key="water_level_trend",
+        name=None,
         icon="mdi:chart-timeline-variant",
         device_class=SensorDeviceClass.ENUM,
         options=TREND_STATE_OPTIONS,
@@ -257,6 +258,9 @@ class HydroObservationSensor(
         """Initialize the sensor."""
         super().__init__(coordinator)
         self.entity_description = description
+
+        if description.translation_key is not None:
+            self._attr_translation_key = description.translation_key
 
         if description.options is not None:
             self._attr_options = description.options

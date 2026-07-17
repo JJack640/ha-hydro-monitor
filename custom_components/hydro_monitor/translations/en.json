@@ -21,5 +21,19 @@
       "already_configured": "Already configured.",
       "cannot_connect": "Could not connect to NIWIS."
     }
+  },
+  "entity": {
+    "sensor": {
+      "water_level_trend": {
+        "name": "Water level trend",
+        "state": {
+          "strong_rising": "Strongly rising",
+          "rising": "Rising",
+          "stable": "Stable",
+          "falling": "Falling",
+          "strong_falling": "Strongly falling"
+        }
+      }
+    }
   }
 }

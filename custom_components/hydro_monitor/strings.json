@@ -21,5 +21,19 @@
       "already_configured": "Diese Messstelle und Messgröße sind bereits eingerichtet.",
       "cannot_connect": "Die Verbindung zu NIWIS ist fehlgeschlagen."
     }
+  },
+  "entity": {
+    "sensor": {
+      "water_level_trend": {
+        "name": "Water level trend",
+        "state": {
+          "strong_rising": "Strongly rising",
+          "rising": "Rising",
+          "stable": "Stable",
+          "falling": "Falling",
+          "strong_falling": "Strongly falling"
+        }
+      }
+    }
   }
 }
