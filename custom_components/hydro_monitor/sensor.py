@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import UTC
+from datetime import UTC, datetime, time
 from typing import Any, Callable
 
 from homeassistant.components.sensor import (
@@ -60,21 +60,38 @@ def _trend_icon(change_mm: float | int | None) -> str:
     return "mdi:arrow-down-thin"
 
 
-def _measurement_age_hours(
+def _measurement_datetime(
     observation: HydroObservation,
-) -> float | None:
-    """Return the age of the latest observation in hours."""
+) -> datetime | None:
+    """Return the observation date as an aware datetime."""
     observed_on = observation.observed_on
 
     if observed_on is None:
         return None
 
-    if observed_on.tzinfo is None:
-        observed_on = observed_on.replace(tzinfo=UTC)
-    else:
-        observed_on = observed_on.astimezone(UTC)
+    if isinstance(observed_on, datetime):
+        if observed_on.tzinfo is None:
+            return observed_on.replace(tzinfo=UTC)
 
-    age = dt_util.utcnow() - observed_on
+        return observed_on.astimezone(UTC)
+
+    return datetime.combine(
+        observed_on,
+        time.min,
+        tzinfo=UTC,
+    )
+
+
+def _measurement_age_hours(
+    observation: HydroObservation,
+) -> float | None:
+    """Return the age of the latest observation in hours."""
+    observed_at = _measurement_datetime(observation)
+
+    if observed_at is None:
+        return None
+
+    age = dt_util.utcnow() - observed_at
 
     return round(
         max(age.total_seconds(), 0) / 3600,
@@ -95,7 +112,7 @@ SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="value",
         name=None,
-        icon="mdi:trending-neutral",
+        icon="mdi:waves-arrow-up",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.value,
         unit_fn=lambda observation: observation.unit,
@@ -115,7 +132,7 @@ SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="change_7d",
         name="Trend 7 Tage",
-        icon="mdi:chart-line",
+        icon="mdi:trending-neutral",
         value_fn=lambda observation: (
             round(observation.change_7d * 1000)
             if observation.change_7d is not None
@@ -128,7 +145,7 @@ SENSOR_DESCRIPTIONS = (
         name="Letzte Messung",
         icon="mdi:clock-check-outline",
         device_class=SensorDeviceClass.TIMESTAMP,
-        value_fn=lambda observation: observation.observed_on,
+        value_fn=_measurement_datetime,
         unit_fn=lambda observation: None,
     ),
     HydroSensorEntityDescription(
@@ -215,6 +232,7 @@ class HydroObservationSensor(
 
         return self.entity_description.icon
 
+    @property
     def native_value(self) -> Any:
         """Return the sensor value."""
         return self.entity_description.value_fn(self.coordinator.data)
