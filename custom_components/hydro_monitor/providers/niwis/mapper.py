@@ -139,6 +139,16 @@ def observation_from_niwis(
     change_1d = value - value_1d if value_1d is not None else None
     change_7d = value - value_7d if value_7d is not None else None
 
+    observations_30d = [
+        observation[2]
+        for observation in valid_observations
+        if observation[0] >= observed_on - timedelta(days=30)
+    ]
+
+    minimum_30d = min(observations_30d) if observations_30d else None
+
+    maximum_30d = max(observations_30d) if observations_30d else None
+
     return HydroObservation(
         measurement_type,
         value,
@@ -147,5 +157,7 @@ def observation_from_niwis(
         newest.get("flag"),
         change_1d=change_1d,
         change_7d=change_7d,
+        minimum_30d=minimum_30d,
+        maximum_30d=maximum_30d,
         sample_count=len(valid_observations),
     )

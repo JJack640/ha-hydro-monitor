@@ -15,6 +15,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
@@ -141,10 +142,27 @@ SENSOR_DESCRIPTIONS = (
         unit_fn=lambda observation: "mm",
     ),
     HydroSensorEntityDescription(
+        key="maximum_30d",
+        name="30-Tage-Hoch",
+        icon="mdi:arrow-collapse-up",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda observation: observation.maximum_30d,
+        unit_fn=lambda observation: observation.unit,
+    ),
+    HydroSensorEntityDescription(
+        key="minimum_30d",
+        name="30-Tage-Tief",
+        icon="mdi:arrow-collapse-down",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda observation: observation.minimum_30d,
+        unit_fn=lambda observation: observation.unit,
+    ),
+    HydroSensorEntityDescription(
         key="last_measurement",
         name="Letzte Messung",
         icon="mdi:clock-check-outline",
         device_class=SensorDeviceClass.TIMESTAMP,
+        entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=_measurement_datetime,
         unit_fn=lambda observation: None,
     ),
@@ -155,6 +173,7 @@ SENSOR_DESCRIPTIONS = (
         native_unit_of_measurement=UnitOfTime.HOURS,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
+        entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=_measurement_age_hours,
         unit_fn=lambda observation: UnitOfTime.HOURS,
     ),
