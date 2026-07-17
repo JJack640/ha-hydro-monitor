@@ -3,20 +3,24 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import UTC
 from typing import Any, Callable
 
 from homeassistant.components.sensor import (
+    SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
     SensorStateClass,
 )
+from homeassistant.const import UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.util import dt as dt_util
 
 from . import HydroMonitorConfigEntry
-from .const import DOMAIN
+from .const import DOMAIN, MEASUREMENT_STALE_AFTER
 from .coordinator import HydroMonitorCoordinator
 from .models import HydroMeasurementType, HydroObservation
 
@@ -28,6 +32,28 @@ NAMES = {
     HydroMeasurementType.GROUNDWATER_LEVEL: "Grundwasserstand",
     HydroMeasurementType.SPRING_DISCHARGE: "Quellschüttung",
 }
+
+
+def _measurement_age_hours(
+    observation: HydroObservation,
+) -> float | None:
+    """Return the age of the latest observation in hours."""
+    observed_on = observation.observed_on
+
+    if observed_on is None:
+        return None
+
+    if observed_on.tzinfo is None:
+        observed_on = observed_on.replace(tzinfo=UTC)
+    else:
+        observed_on = observed_on.astimezone(UTC)
+
+    age = dt_util.utcnow() - observed_on
+
+    return round(
+        max(age.total_seconds(), 0) / 3600,
+        1,
+    )
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -44,6 +70,7 @@ SENSOR_DESCRIPTIONS = (
         key="value",
         name=None,
         icon="mdi:waves-arrow-up",
+        state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.value,
         unit_fn=lambda observation: observation.unit,
         is_primary=True,
@@ -52,6 +79,7 @@ SENSOR_DESCRIPTIONS = (
         key="change_1d",
         name="Trend 1 Tag",
         icon="mdi:trending-up",
+        state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.change_1d,
         unit_fn=lambda observation: observation.unit,
     ),
@@ -59,8 +87,27 @@ SENSOR_DESCRIPTIONS = (
         key="change_7d",
         name="Trend 7 Tage",
         icon="mdi:chart-line",
+        state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.change_7d,
         unit_fn=lambda observation: observation.unit,
+    ),
+    HydroSensorEntityDescription(
+        key="last_measurement",
+        name="Letzte Messung",
+        icon="mdi:clock-check-outline",
+        device_class=SensorDeviceClass.TIMESTAMP,
+        value_fn=lambda observation: observation.observed_on,
+        unit_fn=lambda observation: None,
+    ),
+    HydroSensorEntityDescription(
+        key="measurement_age",
+        name="Messalter",
+        icon="mdi:clock-alert-outline",
+        native_unit_of_measurement=UnitOfTime.HOURS,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        value_fn=_measurement_age_hours,
+        unit_fn=lambda observation: UnitOfTime.HOURS,
     ),
 )
 
@@ -88,7 +135,6 @@ class HydroObservationSensor(
     entity_description: HydroSensorEntityDescription
 
     _attr_has_entity_name = True
-    _attr_state_class = SensorStateClass.MEASUREMENT
 
     def __init__(
         self,
@@ -103,20 +149,26 @@ class HydroObservationSensor(
         measurement_type = coordinator.measurement_type
 
         if description.is_primary:
-            # Keep the original unique ID so existing dashboards and
-            # automations continue to use the same entity.
+            # Keep the existing unique ID of the primary sensor.
             self._attr_unique_id = (
                 f"{station.provider}:{station.station_id}:{measurement_type.value}"
             )
             self._attr_name = NAMES[measurement_type]
         else:
             self._attr_unique_id = (
-                f"{station.provider}:{station.station_id}:"
-                f"{measurement_type.value}:{description.key}"
+                f"{station.provider}:"
+                f"{station.station_id}:"
+                f"{measurement_type.value}:"
+                f"{description.key}"
             )
 
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, f"{station.provider}:{station.station_id}")},
+            identifiers={
+                (
+                    DOMAIN,
+                    f"{station.provider}:{station.station_id}",
+                )
+            },
             name=station.name,
             manufacturer=station.institution or "NIWIS",
             model="Hydrologische Messstelle",
@@ -139,13 +191,25 @@ class HydroObservationSensor(
         return super().available and self.native_value is not None
 
     @property
-    def extra_state_attributes(self) -> dict[str, Any] | None:
-        """Return attributes for the primary observation sensor."""
+    def extra_state_attributes(
+        self,
+    ) -> dict[str, Any] | None:
+        """Return additional sensor attributes."""
+        observation = self.coordinator.data
+
+        if self.entity_description.key == "measurement_age":
+            age_hours = _measurement_age_hours(observation)
+            stale_after_hours = MEASUREMENT_STALE_AFTER.total_seconds() / 3600
+
+            return {
+                "stale": (age_hours is not None and age_hours >= stale_after_hours),
+                "stale_after_hours": stale_after_hours,
+            }
+
         if not self.entity_description.is_primary:
             return None
 
         station = self.coordinator.station
-        observation = self.coordinator.data
 
         return {
             "provider": station.provider,
