@@ -76,6 +76,9 @@ async def test_config_entry_diagnostics():
 
     assert diagnostics["observation"]["value"] == 608.07
     assert diagnostics["observation"]["change_7d"] == -0.03
+    assert diagnostics["observation"]["native_unit"] == "m. ü. NHN"
+    assert diagnostics["observation"]["trend_state"] == "strong_falling"
+    assert diagnostics["observation"]["is_stale"] is True
 
     # Privacy checks
     assert "latitude" not in diagnostics["station"]
