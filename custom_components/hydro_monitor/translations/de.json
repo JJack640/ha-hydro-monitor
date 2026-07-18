@@ -24,6 +24,24 @@
   },
   "entity": {
     "sensor": {
+      "discharge": {
+        "name": "Abfluss"
+      },
+      "water_level": {
+        "name": "Wasserstand"
+      },
+      "groundwater_level": {
+        "name": "Grundwasserstand"
+      },
+      "spring_discharge": {
+        "name": "Quellschüttung"
+      },
+      "trend_1_day": {
+        "name": "Trend 1 Tag"
+      },
+      "trend_7_days": {
+        "name": "Trend 7 Tage"
+      },
       "water_level_trend": {
         "name": "Wasserstandstendenz",
         "state": {
@@ -33,6 +51,18 @@
           "falling": "Fallend",
           "strong_falling": "Stark fallend"
         }
+      },
+      "high_30_days": {
+        "name": "30-Tage-Hoch"
+      },
+      "low_30_days": {
+        "name": "30-Tage-Tief"
+      },
+      "last_measurement": {
+        "name": "Letzte Messung"
+      },
+      "measurement_age": {
+        "name": "Messalter"
       }
     }
   }

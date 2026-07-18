@@ -27,11 +27,11 @@ from .models import HydroMeasurementType, HydroObservation
 
 PARALLEL_UPDATES = 0
 
-NAMES = {
-    HydroMeasurementType.DISCHARGE: "Abfluss",
-    HydroMeasurementType.WATER_LEVEL: "Wasserstand",
-    HydroMeasurementType.GROUNDWATER_LEVEL: "Grundwasserstand",
-    HydroMeasurementType.SPRING_DISCHARGE: "Quellschüttung",
+PRIMARY_TRANSLATION_KEYS = {
+    HydroMeasurementType.DISCHARGE: "discharge",
+    HydroMeasurementType.WATER_LEVEL: "water_level",
+    HydroMeasurementType.GROUNDWATER_LEVEL: "groundwater_level",
+    HydroMeasurementType.SPRING_DISCHARGE: "spring_discharge",
 }
 
 TREND_SENSOR_KEYS = {"change_1d", "change_7d"}
@@ -157,8 +157,10 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="change_1d",
-        name="Trend 1 Tag",
+        translation_key="trend_1_day",
+        name=None,
         icon="mdi:trending-neutral",
+        state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: (
             round(observation.change_1d * 1000)
             if observation.change_1d is not None
@@ -168,8 +170,10 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="change_7d",
-        name="Trend 7 Tage",
+        translation_key="trend_7_days",
+        name=None,
         icon="mdi:trending-neutral",
+        state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: (
             round(observation.change_7d * 1000)
             if observation.change_7d is not None
@@ -189,7 +193,8 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="maximum_30d",
-        name="30-Tage-Hoch",
+        translation_key="high_30_days",
+        name=None,
         icon="mdi:arrow-collapse-up",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.maximum_30d,
@@ -197,7 +202,8 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="minimum_30d",
-        name="30-Tage-Tief",
+        translation_key="low_30_days",
+        name=None,
         icon="mdi:arrow-collapse-down",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda observation: observation.minimum_30d,
@@ -205,7 +211,8 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="last_measurement",
-        name="Letzte Messung",
+        translation_key="last_measurement",
+        name=None,
         icon="mdi:clock-check-outline",
         device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,
@@ -214,7 +221,8 @@ SENSOR_DESCRIPTIONS = (
     ),
     HydroSensorEntityDescription(
         key="measurement_age",
-        name="Messalter",
+        translation_key="measurement_age",
+        name=None,
         icon="mdi:clock-alert-outline",
         native_unit_of_measurement=UnitOfTime.HOURS,
         state_class=SensorStateClass.MEASUREMENT,
@@ -273,7 +281,7 @@ class HydroObservationSensor(
             self._attr_unique_id = (
                 f"{station.provider}:{station.station_id}:{measurement_type.value}"
             )
-            self._attr_name = NAMES[measurement_type]
+            self._attr_translation_key = PRIMARY_TRANSLATION_KEYS[measurement_type]
         else:
             self._attr_unique_id = (
                 f"{station.provider}:"

@@ -3,27 +3,45 @@
   "config": {
     "step": {
       "user": {
-        "title": "Hydrologische Messgröße auswählen",
-        "description": "Welche Information möchtest du beobachten?",
+        "title": "Select measurement type",
+        "description": "Which information would you like to monitor?",
         "data": {
-          "measurement_type": "Messgröße"
+          "measurement_type": "Measurement type"
         }
       },
       "station": {
-        "title": "Nahe Messstelle auswählen",
-        "description": "Die nächstgelegenen Messstellen für {measurement_type} sind nach Entfernung zu deinem Home-Assistant-Standort sortiert. Der erste Aufbau kann etwas dauern.",
+        "title": "Select a nearby station",
+        "description": "The nearest stations for {measurement_type} are sorted by distance from your Home Assistant location. The initial setup may take a moment.",
         "data": {
-          "station_id": "Messstelle"
+          "station_id": "Station"
         }
       }
     },
     "abort": {
-      "already_configured": "Diese Messstelle und Messgröße sind bereits eingerichtet.",
-      "cannot_connect": "Die Verbindung zu NIWIS ist fehlgeschlagen."
+      "already_configured": "This station and measurement type are already configured.",
+      "cannot_connect": "Could not connect to NIWIS."
     }
   },
   "entity": {
     "sensor": {
+      "discharge": {
+        "name": "Discharge"
+      },
+      "water_level": {
+        "name": "Water level"
+      },
+      "groundwater_level": {
+        "name": "Groundwater level"
+      },
+      "spring_discharge": {
+        "name": "Spring discharge"
+      },
+      "trend_1_day": {
+        "name": "1-day trend"
+      },
+      "trend_7_days": {
+        "name": "7-day trend"
+      },
       "water_level_trend": {
         "name": "Water level trend",
         "state": {
@@ -33,6 +51,18 @@
           "falling": "Falling",
           "strong_falling": "Strongly falling"
         }
+      },
+      "high_30_days": {
+        "name": "30-day high"
+      },
+      "low_30_days": {
+        "name": "30-day low"
+      },
+      "last_measurement": {
+        "name": "Last measurement"
+      },
+      "measurement_age": {
+        "name": "Measurement age"
       }
     }
   }
