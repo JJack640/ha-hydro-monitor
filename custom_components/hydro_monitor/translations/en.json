@@ -22,46 +22,48 @@
       "cannot_connect": "Could not connect to NIWIS."
     }
   },
-  "sensor": {
-    "discharge": {
-      "name": "Discharge"
-    },
-    "water_level": {
-      "name": "Water level"
-    },
-    "groundwater_level": {
-      "name": "Groundwater level"
-    },
-    "spring_discharge": {
-      "name": "Spring discharge"
-    },
-    "trend_1_day": {
-      "name": "1-day trend"
-    },
-    "trend_7_days": {
-      "name": "7-day trend"
-    },
-    "water_level_trend": {
-      "name": "Water level trend",
-      "state": {
-        "strong_rising": "Strongly rising",
-        "rising": "Rising",
-        "stable": "Stable",
-        "falling": "Falling",
-        "strong_falling": "Strongly falling"
+  "entity": {
+    "sensor": {
+      "discharge": {
+        "name": "Discharge"
+      },
+      "water_level": {
+        "name": "Water level"
+      },
+      "groundwater_level": {
+        "name": "Groundwater level"
+      },
+      "spring_discharge": {
+        "name": "Spring discharge"
+      },
+      "trend_1_day": {
+        "name": "1-day trend"
+      },
+      "trend_7_days": {
+        "name": "7-day trend"
+      },
+      "water_level_trend": {
+        "name": "Water level trend",
+        "state": {
+          "strong_rising": "Strongly rising",
+          "rising": "Rising",
+          "stable": "Stable",
+          "falling": "Falling",
+          "strong_falling": "Strongly falling"
+        }
+      },
+      "high_30_days": {
+        "name": "30-day high"
+      },
+      "low_30_days": {
+        "name": "30-day low"
+      },
+      "last_measurement": {
+        "name": "Last measurement"
+      },
+      "measurement_age": {
+        "name": "Measurement age"
       }
-    },
-    "high_30_days": {
-      "name": "30-day high"
-    },
-    "low_30_days": {
-      "name": "30-day low"
-    },
-    "last_measurement": {
-      "name": "Last measurement"
-    },
-    "measurement_age": {
-      "name": "Measurement age"
     }
   }
 }
