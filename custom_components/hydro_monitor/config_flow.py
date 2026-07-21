@@ -65,9 +65,6 @@ class HydroMonitorConfigFlow(
             HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
         }[self._measurement_type]
 
-        self._measurement_type: HydroMeasurementType | None = None
-        self._stations: dict[str, HydroStation] = {}
-
     async def async_step_user(
         self,
         user_input: dict[str, Any] | None = None,
