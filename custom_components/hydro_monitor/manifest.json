@@ -3,9 +3,9 @@
   "name": "Hydro Monitor",
   "codeowners": [],
   "config_flow": true,
-  "documentation": "https://github.com/christophreimer/ha-hydro-monitor",
+  "documentation": "https://github.com/JJack640/ha-hydro-monitor",
   "integration_type": "service",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/christophreimer/ha-hydro-monitor/issues",
+  "issue_tracker": "https://github.com/JJack640/ha-hydro-monitor/issues",
   "version": "0.3.0-alpha2"
 }
