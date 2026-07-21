@@ -19,7 +19,8 @@
     },
     "abort": {
       "already_configured": "Diese Messstelle und Messgröße sind bereits eingerichtet.",
-      "cannot_connect": "Die Verbindung zu NIWIS ist fehlgeschlagen."
+      "cannot_connect": "Die Verbindung zu NIWIS ist fehlgeschlagen.",
+      "no_stations_found": "Es wurden keine passenden Messstellen gefunden."
     }
   },
   "entity": {
@@ -63,6 +64,16 @@
       },
       "measurement_age": {
         "name": "Messalter"
+      }
+    }
+  },
+  "selector": {
+    "measurement_type": {
+      "options": {
+        "discharge": "Abfluss",
+        "water_level": "Wasserstand",
+        "groundwater_level": "Grundwasserstand",
+        "spring_discharge": "Quellschüttung"
       }
     }
   }

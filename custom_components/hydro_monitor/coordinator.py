@@ -22,15 +22,16 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         hass: HomeAssistant,
         entry: ConfigEntry,
         station: HydroStation,
-        mt: HydroMeasurementType,
+        measurement_type: HydroMeasurementType,
     ) -> None:
+        """Initialize the Hydro Monitor coordinator."""
         self.station = station
-        self.measurement_type = mt
+        self.measurement_type = measurement_type
         self.client = NiwisClient(async_get_clientsession(hass))
         super().__init__(
             hass,
             _LOGGER,
-            name=f"hydro_monitor_{station.station_id}_{mt.value}",
+            name=f"hydro_monitor_{station.station_id}_{measurement_type.value}",
             update_interval=DEFAULT_UPDATE_INTERVAL,
             config_entry=entry,
         )
@@ -51,6 +52,11 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         )
 
 
-async def async_get_station(hass: HomeAssistant, station_id: str) -> HydroStation:
+async def async_get_station(
+    hass: HomeAssistant,
+    station_id: str,
+) -> HydroStation:
+    """Fetch a station definition from the NIWIS provider."""
     client = NiwisClient(async_get_clientsession(hass))
-    return station_from_niwis(await client.async_get_station(station_id))
+    station = await client.async_get_station(station_id)
+    return station_from_niwis(station)

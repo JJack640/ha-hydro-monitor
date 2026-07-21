@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, time
-from typing import Any, Callable
+from typing import Any, Final
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
@@ -27,14 +28,22 @@ from .models import HydroMeasurementType, HydroObservation
 
 PARALLEL_UPDATES = 0
 
-PRIMARY_TRANSLATION_KEYS = {
+PRIMARY_TRANSLATION_KEYS: Final = {
     HydroMeasurementType.DISCHARGE: "discharge",
     HydroMeasurementType.WATER_LEVEL: "water_level",
     HydroMeasurementType.GROUNDWATER_LEVEL: "groundwater_level",
     HydroMeasurementType.SPRING_DISCHARGE: "spring_discharge",
 }
 
-TREND_SENSOR_KEYS = {"change_1d", "change_7d"}
+TREND_SENSOR_KEYS: Final = frozenset({"change_1d", "change_7d"})
+
+
+def _trend_mm(change_m: float | None) -> int | None:
+    """Convert a trend value from metres to millimetres."""
+    if change_m is None:
+        return None
+
+    return round(change_m * 1000)
 
 
 def _trend_icon(change_mm: float | int | None) -> str:
@@ -61,7 +70,7 @@ def _trend_icon(change_mm: float | int | None) -> str:
     return "mdi:arrow-down-thin"
 
 
-TREND_STATE_OPTIONS = [
+TREND_STATE_OPTIONS: Final = [
     "strong_rising",
     "rising",
     "stable",
@@ -74,12 +83,10 @@ def _trend_state(
     observation: HydroObservation,
 ) -> str | None:
     """Return a categorized seven-day trend state."""
-    change = observation.change_7d
+    change_mm = _trend_mm(observation.change_7d)
 
-    if change is None:
+    if change_mm is None:
         return None
-
-    change_mm = change * 1000
 
     if change_mm >= 25:
         return "strong_rising"
@@ -161,11 +168,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:trending-neutral",
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda observation: (
-            round(observation.change_1d * 1000)
-            if observation.change_1d is not None
-            else None
-        ),
+        value_fn=lambda observation: _trend_mm(observation.change_1d),
         unit_fn=lambda observation: "mm",
     ),
     HydroSensorEntityDescription(
@@ -174,11 +177,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:trending-neutral",
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda observation: (
-            round(observation.change_7d * 1000)
-            if observation.change_7d is not None
-            else None
-        ),
+        value_fn=lambda observation: _trend_mm(observation.change_7d),
         unit_fn=lambda observation: "mm",
     ),
     HydroSensorEntityDescription(
@@ -299,7 +298,7 @@ class HydroObservationSensor(
             },
             name=station.name,
             manufacturer=station.institution or "NIWIS",
-            model="Hydrologische Messstelle",
+            model="Hydrological monitoring station",
             configuration_url=station.source_url,
         )
 

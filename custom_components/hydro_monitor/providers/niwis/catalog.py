@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import asyncio
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
-from typing import Any
+from typing import Any, Final
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -17,9 +18,9 @@ from .api import NiwisClient, NiwisError
 from .const import HYDRO_TO_NIWIS_TYPE
 from .mapper import station_from_niwis
 
-_STORAGE_VERSION = 1
-_STORAGE_KEY = f"{DOMAIN}.niwis_catalog"
-_MAX_PARALLEL_REQUESTS = 8
+_STORAGE_VERSION: Final = 1
+_STORAGE_KEY: Final = f"{DOMAIN}.niwis_catalog"
+_MAX_PARALLEL_REQUESTS: Final = 8
 
 
 class NiwisCatalog:
@@ -139,6 +140,8 @@ class NiwisCatalog:
         """Return mapped stations supporting a measurement type."""
         await self.async_load_cache()
         candidates = await self.async_get_candidates(measurement_type)
+        if not self._cache_is_fresh():
+            self._details = {}
 
         await self._async_fetch_missing_details(candidates)
 
@@ -177,18 +180,8 @@ class NiwisCatalog:
             )
 
             nearby.append(
-                HydroStation(
-                    provider=station.provider,
-                    station_id=station.station_id,
-                    name=station.name,
-                    measurement_types=station.measurement_types,
-                    latitude=station.latitude,
-                    longitude=station.longitude,
-                    waterbody=station.waterbody,
-                    operator=station.operator,
-                    institution=station.institution,
-                    source_url=station.source_url,
-                    license_name=station.license_name,
+                replace(
+                    station,
                     distance_km=round(station_distance / 1000, 1),
                 )
             )

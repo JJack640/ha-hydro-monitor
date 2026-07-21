@@ -19,7 +19,8 @@
     },
     "abort": {
       "already_configured": "This station and measurement type are already configured.",
-      "cannot_connect": "Could not connect to NIWIS."
+      "cannot_connect": "Could not connect to NIWIS.",
+      "no_stations_found": "No matching monitoring stations were found."
     }
   },
   "entity": {
@@ -63,6 +64,16 @@
       },
       "measurement_age": {
         "name": "Measurement age"
+      }
+    }
+  },
+  "selector": {
+    "measurement_type": {
+      "options": {
+        "discharge": "Discharge",
+        "water_level": "Water level",
+        "groundwater_level": "Groundwater level",
+        "spring_discharge": "Spring discharge"
       }
     }
   }

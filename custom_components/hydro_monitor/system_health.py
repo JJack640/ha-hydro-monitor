@@ -50,6 +50,15 @@ async def async_system_health_info(
         if observation is not None and observation.observed_on is not None:
             observation_dates.append(observation.observed_on)
 
+    if not update_intervals:
+        update_interval = None
+    elif len(update_intervals) == 1:
+        update_interval = f"{int(next(iter(update_intervals)) / 3600)} hours"
+    else:
+        update_interval = ", ".join(
+            f"{int(interval / 3600)} h" for interval in sorted(update_intervals)
+        )
+
     return {
         "Configured entries": len(entries),
         "Loaded entries": len(loaded_entries),
@@ -62,14 +71,6 @@ async def async_system_health_info(
         "Last update successful": (
             all(update_success_values) if update_success_values else None
         ),
-        "Update interval": (
-            f"{int(next(iter(update_intervals)) / 3600)} hours"
-            if len(update_intervals) == 1
-            else ", ".join(
-                f"{int(interval / 3600)} h" for interval in sorted(update_intervals)
-            )
-            if update_intervals
-            else None
-        ),
+        "Update interval": update_interval,
         "Latest observation": (max(observation_dates) if observation_dates else None),
     }

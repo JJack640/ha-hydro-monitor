@@ -8,13 +8,6 @@ from typing import Any
 from ...models import HydroMeasurementType, HydroObservation, HydroStation
 from .const import NIWIS_TO_HYDRO_TYPE
 
-INVALID_MEASUREMENT_VALUES = {
-    -777.0,
-    -888.0,
-    -999.0,
-    -9999.0,
-}
-
 
 def as_float(value: Any) -> float | None:
     """Convert a NIWIS value to float."""
@@ -53,18 +46,18 @@ def station_from_niwis(
     )
 
     return HydroStation(
-        "niwis",
-        str(data["messstelleNr"]),
-        str(data.get("name") or data["messstelleNr"]),
-        measurement_types,
-        as_float(data.get("breite")),
-        as_float(data.get("laenge")),
-        data.get("gewaesser"),
-        data.get("betreiber"),
-        data.get("institution"),
-        data.get("urlMessstelle"),
-        data.get("lizenz"),
-        distance_km,
+        provider="niwis",
+        station_id=str(data["messstelleNr"]),
+        name=str(data.get("name") or data["messstelleNr"]),
+        measurement_types=measurement_types,
+        latitude=as_float(data.get("breite")),
+        longitude=as_float(data.get("laenge")),
+        waterbody=data.get("gewaesser"),
+        operator=data.get("betreiber"),
+        institution=data.get("institution"),
+        source_url=data.get("urlMessstelle"),
+        license_name=data.get("lizenz"),
+        distance_km=distance_km,
     )
 
 
@@ -122,16 +115,15 @@ def observation_from_niwis(
         target_date: date,
     ) -> float | None:
         """Return the newest valid value on or before a date."""
-        matching_observations = [
-            observation
-            for observation in valid_observations
-            if observation[0] <= target_date
-        ]
+        for (
+            observation_date,
+            _item,
+            observation_value,
+        ) in reversed(valid_observations):
+            if observation_date <= target_date:
+                return observation_value
 
-        if not matching_observations:
-            return None
-
-        return matching_observations[-1][2]
+        return None
 
     value_1d = value_at_or_before(observed_on - timedelta(days=1))
     value_7d = value_at_or_before(observed_on - timedelta(days=7))
