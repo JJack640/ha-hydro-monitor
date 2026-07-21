@@ -48,14 +48,6 @@ class HydroMonitorConfigFlow(
 
     VERSION = 1
 
-    class HydroMonitorConfigFlow(
-    config_entries.ConfigFlow,
-    domain=DOMAIN,
-):
-    """Handle a config flow for Hydro Monitor."""
-
-    VERSION = 1
-
     def __init__(self) -> None:
         """Initialize the Hydro Monitor config flow."""
         self._measurement_type: HydroMeasurementType | None = None
