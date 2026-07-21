@@ -48,7 +48,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-Current development status: **Alpha**.
+Current release: v0.3.0-alpha2
 
 Hydro Monitor currently supports the NIWIS public hydrological data service.
 

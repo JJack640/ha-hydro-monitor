@@ -34,7 +34,7 @@ class NiwisClient:
                 params=params,
                 headers={
                     "Accept": "application/json",
-                    "User-Agent": "Home Assistant Hydro Monitor/0.3.0-alpha1",
+                    "User-Agent": "Home Assistant Hydro Monitor/0.3.0-alpha2",
                 },
                 timeout=45,
             ) as response:

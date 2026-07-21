@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## v0.3.0-alpha2 (2026-07-21)
+
+### Added
+
+- Home Assistant Diagnostics support
+- Home Assistant System Health support
+- Device separation by measurement type
+- Improved localization (German and English)
+- Additional diagnostic entities
+- Extensive unit test coverage
+
+### Changed
+
+- Complete code quality review
+- Refactored Config Flow
+- Improved type hints and documentation
+- Improved mapper performance
+- Improved NIWIS catalog cache handling
+- Improved sensor implementation
+- Improved translation handling
+- Improved runtime robustness
+
+### Fixed
+
+- Config Flow compatibility with Home Assistant 2026.7
+- Device merging when using multiple measurement types
+- Various Home Assistant style and quality issues
+
 ## [0.3.0-alpha1]
 
 ### Added

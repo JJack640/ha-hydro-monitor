@@ -274,6 +274,12 @@ class HydroObservationSensor(
 
         station = coordinator.station
         measurement_type = coordinator.measurement_type
+        measurement_name = {
+            HydroMeasurementType.DISCHARGE: "Discharge",
+            HydroMeasurementType.WATER_LEVEL: "Water level",
+            HydroMeasurementType.GROUNDWATER_LEVEL: "Groundwater level",
+            HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
+        }[measurement_type]
 
         if description.is_primary:
             # Keep the existing unique ID of the primary sensor.
@@ -293,11 +299,15 @@ class HydroObservationSensor(
             identifiers={
                 (
                     DOMAIN,
-                    f"{station.provider}:{station.station_id}",
+                    (
+                        f"{station.provider}:"
+                        f"{station.station_id}:"
+                        f"{measurement_type.value}"
+                    ),
                 )
             },
-            name=station.name,
-            manufacturer=station.institution or "NIWIS",
+            name=f"{station.name} – {measurement_name}",
+            manufacturer=station.institution or station.provider.upper(),
             model="Hydrological monitoring station",
             configuration_url=station.source_url,
         )
