@@ -48,8 +48,31 @@ class HydroMonitorConfigFlow(
 
     VERSION = 1
 
+    class HydroMonitorConfigFlow(
+    config_entries.ConfigFlow,
+    domain=DOMAIN,
+):
+    """Handle a config flow for Hydro Monitor."""
+
+    VERSION = 1
+
     def __init__(self) -> None:
         """Initialize the Hydro Monitor config flow."""
+        self._measurement_type: HydroMeasurementType | None = None
+        self._stations: dict[str, HydroStation] = {}
+
+    def _measurement_type_display_name(self) -> str:
+        """Return a readable measurement type for the config entry title."""
+        if self._measurement_type is None:
+            return ""
+
+        return {
+            HydroMeasurementType.DISCHARGE: "Discharge",
+            HydroMeasurementType.WATER_LEVEL: "Water level",
+            HydroMeasurementType.GROUNDWATER_LEVEL: "Groundwater level",
+            HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
+        }[self._measurement_type]
+
         self._measurement_type: HydroMeasurementType | None = None
         self._stations: dict[str, HydroStation] = {}
 
@@ -118,7 +141,7 @@ class HydroMonitorConfigFlow(
             self._abort_if_unique_id_configured()
 
             return self.async_create_entry(
-                title=station.name,
+                title=(f"{station.name} – {self._measurement_type_display_name()}"),
                 data={
                     CONF_PROVIDER: PROVIDER_NIWIS,
                     CONF_STATION_ID: station_id,

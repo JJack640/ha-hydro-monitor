@@ -1,6 +1,13 @@
 # Hydro Monitor
 
 <p align="center">
+  <img src="https://img.shields.io/github/v/release/JJack640/ha-hydro-monitor?display_name=tag" alt="Latest Release">
+  <img src="https://img.shields.io/github/license/JJack640/ha-hydro-monitor" alt="License">
+  <img src="https://img.shields.io/badge/HACS-Compatible-41BDF5.svg" alt="HACS Compatible">
+  <img src="https://img.shields.io/badge/Home%20Assistant-2026.7+-41BDF5" alt="Home Assistant">
+</p>
+
+<p align="center">
   <img src="custom_components/hydro_monitor/brand/logo.png" alt="Hydro Monitor logo" width="220">
 </p>
 
@@ -21,6 +28,9 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 
 > [!IMPORTANT]
 > Hydro Monitor is currently under active development. NIWIS is the first supported provider.
+
+> [!NOTE]
+> **Current status:** Feature-complete Alpha (`v0.3.0-alpha2`) – recommended for testing and feedback.
 
 ## Features
 
@@ -48,7 +58,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-Current release: v0.3.0-alpha2
+**Current release:** `v0.3.0-alpha2`
 
 Hydro Monitor currently supports the NIWIS public hydrological data service.
 
@@ -62,11 +72,22 @@ The architecture is provider-based and designed to support additional national a
 
 Additional providers may be added later without changing the core integration architecture.
 
+## Preview
+
+![Hydro Monitor Device](docs/images/device_overview.png)
+![Hydro Monitor Integration](docs/images/device_integration.png)
+
 ## Installation
 
-### HACS (planned)
+### HACS
 
-HACS installation will be available once the first public release has been published.
+Hydro Monitor can be installed through HACS as a custom repository.
+
+1. Open **HACS → Integrations**.
+2. Open the menu and select **Custom repositories**.
+3. Add `https://github.com/JJack640/ha-hydro-monitor`.
+4. Select **Integration** as the category.
+5. Install Hydro Monitor and restart Home Assistant.
 
 ## Configuration
 
