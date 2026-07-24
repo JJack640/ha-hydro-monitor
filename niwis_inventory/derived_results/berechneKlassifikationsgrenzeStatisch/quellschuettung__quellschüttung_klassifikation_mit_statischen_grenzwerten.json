@@ -1,0 +1,17 @@
+{
+  "schwellenwerte": [
+    3.7073,
+    7.558,
+    10.142858
+  ],
+  "klassifikationen": [
+    "extrem niedrig",
+    "sehr niedrig",
+    "niedrig",
+    "kein Niedrigwasser"
+  ],
+  "einheit": "l/s",
+  "beidseitigOffeneSchwellenwerte": true,
+  "hatZuvieleFehlwerte": false,
+  "fehlermeldung": null
+}

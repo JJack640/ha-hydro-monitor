@@ -1,0 +1,9 @@
+{
+  "duerreperiodenindizeProTag": [],
+  "klassifikationProDuerreperiode": {},
+  "startDatum": null,
+  "endDatum": null,
+  "einheit": null,
+  "hatZuvieleFehlwerte": false,
+  "fehlermeldung": "Für diese Messstelle kann der LFI nicht berechnet werden."
+}

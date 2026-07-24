@@ -27,11 +27,37 @@ class HydroStation:
 
     latitude: float | None = None
     longitude: float | None = None
+
+    country_code: str | None = None
+    station_type: str | None = None
+    locality: str | None = None
+
     waterbody: str | None = None
+    waterbody_code: str | None = None
+    waterbody_position: str | None = None
+    catchment_area_km2: float | None = None
+
+    elevation_ground: float | None = None
+    gauge_zero_elevation: float | None = None
+    elevation_system: str | None = None
+
+    hydrogeological_region: str | None = None
+    hydrogeological_region_code: str | None = None
+
     operator: str | None = None
+    operator_url: str | None = None
     institution: str | None = None
+    institution_url: str | None = None
+
     source_url: str | None = None
     license_name: str | None = None
+    remarks: str | None = None
+
+    historical_low_discharge: float | None = None
+    historical_low_discharge_date: date | None = None
+    historical_low_water_level: float | None = None
+    historical_low_water_level_date: date | None = None
+
     distance_km: float | None = None
 
 

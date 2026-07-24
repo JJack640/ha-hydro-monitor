@@ -1,0 +1,346 @@
+[
+  {
+    "abgeleiteteGroesse": "Abfluss Dezile tageweise",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Entwicklung letzte 7 Tage",
+    "einheit": null,
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Klassifikation mit statischen Grenzwerten",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Klassifikation mit variablen Grenzwerten",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Niedrigwasserklasse aktueller Tag",
+    "einheit": null,
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "Klimaindikator Niedrigwassertage",
+    "einheit": null,
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlimaindikatorNiedrigwassertage"
+  },
+  {
+    "abgeleiteteGroesse": "LFI",
+    "einheit": null,
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneLfi"
+  },
+  {
+    "abgeleiteteGroesse": "MNQ",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "MQ",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Max Q pro Kalendartag",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Median Q Statisch",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Median Q pro Kalendertag",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Min Q pro Kalendartag",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "NM30Q",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "NM30Q mit Datum",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "NM7Q",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "NM7Q mit Datum",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "NQ",
+    "einheit": "m³/s",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "SumD",
+    "einheit": "d",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "SumD Zeitfenster",
+    "einheit": "d",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "SumV",
+    "einheit": "m³",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "SumV Zeitfenster",
+    "einheit": "m³",
+    "messgroesse": "ABFLUSS",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Grundwasser Niedrigwasserklasse aktueller Tag",
+    "einheit": null,
+    "messgroesse": "GRUNDWASSER",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "Grundwasserstand Klassifikation mit statischen Grenzwerten",
+    "einheit": "m. ü. NHN",
+    "messgroesse": "GRUNDWASSER",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch"
+  },
+  {
+    "abgeleiteteGroesse": "Grundwasserstand Klassifikation mit variablen Grenzwerten",
+    "einheit": "m. ü. NHN",
+    "messgroesse": "GRUNDWASSER",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch"
+  },
+  {
+    "abgeleiteteGroesse": "Klimaindikator monatl. Abw. Mittelwert",
+    "einheit": null,
+    "messgroesse": "GRUNDWASSER",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlimaindikatorMonatlicheAbweichungenMittelwert"
+  },
+  {
+    "abgeleiteteGroesse": "m unter Geländeoberkante",
+    "einheit": "m",
+    "messgroesse": "GRUNDWASSER",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Quellschüttung Klassifikation mit statischen Grenzwerten",
+    "einheit": "l/s",
+    "messgroesse": "QUELLSCHUETTUNG",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch"
+  },
+  {
+    "abgeleiteteGroesse": "Quellschüttung Klassifikation mit variablen Grenzwerten",
+    "einheit": "l/s",
+    "messgroesse": "QUELLSCHUETTUNG",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch"
+  },
+  {
+    "abgeleiteteGroesse": "Quellschüttung Niedrigwasserklasse aktueller Tag",
+    "einheit": null,
+    "messgroesse": "QUELLSCHUETTUNG",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "MNW",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "MW",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Median W bezogen auf Referenzzeitraum",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Median W pro Kalendertag",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "NW",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Tage unter GlW/RWN/BWu",
+    "einheit": "d",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": true,
+    "endpunkt": "berechneZeitreihenErgebnisNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Tage unter GlWRNW/BWu aktueller Tag",
+    "einheit": "d",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertNummer"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Dezile tageweise",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Entwicklung letzte 7 Tage",
+    "einheit": null,
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Klassifikation mit statischen Grenzwerten",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Klassifikation mit variablen Grenzwerten",
+    "einheit": "cm",
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Niedrigwasserklasse aktueller Tag",
+    "einheit": null,
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": true,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  },
+  {
+    "abgeleiteteGroesse": "unter GlW",
+    "einheit": null,
+    "messgroesse": "WASSERSTAND",
+    "benoetigtReferenzzeitraum": false,
+    "benoetigtZeitintervall": false,
+    "endpunkt": "berechneEinzelwertKategorie"
+  }
+]

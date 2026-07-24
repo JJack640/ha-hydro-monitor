@@ -1,0 +1,714 @@
+[
+  {
+    "abgeleiteteGroesse": "Abfluss Dezile tageweise",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Abfluss Dezile tageweise",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeDynamisch/abfluss__abfluss_dezile_tageweise.json"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Entwicklung letzte 7 Tage",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Abfluss Entwicklung letzte 7 Tage",
+      "messstelleNr": "DESM_DEBY16607001"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/abfluss__abfluss_entwicklung_letzte_7_tage.json"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Klassifikation mit statischen Grenzwerten",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Abfluss Klassifikation mit statischen Grenzwerten",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeStatisch/abfluss__abfluss_klassifikation_mit_statischen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Klassifikation mit variablen Grenzwerten",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Abfluss Klassifikation mit variablen Grenzwerten",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeDynamisch/abfluss__abfluss_klassifikation_mit_variablen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Abfluss Niedrigwasserklasse aktueller Tag",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Abfluss Niedrigwasserklasse aktueller Tag",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/abfluss__abfluss_niedrigwasserklasse_aktueller_tag.json"
+  },
+  {
+    "abgeleiteteGroesse": "Klimaindikator Niedrigwassertage",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneKlimaindikatorNiedrigwassertage",
+    "success": true,
+    "station_id": null,
+    "parameters": {},
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlimaindikatorNiedrigwassertage/abfluss__klimaindikator_niedrigwassertage.json"
+  },
+  {
+    "abgeleiteteGroesse": "LFI",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneLfi",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "LFI",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneLfi/abfluss__lfi.json"
+  },
+  {
+    "abgeleiteteGroesse": "MNQ",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "MNQ",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__mnq.json"
+  },
+  {
+    "abgeleiteteGroesse": "MQ",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "MQ",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__mq.json"
+  },
+  {
+    "abgeleiteteGroesse": "Max Q pro Kalendartag",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Max Q pro Kalendartag",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/abfluss__max_q_pro_kalendartag.json"
+  },
+  {
+    "abgeleiteteGroesse": "Median Q Statisch",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Median Q Statisch",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__median_q_statisch.json"
+  },
+  {
+    "abgeleiteteGroesse": "Median Q pro Kalendertag",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Median Q pro Kalendertag",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/abfluss__median_q_pro_kalendertag.json"
+  },
+  {
+    "abgeleiteteGroesse": "Min Q pro Kalendartag",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Min Q pro Kalendartag",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/abfluss__min_q_pro_kalendartag.json"
+  },
+  {
+    "abgeleiteteGroesse": "NM30Q",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "NM30Q",
+      "messstelleNr": "DESM_DEBY16607001",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__nm30q.json"
+  },
+  {
+    "abgeleiteteGroesse": "NM30Q mit Datum",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "NM30Q mit Datum",
+      "messstelleNr": "DESM_DEBY16607001",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/abfluss__nm30q_mit_datum.json"
+  },
+  {
+    "abgeleiteteGroesse": "NM7Q",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "NM7Q",
+      "messstelleNr": "DESM_DEBY16607001",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__nm7q.json"
+  },
+  {
+    "abgeleiteteGroesse": "NM7Q mit Datum",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "NM7Q mit Datum",
+      "messstelleNr": "DESM_DEBY16607001",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/abfluss__nm7q_mit_datum.json"
+  },
+  {
+    "abgeleiteteGroesse": "NQ",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "NQ",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__nq.json"
+  },
+  {
+    "abgeleiteteGroesse": "SumD",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "SumD",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/abfluss__sumd.json"
+  },
+  {
+    "abgeleiteteGroesse": "SumD Zeitfenster",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "SumD Zeitfenster",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__sumd_zeitfenster.json"
+  },
+  {
+    "abgeleiteteGroesse": "SumV",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "SumV",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/abfluss__sumv.json"
+  },
+  {
+    "abgeleiteteGroesse": "SumV Zeitfenster",
+    "messgroesse": "ABFLUSS",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "SumV Zeitfenster",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/abfluss__sumv_zeitfenster.json"
+  },
+  {
+    "abgeleiteteGroesse": "Grundwasser Niedrigwasserklasse aktueller Tag",
+    "messgroesse": "GRUNDWASSER",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DEGM_DEBY83614",
+    "parameters": {
+      "abgeleiteteGroesse": "Grundwasser Niedrigwasserklasse aktueller Tag",
+      "messstelleNr": "DEGM_DEBY83614",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/grundwasser__grundwasser_niedrigwasserklasse_aktueller_tag.json"
+  },
+  {
+    "abgeleiteteGroesse": "Grundwasserstand Klassifikation mit statischen Grenzwerten",
+    "messgroesse": "GRUNDWASSER",
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch",
+    "success": true,
+    "station_id": "DEGM_DEBY83614",
+    "parameters": {
+      "abgeleiteteGroesse": "Grundwasserstand Klassifikation mit statischen Grenzwerten",
+      "messstelleNr": "DEGM_DEBY83614",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeStatisch/grundwasser__grundwasserstand_klassifikation_mit_statischen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Grundwasserstand Klassifikation mit variablen Grenzwerten",
+    "messgroesse": "GRUNDWASSER",
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch",
+    "success": true,
+    "station_id": "DEGM_DEBY83614",
+    "parameters": {
+      "abgeleiteteGroesse": "Grundwasserstand Klassifikation mit variablen Grenzwerten",
+      "messstelleNr": "DEGM_DEBY83614",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeDynamisch/grundwasser__grundwasserstand_klassifikation_mit_variablen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Klimaindikator monatl. Abw. Mittelwert",
+    "messgroesse": "GRUNDWASSER",
+    "endpunkt": "berechneKlimaindikatorMonatlicheAbweichungenMittelwert",
+    "success": true,
+    "station_id": null,
+    "parameters": {},
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlimaindikatorMonatlicheAbweichungenMittelwert/grundwasser__klimaindikator_monatl_abw_mittelwert.json"
+  },
+  {
+    "abgeleiteteGroesse": "m unter Geländeoberkante",
+    "messgroesse": "GRUNDWASSER",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DEGM_DEBY83614",
+    "parameters": {
+      "abgeleiteteGroesse": "m unter Geländeoberkante",
+      "messstelleNr": "DEGM_DEBY83614",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/grundwasser__m_unter_geländeoberkante.json"
+  },
+  {
+    "abgeleiteteGroesse": "Quellschüttung Klassifikation mit statischen Grenzwerten",
+    "messgroesse": "QUELLSCHUETTUNG",
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch",
+    "success": true,
+    "station_id": "DEGM_DEHE5122",
+    "parameters": {
+      "abgeleiteteGroesse": "Quellschüttung Klassifikation mit statischen Grenzwerten",
+      "messstelleNr": "DEGM_DEHE5122",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeStatisch/quellschuettung__quellschüttung_klassifikation_mit_statischen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Quellschüttung Klassifikation mit variablen Grenzwerten",
+    "messgroesse": "QUELLSCHUETTUNG",
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch",
+    "success": true,
+    "station_id": "DEGM_DEHE5122",
+    "parameters": {
+      "abgeleiteteGroesse": "Quellschüttung Klassifikation mit variablen Grenzwerten",
+      "messstelleNr": "DEGM_DEHE5122",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeDynamisch/quellschuettung__quellschüttung_klassifikation_mit_variablen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Quellschüttung Niedrigwasserklasse aktueller Tag",
+    "messgroesse": "QUELLSCHUETTUNG",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DEGM_DEHE5122",
+    "parameters": {
+      "abgeleiteteGroesse": "Quellschüttung Niedrigwasserklasse aktueller Tag",
+      "messstelleNr": "DEGM_DEHE5122",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/quellschuettung__quellschüttung_niedrigwasserklasse_aktueller_tag.json"
+  },
+  {
+    "abgeleiteteGroesse": "MNW",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "MNW",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/wasserstand__mnw.json"
+  },
+  {
+    "abgeleiteteGroesse": "MW",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "MW",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/wasserstand__mw.json"
+  },
+  {
+    "abgeleiteteGroesse": "Median W bezogen auf Referenzzeitraum",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Median W bezogen auf Referenzzeitraum",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/wasserstand__median_w_bezogen_auf_referenzzeitraum.json"
+  },
+  {
+    "abgeleiteteGroesse": "Median W pro Kalendertag",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Median W pro Kalendertag",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/wasserstand__median_w_pro_kalendertag.json"
+  },
+  {
+    "abgeleiteteGroesse": "NW",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "NW",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/wasserstand__nw.json"
+  },
+  {
+    "abgeleiteteGroesse": "Tage unter GlW/RWN/BWu",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneZeitreihenErgebnisNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Tage unter GlW/RWN/BWu",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020",
+      "von": "2026-06-22",
+      "bis": "2026-07-22"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneZeitreihenErgebnisNummer/wasserstand__tage_unter_glwrwnbwu.json"
+  },
+  {
+    "abgeleiteteGroesse": "Tage unter GlWRNW/BWu aktueller Tag",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertNummer",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Tage unter GlWRNW/BWu aktueller Tag",
+      "messstelleNr": "DESM_DEBY16607001"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertNummer/wasserstand__tage_unter_glwrnwbwu_aktueller_tag.json"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Dezile tageweise",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Wasserstand Dezile tageweise",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeDynamisch/wasserstand__wasserstand_dezile_tageweise.json"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Entwicklung letzte 7 Tage",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Wasserstand Entwicklung letzte 7 Tage",
+      "messstelleNr": "DESM_DEBY16607001"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/wasserstand__wasserstand_entwicklung_letzte_7_tage.json"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Klassifikation mit statischen Grenzwerten",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneKlassifikationsgrenzeStatisch",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Wasserstand Klassifikation mit statischen Grenzwerten",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeStatisch/wasserstand__wasserstand_klassifikation_mit_statischen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Klassifikation mit variablen Grenzwerten",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneKlassifikationsgrenzeDynamisch",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Wasserstand Klassifikation mit variablen Grenzwerten",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneKlassifikationsgrenzeDynamisch/wasserstand__wasserstand_klassifikation_mit_variablen_grenzwerten.json"
+  },
+  {
+    "abgeleiteteGroesse": "Wasserstand Niedrigwasserklasse aktueller Tag",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "Wasserstand Niedrigwasserklasse aktueller Tag",
+      "messstelleNr": "DESM_DEBY16607001",
+      "jahresdefinition": "KALENDERJAHR",
+      "startJahr": "1991",
+      "endJahr": "2020"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/wasserstand__wasserstand_niedrigwasserklasse_aktueller_tag.json"
+  },
+  {
+    "abgeleiteteGroesse": "unter GlW",
+    "messgroesse": "WASSERSTAND",
+    "endpunkt": "berechneEinzelwertKategorie",
+    "success": true,
+    "station_id": "DESM_DEBY16607001",
+    "parameters": {
+      "abgeleiteteGroesse": "unter GlW",
+      "messstelleNr": "DESM_DEBY16607001"
+    },
+    "response_type": "object",
+    "error": null,
+    "response_file": "derived_results/berechneEinzelwertKategorie/wasserstand__unter_glw.json"
+  }
+]

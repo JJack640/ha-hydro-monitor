@@ -1,0 +1,17 @@
+{
+  "schwellenwerte": [
+    41.0,
+    50.0,
+    67.0
+  ],
+  "klassifikationen": [
+    "extrem niedrig",
+    "sehr niedrig",
+    "niedrig",
+    "kein Niedrigwasser"
+  ],
+  "einheit": "cm",
+  "beidseitigOffeneSchwellenwerte": true,
+  "hatZuvieleFehlwerte": false,
+  "fehlermeldung": null
+}

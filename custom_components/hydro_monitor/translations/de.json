@@ -64,6 +64,60 @@
       },
       "measurement_age": {
         "name": "Messalter"
+      },
+      "station_type": {
+        "name": "Stationstyp"
+      },
+      "operator": {
+        "name": "Betreiber"
+      },
+      "institution": {
+        "name": "Institution"
+      },
+      "license": {
+        "name": "Lizenz"
+      },
+      "waterbody": {
+        "name": "Gewässer"
+      },
+      "catchment_area": {
+        "name": "Einzugsgebiet"
+      },
+      "ground_elevation": {
+        "name": "Geländehöhe"
+      },
+      "hydrogeological_region": {
+        "name": "Hydrogeologischer Teilraum"
+      },
+      "locality": {
+        "name": "Ortslage"
+      },
+      "waterbody_code": {
+        "name": "Gewässerkennzahl"
+      },
+      "waterbody_position": {
+        "name": "Flusskilometer"
+      },
+      "gauge_zero_elevation": {
+        "name": "Pegelnullpunkt"
+      },
+      "elevation_system": {
+        "name": "Höhensystem"
+      },
+      "hydrogeological_region_code": {
+        "name": "Teilraumnummer"
+      },
+      "historical_low_discharge": {
+        "name": "Historischer Niedrigabfluss (NQ)"
+      },
+      "historical_low_discharge_date": {
+        "name": "Datum des historischen Niedrigabflusses (NQ)"
+      },
+      "historical_low_water_level": {
+        "name": "Historischer Niedrigwasserstand (NW)"
+      },
+      "historical_low_water_level_date": {
+        "name": "Datum des historischen Niedrigwasserstands (NW)"
       }
     }
   },

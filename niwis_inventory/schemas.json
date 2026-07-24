@@ -1,0 +1,1753 @@
+{
+  "catalog": {
+    "landcode": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 632,
+      "non_null_records": 632,
+      "total_records": 632,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEBY"
+    },
+    "lizenz": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 632,
+      "non_null_records": 632,
+      "total_records": 632,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "cc-by/4.0"
+    },
+    "messgroesse": {
+      "types": [
+        "array"
+      ],
+      "present_in_records": 632,
+      "non_null_records": 632,
+      "total_records": 632,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": [
+        "Abfluss",
+        "Wasserstand"
+      ]
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 632,
+      "non_null_records": 632,
+      "total_records": 632,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DESM_DEBY16607001"
+    },
+    "name": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 632,
+      "non_null_records": 632,
+      "total_records": 632,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Inkofen"
+    }
+  },
+  "derived_quantities": {
+    "abgeleiteteGroesse": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 43,
+      "non_null_records": 43,
+      "total_records": 43,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Abfluss Dezile tageweise"
+    },
+    "benoetigtReferenzzeitraum": {
+      "types": [
+        "boolean"
+      ],
+      "present_in_records": 43,
+      "non_null_records": 43,
+      "total_records": 43,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": true
+    },
+    "benoetigtZeitintervall": {
+      "types": [
+        "boolean"
+      ],
+      "present_in_records": 43,
+      "non_null_records": 43,
+      "total_records": 43,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": false
+    },
+    "einheit": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 43,
+      "non_null_records": 33,
+      "total_records": 43,
+      "optional": false,
+      "non_null_coverage_percent": 76.7,
+      "example": "m³/s"
+    },
+    "endpunkt": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 43,
+      "non_null_records": 43,
+      "total_records": 43,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "berechneKlassifikationsgrenzeDynamisch"
+    },
+    "messgroesse": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 43,
+      "non_null_records": 43,
+      "total_records": 43,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "ABFLUSS"
+    }
+  },
+  "station_discharge": {
+    "bemerkung": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 3,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 30.0,
+      "example": "Abflüsse seit 1976 durch den Vilstalsee (AEo = 666 km²;Gesamtstauraum = 10.7 hm³) beeinflusst"
+    },
+    "betreiber": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "WWA München"
+    },
+    "breite": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 48.4606574767785
+    },
+    "darstellungGok": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "ezgGroesse": {
+      "types": [
+        "integer"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 3097
+    },
+    "gewaesser": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Amper"
+    },
+    "gkz": {
+      "types": [
+        "integer"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 164
+    },
+    "hoeheGok": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "hoehePnp": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 415.58
+    },
+    "hoehensystem": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DHHN12"
+    },
+    "institution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "LfU BY"
+    },
+    "kennwertWasserstand": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "laenge": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 11.8655273361443
+    },
+    "lageGewaesser": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "11.9"
+    },
+    "landcode": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEBY"
+    },
+    "lizenz": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "cc-by/4.0"
+    },
+    "messgroesse": {
+      "types": [
+        "array"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": [
+        "Abfluss",
+        "Wasserstand"
+      ]
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DESM_DEBY16607001"
+    },
+    "messstellentyp": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "name": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Inkofen"
+    },
+    "nnq": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 10.7
+    },
+    "nnqDatum": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "1947-10-03"
+    },
+    "nnw": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnwDatum": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "ortslage": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "teilraumName": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "teilraumNr": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "typKennwert": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "urlBetreiber": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "urlInstitution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "https://www.gkd.bayern.de/de/"
+    },
+    "urlMessstelle": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "https://www.gkd.bayern.de/de/fluesse/abfluss/kelheim/inkofen-16607001"
+    }
+  },
+  "series_discharge": {
+    "datum": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "2026-07-21"
+    },
+    "einheit": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "m³/s"
+    },
+    "flag": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 0,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DESM_DEBY16607001"
+    },
+    "messwert": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 15.3
+    }
+  },
+  "station_water_level": {
+    "bemerkung": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 3,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 30.0,
+      "example": "Abflüsse seit 1976 durch den Vilstalsee (AEo = 666 km²;Gesamtstauraum = 10.7 hm³) beeinflusst"
+    },
+    "betreiber": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "WWA München"
+    },
+    "breite": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 48.4606574767785
+    },
+    "darstellungGok": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "ezgGroesse": {
+      "types": [
+        "integer"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 3097
+    },
+    "gewaesser": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Amper"
+    },
+    "gkz": {
+      "types": [
+        "integer"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 164
+    },
+    "hoeheGok": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "hoehePnp": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 415.58
+    },
+    "hoehensystem": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DHHN12"
+    },
+    "institution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "LfU BY"
+    },
+    "kennwertWasserstand": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "laenge": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 11.8655273361443
+    },
+    "lageGewaesser": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "11.9"
+    },
+    "landcode": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEBY"
+    },
+    "lizenz": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "cc-by/4.0"
+    },
+    "messgroesse": {
+      "types": [
+        "array"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": [
+        "Abfluss",
+        "Wasserstand"
+      ]
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DESM_DEBY16607001"
+    },
+    "messstellentyp": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "name": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Inkofen"
+    },
+    "nnq": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 10.7
+    },
+    "nnqDatum": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "1947-10-03"
+    },
+    "nnw": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnwDatum": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "ortslage": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "teilraumName": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "teilraumNr": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "typKennwert": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "urlBetreiber": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "urlInstitution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "https://www.gkd.bayern.de/de/"
+    },
+    "urlMessstelle": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "https://www.gkd.bayern.de/de/fluesse/abfluss/kelheim/inkofen-16607001"
+    }
+  },
+  "series_water_level": {
+    "datum": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "2026-07-21"
+    },
+    "einheit": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "cm"
+    },
+    "flag": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 0,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DESM_DEBY16607001"
+    },
+    "messwert": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 37.0
+    }
+  },
+  "station_groundwater_level": {
+    "bemerkung": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 6,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 60.0,
+      "example": "Über HE-API verfügbar"
+    },
+    "betreiber": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "WWA AB"
+    },
+    "breite": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 50.2036860313345
+    },
+    "darstellungGok": {
+      "types": [
+        "boolean"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": false
+    },
+    "ezgGroesse": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "gewaesser": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "gkz": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "hoeheGok": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 233.3
+    },
+    "hoehePnp": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "hoehensystem": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DHHN12"
+    },
+    "institution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "LFU BY"
+    },
+    "kennwertWasserstand": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "laenge": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 9.62182150403828
+    },
+    "lageGewaesser": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "landcode": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEBY"
+    },
+    "lizenz": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "cc-by/4.0"
+    },
+    "messgroesse": {
+      "types": [
+        "array"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": [
+        "Grundwasserstand"
+      ]
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEGM_DEBY83614"
+    },
+    "messstellentyp": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "W"
+    },
+    "name": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "NBS-H/W KB 11/1"
+    },
+    "nnq": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnqDatum": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnw": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnwDatum": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "ortslage": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Obersinn"
+    },
+    "teilraumName": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Spessart, Rhönvorland und Buntsandstein des Odenwaldes"
+    },
+    "teilraumNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "6201"
+    },
+    "typKennwert": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "urlBetreiber": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 6,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 60.0,
+      "example": "https://rp-darmstadt.hessen.de/umwelt-und-energie/gewaesser-und-bodenschutz"
+    },
+    "urlInstitution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "https://www.gkd.bayern.de/de/grundwasser"
+    },
+    "urlMessstelle": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 9,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 90.0,
+      "example": "https://www.gkd.bayern.de/de/grundwasser/oberesstockwerk/bayern/obersinn-83614"
+    }
+  },
+  "series_groundwater_level": {
+    "datum": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "2026-07-21"
+    },
+    "einheit": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "m. ü. NHN"
+    },
+    "flag": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 3,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 1.0,
+      "example": "BfGAdded"
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEGM_DEBY83614"
+    },
+    "messwert": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": -777.0
+    }
+  },
+  "station_spring_discharge": {
+    "bemerkung": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 1,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 10.0,
+      "example": "Nicht über API verfügbar"
+    },
+    "betreiber": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 5,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 50.0,
+      "example": "RPU Kassel"
+    },
+    "breite": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 51.4114734836788
+    },
+    "darstellungGok": {
+      "types": [
+        "boolean"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": false
+    },
+    "ezgGroesse": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "gewaesser": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "gkz": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "hoeheGok": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 0.0
+    },
+    "hoehePnp": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "hoehensystem": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 5,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 50.0,
+      "example": "DHHN12"
+    },
+    "institution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "HLNUG"
+    },
+    "kennwertWasserstand": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "laenge": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": 9.4031086416366
+    },
+    "lageGewaesser": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "landcode": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEHE"
+    },
+    "lizenz": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "dl-zero-de/2.0"
+    },
+    "messgroesse": {
+      "types": [
+        "array"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": [
+        "Quellschüttung"
+      ]
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEGM_DEHE5122"
+    },
+    "messstellentyp": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Q"
+    },
+    "name": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "CALDEN"
+    },
+    "nnq": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnqDatum": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnw": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "nnwDatum": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "ortslage": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Calden"
+    },
+    "teilraumName": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "Borgentreicher Mulde und Kasseler Graben"
+    },
+    "teilraumNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "05112"
+    },
+    "typKennwert": {
+      "types": [
+        "null"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 0,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 0.0,
+      "example": null
+    },
+    "urlBetreiber": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 1,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 10.0,
+      "example": "https://rp-kassel.hessen.de/umwelt/wasser-und-bodenschutz"
+    },
+    "urlInstitution": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 10,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "https://umweltdaten.hessen.de/mapapps/resources/apps/lgd/"
+    },
+    "urlMessstelle": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 10,
+      "non_null_records": 5,
+      "total_records": 10,
+      "optional": false,
+      "non_null_coverage_percent": 50.0,
+      "example": "https://www.hlnug.de/messwerte/datenportal/messstelle/4/10/13488"
+    }
+  },
+  "series_spring_discharge": {
+    "datum": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "2026-07-21"
+    },
+    "einheit": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "l/s"
+    },
+    "flag": {
+      "types": [
+        "null",
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 138,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 46.0,
+      "example": "BfGAdded"
+    },
+    "messstelleNr": {
+      "types": [
+        "string"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": "DEGM_DEHE5122"
+    },
+    "messwert": {
+      "types": [
+        "number"
+      ],
+      "present_in_records": 300,
+      "non_null_records": 300,
+      "total_records": 300,
+      "optional": false,
+      "non_null_coverage_percent": 100.0,
+      "example": -777.0
+    }
+  }
+}

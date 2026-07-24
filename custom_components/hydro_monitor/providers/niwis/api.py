@@ -51,6 +51,34 @@ class NiwisClient:
             raise NiwisResponseError("Catalog is not a list")
         return [x for x in data if isinstance(x, dict) and x.get("messstelleNr")]
 
+    async def async_get_derived_quantities(
+        self,
+    ) -> list[dict[str, Any]]:
+        """Return the available NIWIS derived quantities."""
+        data = await self._get_json("abgeleiteteGroesse")
+
+        if not isinstance(data, list):
+            raise NiwisResponseError("Derived quantities response is not a list")
+
+        return [
+            item
+            for item in data
+            if isinstance(item, dict)
+            and item.get("abgeleiteteGroesse")
+            and item.get("endpunkt")
+        ]
+
+    async def async_get_derived_result(
+        self,
+        endpoint: str,
+        params: dict[str, str] | None = None,
+    ) -> Any:
+        """Return one result from a NIWIS derived-quantity endpoint."""
+        return await self._get_json(
+            endpoint,
+            params=params,
+        )
+
     async def async_get_station(self, station_id: str) -> dict[str, Any]:
         data = await self._get_json("stammdaten", {"messstelleNr": station_id})
         if isinstance(data, list):

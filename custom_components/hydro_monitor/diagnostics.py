@@ -90,11 +90,40 @@ async def async_get_config_entry_diagnostics(
         },
         "station": {
             "name": station.name,
+            "country_code": station.country_code,
+            "station_type": station.station_type,
+            "locality": station.locality,
+            "latitude": station.latitude,
+            "longitude": station.longitude,
+            "distance_km": station.distance_km,
             "waterbody": station.waterbody,
+            "waterbody_code": station.waterbody_code,
+            "waterbody_position": station.waterbody_position,
+            "catchment_area_km2": station.catchment_area_km2,
+            "elevation_ground": station.elevation_ground,
+            "gauge_zero_elevation": station.gauge_zero_elevation,
+            "elevation_system": station.elevation_system,
+            "hydrogeological_region": station.hydrogeological_region,
+            "hydrogeological_region_code": (station.hydrogeological_region_code),
             "operator": station.operator,
+            "operator_url": station.operator_url,
             "institution": station.institution,
+            "institution_url": station.institution_url,
             "source_url": station.source_url,
             "license": station.license_name,
+            "remarks": station.remarks,
+            "historical_low_discharge": (station.historical_low_discharge),
+            "historical_low_discharge_date": (
+                station.historical_low_discharge_date.isoformat()
+                if station.historical_low_discharge_date is not None
+                else None
+            ),
+            "historical_low_water_level": (station.historical_low_water_level),
+            "historical_low_water_level_date": (
+                station.historical_low_water_level_date.isoformat()
+                if station.historical_low_water_level_date is not None
+                else None
+            ),
             "supported_measurement_types": [
                 measurement_type.value for measurement_type in station.measurement_types
             ],

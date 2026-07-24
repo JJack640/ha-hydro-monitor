@@ -1,0 +1,212 @@
+[
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-21",
+    "messwert": -777.0,
+    "einheit": "l/s",
+    "flag": "BfGAdded"
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-20",
+    "messwert": 1.73,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-19",
+    "messwert": 2.08,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-18",
+    "messwert": 2.41,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-17",
+    "messwert": 2.39,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-16",
+    "messwert": 2.26,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-15",
+    "messwert": 2.33,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-14",
+    "messwert": 2.27,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-13",
+    "messwert": 2.29,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-12",
+    "messwert": 2.41,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-11",
+    "messwert": 3.44,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-10",
+    "messwert": 3.38,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-09",
+    "messwert": 2.6,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-08",
+    "messwert": 2.28,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-07",
+    "messwert": 2.2,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-06",
+    "messwert": 2.13,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-05",
+    "messwert": 2.31,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-04",
+    "messwert": 2.68,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-03",
+    "messwert": 2.76,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-02",
+    "messwert": 2.75,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-07-01",
+    "messwert": 2.77,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-30",
+    "messwert": 2.77,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-29",
+    "messwert": 2.73,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-28",
+    "messwert": 2.47,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-27",
+    "messwert": 2.41,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-26",
+    "messwert": 2.56,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-25",
+    "messwert": 2.38,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-24",
+    "messwert": 2.4,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-23",
+    "messwert": 2.35,
+    "einheit": "l/s",
+    "flag": null
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "datum": "2026-06-22",
+    "messwert": 2.36,
+    "einheit": "l/s",
+    "flag": null
+  }
+]

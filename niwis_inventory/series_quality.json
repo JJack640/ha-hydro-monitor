@@ -1,0 +1,528 @@
+{
+  "discharge": {
+    "total_values": 300,
+    "valid_values": 300,
+    "invalid_values": 0,
+    "invalid_measurement_values": 0,
+    "missing_measurement_values": 0,
+    "valid_coverage_percent": 100.0,
+    "flags": {},
+    "units": {
+      "m³/s": 300
+    },
+    "stations": [
+      {
+        "station_id": "DESM_DEBY16607001",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY16612001",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY16825002",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY17207508",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY17404000",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY17464001",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18003004",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18263005",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18384509",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18454003",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m³/s": 30
+        }
+      }
+    ]
+  },
+  "water_level": {
+    "total_values": 300,
+    "valid_values": 300,
+    "invalid_values": 0,
+    "invalid_measurement_values": 0,
+    "missing_measurement_values": 0,
+    "valid_coverage_percent": 100.0,
+    "flags": {},
+    "units": {
+      "cm": 300
+    },
+    "stations": [
+      {
+        "station_id": "DESM_DEBY16607001",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY16612001",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY16825002",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY17207508",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY17404000",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY17464001",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18003004",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18263005",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18384509",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      },
+      {
+        "station_id": "DESM_DEBY18454003",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "cm": 30
+        }
+      }
+    ]
+  },
+  "groundwater_level": {
+    "total_values": 300,
+    "valid_values": 297,
+    "invalid_values": 3,
+    "invalid_measurement_values": 3,
+    "missing_measurement_values": 0,
+    "valid_coverage_percent": 99.0,
+    "flags": {
+      "BfGAdded": 3
+    },
+    "units": {
+      "m. ü. NHN": 300
+    },
+    "stations": [
+      {
+        "station_id": "DEGM_DEBY83614",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBY9230",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBY9248",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHBHB_GMS 220",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE11324",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE11765",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE11847",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE12029",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE12909",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE13415",
+        "total_values": 30,
+        "valid_values": 30,
+        "invalid_values": 0,
+        "valid_coverage_percent": 100.0,
+        "flags": {},
+        "units": {
+          "m. ü. NHN": 30
+        }
+      }
+    ]
+  },
+  "spring_discharge": {
+    "total_values": 300,
+    "valid_values": 162,
+    "invalid_values": 138,
+    "invalid_measurement_values": 138,
+    "missing_measurement_values": 0,
+    "valid_coverage_percent": 54.0,
+    "flags": {
+      "BfGAdded": 138
+    },
+    "units": {
+      "l/s": 300
+    },
+    "stations": [
+      {
+        "station_id": "DEGM_DEBW0601/517-7",
+        "total_values": 30,
+        "valid_values": 5,
+        "invalid_values": 25,
+        "valid_coverage_percent": 16.7,
+        "flags": {
+          "BfGAdded": 25
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBW1/415-1",
+        "total_values": 30,
+        "valid_values": 5,
+        "invalid_values": 25,
+        "valid_coverage_percent": 16.7,
+        "flags": {
+          "BfGAdded": 25
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBW600/068-1",
+        "total_values": 30,
+        "valid_values": 2,
+        "invalid_values": 28,
+        "valid_coverage_percent": 6.7,
+        "flags": {
+          "BfGAdded": 28
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBW600/554-9",
+        "total_values": 30,
+        "valid_values": 5,
+        "invalid_values": 25,
+        "valid_coverage_percent": 16.7,
+        "flags": {
+          "BfGAdded": 25
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBW600/665-7",
+        "total_values": 30,
+        "valid_values": 5,
+        "invalid_values": 25,
+        "valid_coverage_percent": 16.7,
+        "flags": {
+          "BfGAdded": 25
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBY15500",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBY20501",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBY24504",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEBY2500",
+        "total_values": 30,
+        "valid_values": 29,
+        "invalid_values": 1,
+        "valid_coverage_percent": 96.7,
+        "flags": {
+          "BfGAdded": 1
+        },
+        "units": {
+          "l/s": 30
+        }
+      },
+      {
+        "station_id": "DEGM_DEHE5122",
+        "total_values": 30,
+        "valid_values": 24,
+        "invalid_values": 6,
+        "valid_coverage_percent": 80.0,
+        "flags": {
+          "BfGAdded": 6
+        },
+        "units": {
+          "l/s": 30
+        }
+      }
+    ]
+  }
+}

@@ -7,6 +7,7 @@ import pytest
 from custom_components.hydro_monitor.models import HydroMeasurementType
 from custom_components.hydro_monitor.providers.niwis.mapper import (
     observation_from_niwis,
+    station_from_niwis,
 )
 
 
@@ -24,6 +25,42 @@ def _observation(
         "einheit": unit,
         "flag": flag,
     }
+
+
+def _station(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS station fixture."""
+    station: dict[str, object] = {
+        "messstelleNr": "DESM_DEBY16607001",
+        "name": "Inkofen",
+        "messgroesse": ["Abfluss", "Wasserstand"],
+        "breite": 48.460657,
+        "laenge": 11.865527,
+        "landcode": "DEBY",
+        "messstellentyp": None,
+        "ortslage": None,
+        "gewaesser": "Amper",
+        "gkz": 164,
+        "lageGewaesser": "11.9",
+        "ezgGroesse": 3097,
+        "hoeheGok": None,
+        "hoehePnp": 415.58,
+        "hoehensystem": "DHHN12",
+        "teilraumName": None,
+        "teilraumNr": None,
+        "betreiber": "WWA München",
+        "urlBetreiber": None,
+        "institution": "LfU BY",
+        "urlInstitution": "https://www.gkd.bayern.de/de/",
+        "urlMessstelle": "https://example.invalid/station",
+        "lizenz": "cc-by/4.0",
+        "bemerkung": "Example station",
+        "nnq": 10.7,
+        "nnqDatum": "1947-10-03",
+        "nnw": None,
+        "nnwDatum": None,
+    }
+    station.update(overrides)
+    return station
 
 
 def test_observation_maps_current_value_trends_and_statistics() -> None:
@@ -193,3 +230,74 @@ def test_observation_returns_empty_result_for_only_invalid_values() -> None:
     assert observation.minimum_30d is None
     assert observation.maximum_30d is None
     assert observation.sample_count == 0
+
+
+def test_station_maps_extended_metadata() -> None:
+    """Test mapping of extended NIWIS station metadata."""
+    station = station_from_niwis(_station())
+
+    assert station.provider == "niwis"
+    assert station.station_id == "DESM_DEBY16607001"
+    assert station.country_code == "DEBY"
+    assert station.waterbody == "Amper"
+    assert station.waterbody_code == "164"
+    assert station.waterbody_position == "11.9"
+    assert station.catchment_area_km2 == pytest.approx(3097)
+    assert station.gauge_zero_elevation == pytest.approx(415.58)
+    assert station.elevation_system == "DHHN12"
+    assert station.operator == "WWA München"
+    assert station.institution == "LfU BY"
+    assert station.institution_url == "https://www.gkd.bayern.de/de/"
+    assert station.source_url == "https://example.invalid/station"
+    assert station.license_name == "cc-by/4.0"
+    assert station.remarks == "Example station"
+    assert station.historical_low_discharge == pytest.approx(10.7)
+    assert station.historical_low_discharge_date == date(1947, 10, 3)
+
+
+def test_station_maps_groundwater_specific_metadata() -> None:
+    """Test mapping of groundwater-specific NIWIS metadata."""
+    station = station_from_niwis(
+        _station(
+            messstelleNr="DEGM_DEBY83614",
+            name="NBS-H/W KB 11/1",
+            messgroesse=["Grundwasserstand"],
+            messstellentyp="W",
+            ortslage="Obersinn",
+            gewaesser=None,
+            gkz=None,
+            lageGewaesser=None,
+            ezgGroesse=None,
+            hoeheGok=233.3,
+            hoehePnp=None,
+            teilraumName="Spessart",
+            teilraumNr="6201",
+            nnq=None,
+            nnqDatum=None,
+        )
+    )
+
+    assert station.measurement_types == (HydroMeasurementType.GROUNDWATER_LEVEL,)
+    assert station.station_type == "W"
+    assert station.locality == "Obersinn"
+    assert station.elevation_ground == pytest.approx(233.3)
+    assert station.hydrogeological_region == "Spessart"
+    assert station.hydrogeological_region_code == "6201"
+    assert station.historical_low_discharge is None
+    assert station.historical_low_discharge_date is None
+
+
+def test_station_invalid_historical_dates_are_ignored() -> None:
+    """Test invalid historical NIWIS dates."""
+    station = station_from_niwis(
+        _station(
+            nnqDatum="not-a-date",
+            nnw=123.4,
+            nnwDatum="also-invalid",
+        )
+    )
+
+    assert station.historical_low_discharge == pytest.approx(10.7)
+    assert station.historical_low_discharge_date is None
+    assert station.historical_low_water_level == pytest.approx(123.4)
+    assert station.historical_low_water_level_date is None

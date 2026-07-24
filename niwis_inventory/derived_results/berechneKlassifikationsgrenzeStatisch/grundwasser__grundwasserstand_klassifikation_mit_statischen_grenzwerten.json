@@ -1,0 +1,17 @@
+{
+  "schwellenwerte": [
+    194.15121,
+    194.51,
+    194.923
+  ],
+  "klassifikationen": [
+    "extrem niedrig",
+    "sehr niedrig",
+    "niedrig",
+    "kein Niedrigwasser"
+  ],
+  "einheit": "m. ü. NHN",
+  "beidseitigOffeneSchwellenwerte": true,
+  "hatZuvieleFehlwerte": false,
+  "fehlermeldung": null
+}

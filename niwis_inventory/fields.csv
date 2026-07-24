@@ -1,0 +1,156 @@
+dataset,field,types,present_in_records,non_null_records,total_records,optional,non_null_coverage_percent,example
+catalog,landcode,string,632,632,632,False,100.0,"""DEBY"""
+catalog,lizenz,string,632,632,632,False,100.0,"""cc-by/4.0"""
+catalog,messgroesse,array,632,632,632,False,100.0,"[""Abfluss"", ""Wasserstand""]"
+catalog,messstelleNr,string,632,632,632,False,100.0,"""DESM_DEBY16607001"""
+catalog,name,string,632,632,632,False,100.0,"""Inkofen"""
+derived_quantities,abgeleiteteGroesse,string,43,43,43,False,100.0,"""Abfluss Dezile tageweise"""
+derived_quantities,benoetigtReferenzzeitraum,boolean,43,43,43,False,100.0,true
+derived_quantities,benoetigtZeitintervall,boolean,43,43,43,False,100.0,false
+derived_quantities,einheit,"null, string",43,33,43,False,76.7,"""m³/s"""
+derived_quantities,endpunkt,string,43,43,43,False,100.0,"""berechneKlassifikationsgrenzeDynamisch"""
+derived_quantities,messgroesse,string,43,43,43,False,100.0,"""ABFLUSS"""
+series_discharge,datum,string,300,300,300,False,100.0,"""2026-07-21"""
+series_discharge,einheit,string,300,300,300,False,100.0,"""m³/s"""
+series_discharge,flag,null,300,0,300,False,0.0,null
+series_discharge,messstelleNr,string,300,300,300,False,100.0,"""DESM_DEBY16607001"""
+series_discharge,messwert,number,300,300,300,False,100.0,15.3
+series_groundwater_level,datum,string,300,300,300,False,100.0,"""2026-07-21"""
+series_groundwater_level,einheit,string,300,300,300,False,100.0,"""m. ü. NHN"""
+series_groundwater_level,flag,"null, string",300,3,300,False,1.0,"""BfGAdded"""
+series_groundwater_level,messstelleNr,string,300,300,300,False,100.0,"""DEGM_DEBY83614"""
+series_groundwater_level,messwert,number,300,300,300,False,100.0,-777.0
+series_spring_discharge,datum,string,300,300,300,False,100.0,"""2026-07-21"""
+series_spring_discharge,einheit,string,300,300,300,False,100.0,"""l/s"""
+series_spring_discharge,flag,"null, string",300,138,300,False,46.0,"""BfGAdded"""
+series_spring_discharge,messstelleNr,string,300,300,300,False,100.0,"""DEGM_DEHE5122"""
+series_spring_discharge,messwert,number,300,300,300,False,100.0,-777.0
+series_water_level,datum,string,300,300,300,False,100.0,"""2026-07-21"""
+series_water_level,einheit,string,300,300,300,False,100.0,"""cm"""
+series_water_level,flag,null,300,0,300,False,0.0,null
+series_water_level,messstelleNr,string,300,300,300,False,100.0,"""DESM_DEBY16607001"""
+series_water_level,messwert,number,300,300,300,False,100.0,37.0
+station_discharge,bemerkung,"null, string",10,3,10,False,30.0,"""Abflüsse seit 1976 durch den Vilstalsee (AEo = 666 km²;Gesamtstauraum = 10.7 hm³) beeinflusst"""
+station_discharge,betreiber,string,10,10,10,False,100.0,"""WWA München"""
+station_discharge,breite,number,10,10,10,False,100.0,48.4606574767785
+station_discharge,darstellungGok,null,10,0,10,False,0.0,null
+station_discharge,ezgGroesse,integer,10,10,10,False,100.0,3097
+station_discharge,gewaesser,string,10,10,10,False,100.0,"""Amper"""
+station_discharge,gkz,integer,10,10,10,False,100.0,164
+station_discharge,hoeheGok,null,10,0,10,False,0.0,null
+station_discharge,hoehePnp,number,10,10,10,False,100.0,415.58
+station_discharge,hoehensystem,string,10,10,10,False,100.0,"""DHHN12"""
+station_discharge,institution,string,10,10,10,False,100.0,"""LfU BY"""
+station_discharge,kennwertWasserstand,null,10,0,10,False,0.0,null
+station_discharge,laenge,number,10,10,10,False,100.0,11.8655273361443
+station_discharge,lageGewaesser,string,10,10,10,False,100.0,"""11.9"""
+station_discharge,landcode,string,10,10,10,False,100.0,"""DEBY"""
+station_discharge,lizenz,string,10,10,10,False,100.0,"""cc-by/4.0"""
+station_discharge,messgroesse,array,10,10,10,False,100.0,"[""Abfluss"", ""Wasserstand""]"
+station_discharge,messstelleNr,string,10,10,10,False,100.0,"""DESM_DEBY16607001"""
+station_discharge,messstellentyp,null,10,0,10,False,0.0,null
+station_discharge,name,string,10,10,10,False,100.0,"""Inkofen"""
+station_discharge,nnq,number,10,10,10,False,100.0,10.7
+station_discharge,nnqDatum,string,10,10,10,False,100.0,"""1947-10-03"""
+station_discharge,nnw,null,10,0,10,False,0.0,null
+station_discharge,nnwDatum,null,10,0,10,False,0.0,null
+station_discharge,ortslage,null,10,0,10,False,0.0,null
+station_discharge,teilraumName,null,10,0,10,False,0.0,null
+station_discharge,teilraumNr,null,10,0,10,False,0.0,null
+station_discharge,typKennwert,null,10,0,10,False,0.0,null
+station_discharge,urlBetreiber,null,10,0,10,False,0.0,null
+station_discharge,urlInstitution,string,10,10,10,False,100.0,"""https://www.gkd.bayern.de/de/"""
+station_discharge,urlMessstelle,string,10,10,10,False,100.0,"""https://www.gkd.bayern.de/de/fluesse/abfluss/kelheim/inkofen-16607001"""
+station_groundwater_level,bemerkung,"null, string",10,6,10,False,60.0,"""Über HE-API verfügbar"""
+station_groundwater_level,betreiber,string,10,10,10,False,100.0,"""WWA AB"""
+station_groundwater_level,breite,number,10,10,10,False,100.0,50.2036860313345
+station_groundwater_level,darstellungGok,boolean,10,10,10,False,100.0,false
+station_groundwater_level,ezgGroesse,null,10,0,10,False,0.0,null
+station_groundwater_level,gewaesser,null,10,0,10,False,0.0,null
+station_groundwater_level,gkz,null,10,0,10,False,0.0,null
+station_groundwater_level,hoeheGok,number,10,10,10,False,100.0,233.3
+station_groundwater_level,hoehePnp,null,10,0,10,False,0.0,null
+station_groundwater_level,hoehensystem,string,10,10,10,False,100.0,"""DHHN12"""
+station_groundwater_level,institution,string,10,10,10,False,100.0,"""LFU BY"""
+station_groundwater_level,kennwertWasserstand,null,10,0,10,False,0.0,null
+station_groundwater_level,laenge,number,10,10,10,False,100.0,9.62182150403828
+station_groundwater_level,lageGewaesser,null,10,0,10,False,0.0,null
+station_groundwater_level,landcode,string,10,10,10,False,100.0,"""DEBY"""
+station_groundwater_level,lizenz,string,10,10,10,False,100.0,"""cc-by/4.0"""
+station_groundwater_level,messgroesse,array,10,10,10,False,100.0,"[""Grundwasserstand""]"
+station_groundwater_level,messstelleNr,string,10,10,10,False,100.0,"""DEGM_DEBY83614"""
+station_groundwater_level,messstellentyp,string,10,10,10,False,100.0,"""W"""
+station_groundwater_level,name,string,10,10,10,False,100.0,"""NBS-H/W KB 11/1"""
+station_groundwater_level,nnq,null,10,0,10,False,0.0,null
+station_groundwater_level,nnqDatum,null,10,0,10,False,0.0,null
+station_groundwater_level,nnw,null,10,0,10,False,0.0,null
+station_groundwater_level,nnwDatum,null,10,0,10,False,0.0,null
+station_groundwater_level,ortslage,string,10,10,10,False,100.0,"""Obersinn"""
+station_groundwater_level,teilraumName,string,10,10,10,False,100.0,"""Spessart, Rhönvorland und Buntsandstein des Odenwaldes"""
+station_groundwater_level,teilraumNr,string,10,10,10,False,100.0,"""6201"""
+station_groundwater_level,typKennwert,null,10,0,10,False,0.0,null
+station_groundwater_level,urlBetreiber,"null, string",10,6,10,False,60.0,"""https://rp-darmstadt.hessen.de/umwelt-und-energie/gewaesser-und-bodenschutz"""
+station_groundwater_level,urlInstitution,string,10,10,10,False,100.0,"""https://www.gkd.bayern.de/de/grundwasser"""
+station_groundwater_level,urlMessstelle,"null, string",10,9,10,False,90.0,"""https://www.gkd.bayern.de/de/grundwasser/oberesstockwerk/bayern/obersinn-83614"""
+station_spring_discharge,bemerkung,"null, string",10,1,10,False,10.0,"""Nicht über API verfügbar"""
+station_spring_discharge,betreiber,"null, string",10,5,10,False,50.0,"""RPU Kassel"""
+station_spring_discharge,breite,number,10,10,10,False,100.0,51.4114734836788
+station_spring_discharge,darstellungGok,boolean,10,10,10,False,100.0,false
+station_spring_discharge,ezgGroesse,null,10,0,10,False,0.0,null
+station_spring_discharge,gewaesser,null,10,0,10,False,0.0,null
+station_spring_discharge,gkz,null,10,0,10,False,0.0,null
+station_spring_discharge,hoeheGok,number,10,10,10,False,100.0,0.0
+station_spring_discharge,hoehePnp,null,10,0,10,False,0.0,null
+station_spring_discharge,hoehensystem,"null, string",10,5,10,False,50.0,"""DHHN12"""
+station_spring_discharge,institution,string,10,10,10,False,100.0,"""HLNUG"""
+station_spring_discharge,kennwertWasserstand,null,10,0,10,False,0.0,null
+station_spring_discharge,laenge,number,10,10,10,False,100.0,9.4031086416366
+station_spring_discharge,lageGewaesser,null,10,0,10,False,0.0,null
+station_spring_discharge,landcode,string,10,10,10,False,100.0,"""DEHE"""
+station_spring_discharge,lizenz,string,10,10,10,False,100.0,"""dl-zero-de/2.0"""
+station_spring_discharge,messgroesse,array,10,10,10,False,100.0,"[""Quellschüttung""]"
+station_spring_discharge,messstelleNr,string,10,10,10,False,100.0,"""DEGM_DEHE5122"""
+station_spring_discharge,messstellentyp,string,10,10,10,False,100.0,"""Q"""
+station_spring_discharge,name,string,10,10,10,False,100.0,"""CALDEN"""
+station_spring_discharge,nnq,null,10,0,10,False,0.0,null
+station_spring_discharge,nnqDatum,null,10,0,10,False,0.0,null
+station_spring_discharge,nnw,null,10,0,10,False,0.0,null
+station_spring_discharge,nnwDatum,null,10,0,10,False,0.0,null
+station_spring_discharge,ortslage,string,10,10,10,False,100.0,"""Calden"""
+station_spring_discharge,teilraumName,string,10,10,10,False,100.0,"""Borgentreicher Mulde und Kasseler Graben"""
+station_spring_discharge,teilraumNr,string,10,10,10,False,100.0,"""05112"""
+station_spring_discharge,typKennwert,null,10,0,10,False,0.0,null
+station_spring_discharge,urlBetreiber,"null, string",10,1,10,False,10.0,"""https://rp-kassel.hessen.de/umwelt/wasser-und-bodenschutz"""
+station_spring_discharge,urlInstitution,string,10,10,10,False,100.0,"""https://umweltdaten.hessen.de/mapapps/resources/apps/lgd/"""
+station_spring_discharge,urlMessstelle,"null, string",10,5,10,False,50.0,"""https://www.hlnug.de/messwerte/datenportal/messstelle/4/10/13488"""
+station_water_level,bemerkung,"null, string",10,3,10,False,30.0,"""Abflüsse seit 1976 durch den Vilstalsee (AEo = 666 km²;Gesamtstauraum = 10.7 hm³) beeinflusst"""
+station_water_level,betreiber,string,10,10,10,False,100.0,"""WWA München"""
+station_water_level,breite,number,10,10,10,False,100.0,48.4606574767785
+station_water_level,darstellungGok,null,10,0,10,False,0.0,null
+station_water_level,ezgGroesse,integer,10,10,10,False,100.0,3097
+station_water_level,gewaesser,string,10,10,10,False,100.0,"""Amper"""
+station_water_level,gkz,integer,10,10,10,False,100.0,164
+station_water_level,hoeheGok,null,10,0,10,False,0.0,null
+station_water_level,hoehePnp,number,10,10,10,False,100.0,415.58
+station_water_level,hoehensystem,string,10,10,10,False,100.0,"""DHHN12"""
+station_water_level,institution,string,10,10,10,False,100.0,"""LfU BY"""
+station_water_level,kennwertWasserstand,null,10,0,10,False,0.0,null
+station_water_level,laenge,number,10,10,10,False,100.0,11.8655273361443
+station_water_level,lageGewaesser,string,10,10,10,False,100.0,"""11.9"""
+station_water_level,landcode,string,10,10,10,False,100.0,"""DEBY"""
+station_water_level,lizenz,string,10,10,10,False,100.0,"""cc-by/4.0"""
+station_water_level,messgroesse,array,10,10,10,False,100.0,"[""Abfluss"", ""Wasserstand""]"
+station_water_level,messstelleNr,string,10,10,10,False,100.0,"""DESM_DEBY16607001"""
+station_water_level,messstellentyp,null,10,0,10,False,0.0,null
+station_water_level,name,string,10,10,10,False,100.0,"""Inkofen"""
+station_water_level,nnq,number,10,10,10,False,100.0,10.7
+station_water_level,nnqDatum,string,10,10,10,False,100.0,"""1947-10-03"""
+station_water_level,nnw,null,10,0,10,False,0.0,null
+station_water_level,nnwDatum,null,10,0,10,False,0.0,null
+station_water_level,ortslage,null,10,0,10,False,0.0,null
+station_water_level,teilraumName,null,10,0,10,False,0.0,null
+station_water_level,teilraumNr,null,10,0,10,False,0.0,null
+station_water_level,typKennwert,null,10,0,10,False,0.0,null
+station_water_level,urlBetreiber,null,10,0,10,False,0.0,null
+station_water_level,urlInstitution,string,10,10,10,False,100.0,"""https://www.gkd.bayern.de/de/"""
+station_water_level,urlMessstelle,string,10,10,10,False,100.0,"""https://www.gkd.bayern.de/de/fluesse/abfluss/kelheim/inkofen-16607001"""

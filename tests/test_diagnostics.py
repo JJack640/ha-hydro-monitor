@@ -80,7 +80,34 @@ async def test_config_entry_diagnostics():
     assert diagnostics["observation"]["trend_state"] == "strong_falling"
     assert diagnostics["observation"]["is_stale"] is True
 
-    # Privacy checks
-    assert "latitude" not in diagnostics["station"]
-    assert "longitude" not in diagnostics["station"]
-    assert "distance_km" not in diagnostics["station"]
+    # Station metadata
+    assert diagnostics["station"]["latitude"] == 48.1
+    assert diagnostics["station"]["longitude"] == 11.6
+    assert diagnostics["station"]["distance_km"] == 1.2
+    assert diagnostics["station"]["waterbody"] == "Groundwater"
+    assert diagnostics["station"]["operator"] == "LfU"
+    assert diagnostics["station"]["institution"] == "NIWIS"
+    assert diagnostics["station"]["license"] == "dl-de/by-2-0"
+    assert diagnostics["station"]["country_code"] is None
+    assert diagnostics["station"]["station_type"] is None
+    assert diagnostics["station"]["locality"] is None
+
+    assert diagnostics["station"]["waterbody_code"] is None
+    assert diagnostics["station"]["waterbody_position"] is None
+    assert diagnostics["station"]["catchment_area_km2"] is None
+
+    assert diagnostics["station"]["elevation_ground"] is None
+    assert diagnostics["station"]["gauge_zero_elevation"] is None
+    assert diagnostics["station"]["elevation_system"] is None
+
+    assert diagnostics["station"]["hydrogeological_region"] is None
+    assert diagnostics["station"]["hydrogeological_region_code"] is None
+
+    assert diagnostics["station"]["operator_url"] is None
+    assert diagnostics["station"]["institution_url"] is None
+
+    assert diagnostics["station"]["remarks"] is None
+    assert diagnostics["station"]["historical_low_discharge"] is None
+    assert diagnostics["station"]["historical_low_discharge_date"] is None
+    assert diagnostics["station"]["historical_low_water_level"] is None
+    assert diagnostics["station"]["historical_low_water_level_date"] is None

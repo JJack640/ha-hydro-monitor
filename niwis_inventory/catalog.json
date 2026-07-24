@@ -1,0 +1,6019 @@
+[
+  {
+    "messstelleNr": "DESM_DEBY16607001",
+    "name": "Inkofen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY16612001",
+    "name": "Peißenberg",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY16825002",
+    "name": "Appolding",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY17207508",
+    "name": "Grafenmühle",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY17404000",
+    "name": "Schrottenbaummühle",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY17464001",
+    "name": "Fürsteneck",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18003004",
+    "name": "Wasserburg",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18263005",
+    "name": "Bad Aibling",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18384509",
+    "name": "Engfurt",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18454003",
+    "name": "Staudach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18483500",
+    "name": "Stein bei Altenmarkt",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18606000",
+    "name": "Burghausen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18642003",
+    "name": "Unterjettenberg",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY18803805",
+    "name": "Linden",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY21643004",
+    "name": "Zwirkenberg",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24010004",
+    "name": "Kemmern",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24012203",
+    "name": "Trunstadt",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24050009",
+    "name": "Steinbach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24118703",
+    "name": "Untersteinach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24128004",
+    "name": "Untersteinach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24146505",
+    "name": "Neukenroth",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24167006",
+    "name": "Heinersdorf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24217603",
+    "name": "Schwabach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24218504",
+    "name": "Lentersdorf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24224008",
+    "name": "Lauf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24236007",
+    "name": "Emskirchen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24262007",
+    "name": "Rappoldshofen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24349003",
+    "name": "Atzhausen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24409003",
+    "name": "Wolfsmünster",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24601000",
+    "name": "Bockenfeld",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24722005",
+    "name": "Weilbach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY24758002",
+    "name": "Goldbach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY53216954",
+    "name": "Marktredwitz",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY56122008",
+    "name": "Rehau",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE23940359",
+    "name": "Fahrenbach",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE24761005",
+    "name": "Groß-Bieberau2",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE24780757",
+    "name": "Steinau",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE24840407",
+    "name": "Münster",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE25650156",
+    "name": "Pfaffental",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE25822251",
+    "name": "Gemünden",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE25871756",
+    "name": "Niederbrechen",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5530302",
+    "name": "Biehlen 1",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5530500",
+    "name": "Bad Liebenwerda",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5824700",
+    "name": "Leibsch, Spreewehr UP",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5825500",
+    "name": "Beeskow, Spreeschleuse UP",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5827000",
+    "name": "Hohenbinde",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5860101",
+    "name": "Grünheide 2",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5860800",
+    "name": "Fredersdorf",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5861600",
+    "name": "Märkisch Buchholz 2",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5871600",
+    "name": "Babelsberg-Drewitz",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5873301",
+    "name": "Golzow, Brücke",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5874601",
+    "name": "Neue Mühle, Wehr OP",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB5930500",
+    "name": "Bad Wilsnack",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB6602600",
+    "name": "Schlagsdorf",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB6940000",
+    "name": "Wriezen, Hafen",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBB6950900",
+    "name": "Blumenhagen, Neue Mühle UP",
+    "landcode": "DEBB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBE5827700",
+    "name": "Sophienwerder",
+    "landcode": "DEBE",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW1140",
+    "name": "Donaueschingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW1144",
+    "name": "Niederkirch",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW1151",
+    "name": "Menningen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW1462",
+    "name": "Wendlingen-Kläranlage",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW162",
+    "name": "Gammertingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW168",
+    "name": "Beuron",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW212",
+    "name": "Bad Mergentheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW2340",
+    "name": "Gießen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW2360",
+    "name": "Gerbertshaus",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW2432",
+    "name": "Bad Teinach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW3301",
+    "name": "Ettlingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW3313",
+    "name": "Uhldingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW3318",
+    "name": "Tegernau",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW3422",
+    "name": "Jagstzell",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW3498",
+    "name": "Kocherstetten",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW364",
+    "name": "Illmühle",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW390",
+    "name": "Schwaibach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW411",
+    "name": "Horb",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW431",
+    "name": "Schorndorf",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW4422",
+    "name": "Pforzheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW461",
+    "name": "Eschelbronn",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW57123",
+    "name": "Talheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW60682",
+    "name": "Berghausen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW76179",
+    "name": "Salach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW76187",
+    "name": "Gutach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY10039802",
+    "name": "Donauwörth",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY10046105",
+    "name": "Ingolstadt Luitpoldstraße",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY10053009",
+    "name": "Kelheim",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY11401009",
+    "name": "Sonthofen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY11584000",
+    "name": "Waldstetten",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY11723504",
+    "name": "Bächingen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY11805008",
+    "name": "Gerolfingen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY11942009",
+    "name": "Fischach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY12402007",
+    "name": "Sebastianskapelle",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY13206004",
+    "name": "Mühlried",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY13322005",
+    "name": "Aunkofen",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY13465002",
+    "name": "Mettendorf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY14002305",
+    "name": "Unterköblitz",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY14101205",
+    "name": "Windischeschenbach",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY14209008",
+    "name": "Wildenau",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY14608003",
+    "name": "Dietldorf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY15202300",
+    "name": "Chamerau",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY15993001",
+    "name": "Deggendorf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBY16404900",
+    "name": "Schlehdorf",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4529500000100",
+    "name": "Ottbergen",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4567000000100",
+    "name": "Schieder-Ness.",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4639000000100",
+    "name": "Ahmsen",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4651000000100",
+    "name": "Herford",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4670000000100",
+    "name": "Löhne",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW9281700000200",
+    "name": "Isselburg",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW9282570000100",
+    "name": "Rhedebrügge",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW9284730000100",
+    "name": "Ammeloe",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW9286453000200",
+    "name": "Heek",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW9286455000200",
+    "name": "Gronau",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2375010200",
+    "name": "Minfeld",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2377050700",
+    "name": "Siebeldingen",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2391085400",
+    "name": "Wiesoppenheim 2",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2520080500",
+    "name": "Oberingelheim",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2540025800",
+    "name": "Oberstein 2",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2540060000",
+    "name": "Boos",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2542040400",
+    "name": "Kallenfels",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2546030700",
+    "name": "Eschenau",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2548030400",
+    "name": "Altenbamberg",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2572050000",
+    "name": "Rheindiebach",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2589030600",
+    "name": "Weinähr",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2628070800",
+    "name": "Giesdorf",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2656030700",
+    "name": "Kasel",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2660030000",
+    "name": "Jünkerath",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2678020100",
+    "name": "Daun",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2692040200",
+    "name": "Cochem 2",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2716060000",
+    "name": "Seifen",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DERP2718040300",
+    "name": "Altenahr",
+    "landcode": "DERP",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114064",
+    "name": "Soholm",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114068",
+    "name": "Todenbüttel",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114069",
+    "name": "Treia",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114075",
+    "name": "Westerakeby",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114105",
+    "name": "Witzeeze",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114314",
+    "name": "Rantzau",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESH114333",
+    "name": "Föhrden-Barl",
+    "landcode": "DESH",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN550110",
+    "name": "Kirnitzschtal",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN550190",
+    "name": "Porschdorf 1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN550810",
+    "name": "Elbersdorf",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN550940",
+    "name": "Dohna",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN551000",
+    "name": "Kreischa",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN551310",
+    "name": "Ammelsdorf",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN552012",
+    "name": "Piskowitz 2",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN553020",
+    "name": "Neuwiese",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN554220",
+    "name": "Zescha",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN554520",
+    "name": "Großdittmannsdorf",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN560021",
+    "name": "Golzern1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN564400",
+    "name": "Chemnitz1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN564531",
+    "name": "Altchemnitz2",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN564620",
+    "name": "Harthau",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN567000",
+    "name": "Wolfsgrund",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN567221",
+    "name": "Krummenhennersdorf1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN567400",
+    "name": "Tannenberg",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN567451",
+    "name": "Lichtenwalde1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN568400",
+    "name": "Zöblitz",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN576401",
+    "name": "Adorf1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN576631",
+    "name": "Kleindalzig",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN577220",
+    "name": "Mylau",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN582035",
+    "name": "Bautzen1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN583122",
+    "name": "Gröditz2",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN583251",
+    "name": "Jänkendorf1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN583290",
+    "name": "Särichen",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN660100",
+    "name": "Zittau1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN660160",
+    "name": "Görlitz",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN662011",
+    "name": "Großschönau2",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN663090",
+    "name": "Tauchritz",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST444205",
+    "name": "Ilsenburg",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST553060",
+    "name": "Löben",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST575700",
+    "name": "Stolberg",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST575970",
+    "name": "Thalwinkel",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST576000",
+    "name": "Mertendorf",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST576610",
+    "name": "Zeitz",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST578180",
+    "name": "Bruckdorf",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST578350",
+    "name": "Unterrißdorf",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST578500",
+    "name": "Stangerode",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST578600",
+    "name": "Baalberge",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST579070",
+    "name": "Hadmersleben",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST579610",
+    "name": "Meisdorf",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST579712",
+    "name": "Mahndorf",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST579810",
+    "name": "Oschersleben",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST587600",
+    "name": "Grabow",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST590005",
+    "name": "Nutha",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST590210",
+    "name": "Dannigkow",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST591070",
+    "name": "Wolmirstedt",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST592002",
+    "name": "Demker",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST594180",
+    "name": "Goldbeck",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEST597205",
+    "name": "Tylsen",
+    "landcode": "DEST",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH252401",
+    "name": "Steinach",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH252450",
+    "name": "Mupperg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420001",
+    "name": "Eisfeld,Bahnbrücke",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420011",
+    "name": "Ebenhards",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420020",
+    "name": "Meiningen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420070",
+    "name": "Breitungen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420120",
+    "name": "Vacha",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420170",
+    "name": "Gerstungen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH420190",
+    "name": "Frankenroda",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH421510",
+    "name": "Rappelsdorf",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH421600",
+    "name": "Hinternah",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH421620",
+    "name": "Schleusingen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH422000",
+    "name": "Ellingshausen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE41850054",
+    "name": "Bischhausen",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE42410104",
+    "name": "Schlechtenwegen",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE42780500",
+    "name": "Adelshausen",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE42840453",
+    "name": "Dalwigksthal",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE42881009",
+    "name": "Angenrod",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEHE44840308",
+    "name": "Hofgeismar",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV04408.1",
+    "name": "Groß Görnow",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV04425.0",
+    "name": "Bröbberow",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV04437.0",
+    "name": "Güstrow Nebel",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV04803.5",
+    "name": "Klempenow_Straßenbrücke",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV04907.1",
+    "name": "Pasewalk Bollwerk",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV04927.0",
+    "name": "Löcknitz",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV58110.0",
+    "name": "Bolt",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV59810.0",
+    "name": "Garlitz",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEMV59848.0",
+    "name": "Klein Bengerstorf",
+    "landcode": "DEMV",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI3615104",
+    "name": "Lüstringen",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI3671101",
+    "name": "Herzlake",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI4828120",
+    "name": "Glentorf",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI4885154",
+    "name": "Poppenburg",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI4894119",
+    "name": "Brock",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI4945108",
+    "name": "Hellwege",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI4965142",
+    "name": "Huntlosen II",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI5945125",
+    "name": "Bienenbüttel",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI5983110",
+    "name": "Rockstedt",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENI9286106",
+    "name": "Ohne",
+    "landcode": "DENI",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2581119000100",
+    "name": "Feudingen",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2721390000100",
+    "name": "Weidenau",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2721770000200",
+    "name": "Niederschelden2",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2725910000100",
+    "name": "Eitorf",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2726900000100",
+    "name": "Broel",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2728930000200",
+    "name": "Lohmar",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2729100000100",
+    "name": "Menden 1",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2736510000100",
+    "name": "Wt-Kluserbrücke",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2736790000200",
+    "name": "Opladen",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2736879000200",
+    "name": "Manfort",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2743000000100",
+    "name": "Bliesheim",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2747900000200",
+    "name": "Neubrück",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2761510000100",
+    "name": "Meschede",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2765590000100",
+    "name": "Villigst",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2766930000100",
+    "name": "Altena",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2768897000100",
+    "name": "Hagen_Haspe",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2768900000100",
+    "name": "Hagen_Eckesey",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2782370000100",
+    "name": "Weine",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2783390000100",
+    "name": "Bentfeld",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2787990000100",
+    "name": "Leven",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2788730000100",
+    "name": "Olfen-Fuecht.Mhl.",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2789770000100",
+    "name": "Schermbeck 1",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2822900000200",
+    "name": "Gemünd",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2824590000400",
+    "name": "Eschweiler",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2825190000200",
+    "name": "Jülich Stadion",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2828300000200",
+    "name": "Herzogenrath 1",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2828900000200",
+    "name": "Randerath",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2829100000100",
+    "name": "Stah",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2849900000100",
+    "name": "Landesgrenze",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW2869500000200",
+    "name": "Goch",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW3119000000200",
+    "name": "Rheda",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW3171000000100",
+    "name": "Einen",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW3259000000100",
+    "name": "Albersloh",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW3331000000100",
+    "name": "Greven",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4281319000100",
+    "name": "Muesse",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4281591000100",
+    "name": "Beddelhausen",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DENW4433000000100",
+    "name": "Westheim",
+    "landcode": "DENW",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH422201",
+    "name": "Suhl",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH424000",
+    "name": "Mittelschmalkalden",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH426000",
+    "name": "Dorndorf 2",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH427010",
+    "name": "Unterbreizbach-Räsa",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH429010",
+    "name": "Eisenach-Petersberg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH429050",
+    "name": "Teutleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH429600",
+    "name": "Eisenach-Nessemühle",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH447000",
+    "name": "Arenshausen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH447050",
+    "name": "Heiligenstadt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH570210",
+    "name": "Blankenstein-Rosenthal",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH570250",
+    "name": "Kaulsdorf",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH570260",
+    "name": "Saalfeld-Remschütz",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH570270",
+    "name": "Rudolstadt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH570330",
+    "name": "Camburg-Stöben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH571700",
+    "name": "Möschlitz",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572000",
+    "name": "Probstzella",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572010",
+    "name": "Kaulsdorf-Eichicht",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572110",
+    "name": "Katzhütte",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572115",
+    "name": "Schwarzburg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572400",
+    "name": "Freienorla",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572890",
+    "name": "Gräfinau-Angstedt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572910",
+    "name": "Mellingen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH572920",
+    "name": "Niedertrebra",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH573000",
+    "name": "Ammern",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH573010",
+    "name": "Nägelstedt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH573100",
+    "name": "Straußfurt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH573110",
+    "name": "Oldisleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX23900200",
+    "name": "Worms",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX24300600",
+    "name": "Würzburg",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX24900108",
+    "name": "Raunheim",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX25100100",
+    "name": "Mainz",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX25700100",
+    "name": "Kaub",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX25800200",
+    "name": "Leun neu",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX26100100",
+    "name": "Perl",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX26400220",
+    "name": "Sankt Arnual",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX26400550",
+    "name": "Fremersdorf",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX26900400",
+    "name": "Cochem",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX27100400",
+    "name": "Andernach",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2710080",
+    "name": "Bonn",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2730010",
+    "name": "Köln",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2750010",
+    "name": "Düsseldorf",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2770010",
+    "name": "Duisburg-Ruhrort",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2770040",
+    "name": "Wesel",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2790010",
+    "name": "Rees",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX2790020",
+    "name": "Emmerich",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX41900104",
+    "name": "Allendorf",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX41900206",
+    "name": "Letzter Heller",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX42900100",
+    "name": "Guntershausen",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX43100109",
+    "name": "Hann. Münden",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX45100100",
+    "name": "Karlshafen",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX45300200",
+    "name": "Bodenwerder",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX45900208",
+    "name": "Vlotho",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX47500200",
+    "name": "Liebenau",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX47900209",
+    "name": "Dörverden",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH570280",
+    "name": "Rothenstein",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX10078000",
+    "name": "Pfelling",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX10088003",
+    "name": "Hofkirchen",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN562115",
+    "name": "Wechselburg 1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN563790",
+    "name": "Aue 1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN566040",
+    "name": "Nossen 1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DESN577501",
+    "name": "Neukirchen 1",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX48900204",
+    "name": "Rethem",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX49100101",
+    "name": "Intschede",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX501010",
+    "name": "Schöna",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX501060",
+    "name": "Dresden",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX501261",
+    "name": "Torgau",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX501420",
+    "name": "Lutherstadt Wittenberg",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX502010",
+    "name": "Aken",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX502070",
+    "name": "Barby",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX502180",
+    "name": "Magdeburg Strombrücke",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX502350",
+    "name": "Tangermünde",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX503050",
+    "name": "Wittenberge",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX570810",
+    "name": "Halle Trotha UP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX570910",
+    "name": "Bernburg UP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX570940",
+    "name": "Calbe Grizehne",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX580300",
+    "name": "Berlin-Spandau OP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX580430",
+    "name": "Ketzin",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX580520",
+    "name": "Albertsheim",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX580601",
+    "name": "Tieckow",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX580790",
+    "name": "Havelberg Stadt",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX580840",
+    "name": "Gnevsdorf OP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX581000",
+    "name": "Mirow OP",
+    "landcode": "DEXX",
+    "lizenz": "cc by-sa 3.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX581591",
+    "name": "Borgsdorf",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX582670",
+    "name": "Grosse Tränke Wehr UP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX585920",
+    "name": "Wernsdorf OP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX586040",
+    "name": "Woltersdorf OP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX586290",
+    "name": "Berlin-Köpenick",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX587020",
+    "name": "Kleinmachnow OP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX5930010",
+    "name": "Neu Darchau",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX596030",
+    "name": "Waren",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX603000",
+    "name": "Eisenhüttenstadt",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX603080",
+    "name": "Hohensaaten Finow",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEBW47834",
+    "name": "Lauterach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Abfluss"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX3310010",
+    "name": "Fuestrup",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX3390020",
+    "name": "Rheine US",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX3500015",
+    "name": "Lingen-Darme",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX586280",
+    "name": "Neue Mühle UP",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX24300304",
+    "name": "Schweinfurt Neuer Hafen",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH574200",
+    "name": "Arnstadt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH574210",
+    "name": "Erfurt-Möbisburg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH574300",
+    "name": "Gehlberg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH574401",
+    "name": "Geraberg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH574500",
+    "name": "Eischleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH574630",
+    "name": "Ingersleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575110",
+    "name": "Wasserthaleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575211",
+    "name": "Wipperdorf",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575240",
+    "name": "Hachelbich",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575250",
+    "name": "Bleicherode",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575400",
+    "name": "Sundhausen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575500",
+    "name": "Nordhausen",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH575660",
+    "name": "Ilfeld",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH576470",
+    "name": "Greiz",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH576520",
+    "name": "Gera-Langenberg",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH577290",
+    "name": "Läwitz",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH577320",
+    "name": "Weida",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH577360",
+    "name": "Eisenhammer",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH577510",
+    "name": "Gößnitz",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DETH577800",
+    "name": "Großstöbnitz",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX10056302",
+    "name": "Oberndorf",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX23700200",
+    "name": "Maxau",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX23700600",
+    "name": "Speyer",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX23800100",
+    "name": "Plochingen",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX23800500",
+    "name": "Lauffen",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DESM_DEXX23800690",
+    "name": "Rockenau SKA",
+    "landcode": "DEXX",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Abfluss",
+      "Wasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY83614",
+    "name": "NBS-H/W KB 11/1",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY9230",
+    "name": "EGG D 4",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY9248",
+    "name": "FRAUENRIEDHAUSEN D 48",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHBHB_GMS 220",
+    "name": "GMS 220 - An der Aue",
+    "landcode": "DEHB",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE11324",
+    "name": "OFFENBACH",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE11765",
+    "name": "TREBUR",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE11847",
+    "name": "BAUSCHHEIM",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE12029",
+    "name": "EGELSBACH ",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE12909",
+    "name": "GERNSHEIM",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE13415",
+    "name": "VIELBRUNN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE13488",
+    "name": "BÜRSTADT",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE13589",
+    "name": "HEPPENHEIM",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE14018",
+    "name": "GÜTTERSBACH",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE14293",
+    "name": "KAILBACH",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE5062",
+    "name": "ÖDELSHEIM",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE5122",
+    "name": "CALDEN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE5711",
+    "name": "HELSA",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE5987",
+    "name": "WEISSENBORN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE6043",
+    "name": "HAINE",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE6328",
+    "name": "SCHIFFELBACH",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE6342",
+    "name": "JESBERG",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE6508",
+    "name": "RONSHAUSEN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE7187",
+    "name": "ZELL",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE7678",
+    "name": "FUSSINGEN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE8012",
+    "name": "RIXFELD",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE8487",
+    "name": "GEDERN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE8599",
+    "name": "ALTENFELD",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE8816",
+    "name": "OCKSTADT",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE9517",
+    "name": "HAIN-GRÜNDAU",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE9598",
+    "name": "SPESSART",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEHE9688",
+    "name": "BURG HOHENSTEIN",
+    "landcode": "DEHE",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB29370009",
+    "name": "Rambow, Acker",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB29490617",
+    "name": "Sternfelde",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB29510999",
+    "name": "Schwedt, Monplaisir",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB30370041",
+    "name": "Rühstädt, Roggbergstr. ",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB31474500",
+    "name": "Zerpenschleuse",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB33427310",
+    "name": "Paulinenaue, Kamerun",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB33520968",
+    "name": "Letschin",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB35522582",
+    "name": "Döbberin",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB38451389",
+    "name": "Woltersdorf, Str. n. Wiesenh.",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB39423103",
+    "name": "Niemegk",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB39506107",
+    "name": "Dollgen",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB42517005",
+    "name": "Gulben",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBB43526000",
+    "name": "Laubsdorf",
+    "landcode": "DEBB",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBE5308",
+    "name": "5308",
+    "landcode": "DEBE",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBE775",
+    "name": "775",
+    "landcode": "DEBE",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW0601/517-7",
+    "name": "QF Gallusquelle WV, Veringenstadt-Hermentingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW1/415-1",
+    "name": "QF Bronnbachquelle, Rottenburg",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW102/762-4",
+    "name": "NB I Seegartenhof, Königsbronn",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW102/814-8",
+    "name": "GWM 1002 LW Gewann Hohe Schwärze, Niederstotzingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW150/769-7",
+    "name": "GWM 12 Egelsee, Tannheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW159/066-7",
+    "name": "GWM 6-86, Schwanau-Ottenheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW173/260-0",
+    "name": "GWM F Gewann Birkheck Scheibenhardt, Ettlingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW181/669-4",
+    "name": "GWM 30 Steinhausen, Bad Schussenried",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW20/520-3",
+    "name": "GWM 1 Strobel GmbH & Co.KG Kieswerk, Pfullendorf",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW4/709-9",
+    "name": "GWM Kontrollpegel Halden, Bühlertann",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW600/068-1",
+    "name": "QF 1 Seipfertquelle, Amoltern",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW600/554-9",
+    "name": "QF Nächstquelle Götzingen, Buchen (Odenwald)",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW600/665-7",
+    "name": "Q Blautopf, Blaubeuren",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY10129",
+    "name": "NENTSCHAU 29",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY10991",
+    "name": "SR/GW FICHTELGEB. 01",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY13103",
+    "name": "HAEUSER 3A/TR",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY13112",
+    "name": "LAUCHDORF 560",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY15174",
+    "name": "HIENHEIMER FORST 863",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY15500",
+    "name": "Helchenbach 18/2",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY16000",
+    "name": "ANZINGERSAUSCHUETT305A",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY16001",
+    "name": "LAUFZORN SCHLOSS 247",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY16232",
+    "name": "UNERING 913",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY17141",
+    "name": "MINDORF 435A",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY17148",
+    "name": "UNTERWINTERBACH 231",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY17150",
+    "name": "HERZOGENAURACH 195",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY19118",
+    "name": "SEIBERSDORF 562",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY19130",
+    "name": "HAMMERSBACH T3 T",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY19136",
+    "name": "REISBACH 968",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY19137",
+    "name": "DENGKOFEN 964",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY20178",
+    "name": "LINDENSCHLAG 710",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY20191",
+    "name": "CHAM/STADELLOHE 867",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY20501",
+    "name": "Hohenwarth 14/2",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY24124",
+    "name": "PRESSATH-BUERGW.2 980",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY24504",
+    "name": "Kirchendemenreuth 9/12",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY2500",
+    "name": "Dorfquelle Adlholz 9/21",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY25100",
+    "name": "WINKL KLAFFENB 246A2",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY25106",
+    "name": "ARZBACH 246C",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY25117",
+    "name": "ST.ANDRAE 612",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY25121",
+    "name": "KRONAU 616",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY25139",
+    "name": "PENZING II FB 824",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY25143",
+    "name": "Graswang 831",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY3114",
+    "name": "PFOFELD D 79",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY4134",
+    "name": "KLEINOSTHEIM 133",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY5502",
+    "name": "Ellernbachquelle Rossdach 3/6",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY6106",
+    "name": "BETZENSTEIN,T.BR.TB 1",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY6108",
+    "name": "NEUENPLOS 119",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY8014",
+    "name": "WEMDING 48C",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBY8177",
+    "name": "Bobingen-NO. 578",
+    "landcode": "DEBY",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2373147000",
+    "name": "1343 I Hagenbach",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2375182000",
+    "name": "1026 A Herxheim bei Landau/Pfalz,Hayna",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2377107700",
+    "name": "1439 Rinnthal",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2378170700",
+    "name": "1181 Kirrweiler (Pfalz),",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2391100800",
+    "name": "1328 I, Dannstadt-Schauernheim, Münchhof",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2391136900",
+    "name": "1093 Bad Dürkheim, Pfeffingen",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2395164700",
+    "name": "2017 Mettenheim",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2529151600",
+    "name": "2199 Schwabenheim an der Selz",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2546118300",
+    "name": "3014 Waldmohr",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2546175100",
+    "name": "3004 Ramstein-Miesenbach, Autobahnmeisterei",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2546188600",
+    "name": "3039 Kaiserslautern, Erfenbach",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2549120900",
+    "name": "2075 Flonheim,Uffhofen",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2549140200",
+    "name": "2069 Bingen am Rhein, Sponsheim",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2626100000",
+    "name": "4166 Lichtenborn",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2628150700",
+    "name": "4011 Rittersdorf",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2628166400",
+    "name": "4127 Heilenbach",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2642113000",
+    "name": "3052 I Schmalenberg",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2651180000",
+    "name": "4063 Trier, Euren",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2663145000",
+    "name": "4121 Gönnersdorf",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2663160900",
+    "name": "4110 Hillesheim",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2663180200",
+    "name": "4157 Kirchweiler",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2664170400",
+    "name": "4044 A Schwirzheim",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2665100500",
+    "name": "4123 Bitburg, Erdorf/Matzen",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2665121000",
+    "name": "4124 I A Sankt Thomas",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2678105500",
+    "name": "4046 Osann-Monzel",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2678135000",
+    "name": "4026 Wittlich",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2713113500",
+    "name": "5076 Mülheim-Kärlich",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2713164500",
+    "name": "6062 Neuwied, Heimb. Frankf. Str.",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DERP2723100500",
+    "name": "6072 I Mittelhof, Niederhövels",
+    "landcode": "DERP",
+    "lizenz": "ccbync/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESH10L53084001",
+    "name": "LEHMRADE",
+    "landcode": "DESH",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESH10L59011001",
+    "name": "Boren",
+    "landcode": "DESH",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESH10L61036002",
+    "name": "HENNSTEDT",
+    "landcode": "DESH",
+    "lizenz": "dl-zero-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN44425470",
+    "name": "Wildenhain, B 2/62",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN45445019",
+    "name": "Tauschwitz",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN46471515",
+    "name": "Strauch",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN46553074",
+    "name": "Trebus",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN47450159",
+    "name": "Stauchitz",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN48450886",
+    "name": "Ziegenhain",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN48480902",
+    "name": "Wilschdorf",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN48518085",
+    "name": "Kleinpraga,Hy Saf 25a/70 oben",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN49420959",
+    "name": "Weissbach",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN49484004",
+    "name": "Dresden-Neustadt, Königstraße",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN49520931",
+    "name": "Crostau",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN50516004",
+    "name": "Ottendorf, Hy Sml 6/81,Zschand,Richtersch",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN51426001",
+    "name": "Grüna, B 104/83",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN53466001",
+    "name": "Neuhausen,Hy NehMb 1/92",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN55393699",
+    "name": "Willitzgrün, B 1/66",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DESN56401226",
+    "name": "Kottenheide",
+    "landcode": "DESN",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST31370001",
+    "name": "Neukirchen",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST31370022",
+    "name": "Werben",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST32360028",
+    "name": "Storbeck",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST33330001",
+    "name": "Siedentramm",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST35340018",
+    "name": "Klüden",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST35370071",
+    "name": "Schelldorf",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST35396708",
+    "name": "Zabakuck-Annenhof",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST38360006",
+    "name": "MD-Herrenkrug",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST39320020",
+    "name": "Kauzleben Neubau",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST40380014",
+    "name": "Leps",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST42380006",
+    "name": "Lausigk",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST43340010",
+    "name": "Walbeck",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEST45326569",
+    "name": "Bennungen",
+    "landcode": "DEST",
+    "lizenz": "dl-de/by-2-0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH106905",
+    "name": "Mihla",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH107520",
+    "name": "Treffurt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH107847",
+    "name": "Bad Tennstedt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH116408",
+    "name": "Achelstädt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI100000581",
+    "name": "Reinshagen I",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI100000792",
+    "name": "Eischott",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI100000836",
+    "name": "Wendhausen",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI100000926",
+    "name": "Sehlde",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI100000930",
+    "name": "Groß Mahner",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI100003876",
+    "name": "Sonnenberg 1",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI200000532",
+    "name": "Neubruchhausen I",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI200001108",
+    "name": "Neustädter Moor",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI200001142",
+    "name": "Kirchdorfer Heide",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI200001392",
+    "name": "Nordel I",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI200001726",
+    "name": "Rehburg",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40000327",
+    "name": "Rodenberg I",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40000343",
+    "name": "Ronnenberg II",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40000433",
+    "name": "Ohr 1",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40004396",
+    "name": "Otternhagen 4",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI400061432",
+    "name": "Fickmuehlen 143/2RS FI",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI400061770",
+    "name": "Wohnste 177/3RS",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI400061870",
+    "name": "Tarmstedter Moor UWO 187",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40501180",
+    "name": "Sustrum",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40501871",
+    "name": "Ostenwalde I",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI405030251",
+    "name": "Burg UE 25 FI",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40507420",
+    "name": "Esche",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40507850",
+    "name": "Striepe",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40507860",
+    "name": "Quendorf",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI40510500",
+    "name": "Lünne",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI500000088",
+    "name": "GUN 040/1 Sandlingen",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI500000531",
+    "name": "UWO 055/1 Scheeßeler Holz",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI500003018",
+    "name": "LGD 004 N Doehlbergen",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI500003036",
+    "name": "GD 38 N 13 Tetendorf",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI600040461",
+    "name": "Garze F1",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI600041851",
+    "name": "Wöhningen",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI600041871",
+    "name": "Wrestedt F1",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9610117",
+    "name": "Sillens",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700081",
+    "name": "Föckinghausen",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700082",
+    "name": "Friesoythe",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700136",
+    "name": "Icker 5-L 262",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700232",
+    "name": "Schwege",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700242",
+    "name": "Steinfeld VEC",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700257",
+    "name": "Varrelbusch",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700268",
+    "name": "Vehs",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9700294",
+    "name": "Woltrup-Wehbergen",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9842421",
+    "name": "Greetsiel I",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9850631",
+    "name": "Remels",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DENI9850661",
+    "name": "Norderney-Ost",
+    "landcode": "DENI",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH116410",
+    "name": "Wüllersleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH116497",
+    "name": "Niedersynderstedt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH116499",
+    "name": "Blankenhain",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH116614",
+    "name": "Seligenthal",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH116655",
+    "name": "Martinroda",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH117746",
+    "name": "Wiehe-Roßleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH118039",
+    "name": "Roldisleben",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH118172",
+    "name": "Stedten",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH118382",
+    "name": "Langenhain",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH118446",
+    "name": "Erfurt (Unterflur)",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH118807",
+    "name": "Arnstadt",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH118836",
+    "name": "Frauenwald / Schmiedefeld",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH133259",
+    "name": "Hy Dittersdorf (Unterflur)",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DETH202240",
+    "name": "Hy Ellrich 7/1969",
+    "landcode": "DETH",
+    "lizenz": "dl-by-de/2.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW1/219-3",
+    "name": "QF Rösslequelle WV, Furtwangen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW1/265-0",
+    "name": "QF Jägerbrunnenquelle WV, Freudenstadt",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW100/517-0",
+    "name": "GWM 14, Neufra",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW101/307-6",
+    "name": "GWM F 3022, Walldorf",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW101/320-1",
+    "name": "GWM 1044 Allmendshofen, Donaueschingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW102/714-6",
+    "name": "GWM Geislinger Str., Weidenstetten",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW104/509-0",
+    "name": "GWM 2 Konstener Klinge, Neckarwestheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW106/120-5",
+    "name": "GWM PE 2, Freiburg-Ebnet",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW107/305-0",
+    "name": "GWM 105A, Ladenburg",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW110/018-1",
+    "name": "GWM 3262, Sasbach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW110/022-3",
+    "name": "GWM 3618, Neuenburg am Rhein-Steinenstadt",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW110/623-5",
+    "name": "GWM 13 Tettnanger Wald Lindenbögen, Langenargen-Oberdorf",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW112/074-9",
+    "name": "GWM 1079 West Schorenrain, Rheinfelden-Herten",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW112/303-9",
+    "name": "GWM 2 Sporthalle, Laudenbach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW115/068-8",
+    "name": "GWM 1284 A, Teningen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW116/114-0",
+    "name": "GWM 3391 Legelshurst, Willstätt",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW120/257-0",
+    "name": "GWM 1 Flach, Rheinsheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW130/067-4",
+    "name": "GWM 1223 B, Rheinhausen-Niederhausen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW130/070-4",
+    "name": "GWM 1455 Feldkircher Str., Bad Krozingen-Schlatt",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW131/023-0",
+    "name": "GWM 1481 A Märkt, Eimeldingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW131/115-0",
+    "name": "GWM 3709, Ohlsbach",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW132/422-5",
+    "name": "GWM DP 5 F Rößler, Singen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW135/161-6",
+    "name": "GWM L Geggenau WW Stadtwerke RA, Iffezheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW145/771-8",
+    "name": "GWM Haslerhöfe, Leutkirch",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW147/717-6",
+    "name": "GWM 1 Laupheim, Ehingen-Rißtissen ",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW152/308-7",
+    "name": "GWM 1/79 Flach, Forst",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW154/767-1",
+    "name": "GWM 2 Riedbach, Dietenheim",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW157/162-8",
+    "name": "GWM 3143 Schwarzach, Rheinmünster",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Grundwasserstand"
+    ]
+  },
+  {
+    "messstelleNr": "DEGM_DEBW3/567-0",
+    "name": "Q Aachursprung Wimsen, Hayingen",
+    "landcode": "DEBW",
+    "lizenz": "cc-by/4.0",
+    "messgroesse": [
+      "Quellschüttung"
+    ]
+  }
+]

@@ -152,6 +152,13 @@ class HydroSensorEntityDescription(SensorEntityDescription):
     is_primary: bool = False
 
 
+@dataclass(frozen=True, kw_only=True)
+class HydroStationSensorEntityDescription(SensorEntityDescription):
+    """Describe a Hydro Monitor station sensor."""
+
+    value_fn: Callable[[HydroMonitorCoordinator], Any]
+
+
 SENSOR_DESCRIPTIONS = (
     HydroSensorEntityDescription(
         key="value",
@@ -233,6 +240,230 @@ SENSOR_DESCRIPTIONS = (
 )
 
 
+def _format_license(value: str | None) -> str | None:
+    """Return a human-readable license name."""
+    if value is None:
+        return None
+
+    normalized = value.strip().lower()
+
+    known_licenses = {
+        "cc-by/4.0": "CC BY 4.0",
+        "dl-de/by-2-0": "DL-DE/BY-2.0",
+    }
+
+    return known_licenses.get(normalized, value)
+
+
+def _historical_low_discharge(
+    coordinator: HydroMonitorCoordinator,
+) -> float | None:
+    """Return the historical low discharge for applicable stations."""
+    if coordinator.measurement_type not in {
+        HydroMeasurementType.DISCHARGE,
+        HydroMeasurementType.SPRING_DISCHARGE,
+    }:
+        return None
+
+    return coordinator.station.historical_low_discharge
+
+
+def _historical_low_discharge_date(
+    coordinator: HydroMonitorCoordinator,
+) -> Any:
+    """Return the date of the historical low discharge."""
+    if coordinator.measurement_type not in {
+        HydroMeasurementType.DISCHARGE,
+        HydroMeasurementType.SPRING_DISCHARGE,
+    }:
+        return None
+
+    return coordinator.station.historical_low_discharge_date
+
+
+def _historical_low_water_level(
+    coordinator: HydroMonitorCoordinator,
+) -> float | None:
+    """Return the historical low water level for applicable stations."""
+    if coordinator.measurement_type is not HydroMeasurementType.WATER_LEVEL:
+        return None
+
+    return coordinator.station.historical_low_water_level
+
+
+def _historical_low_water_level_date(
+    coordinator: HydroMonitorCoordinator,
+) -> Any:
+    """Return the date of the historical low water level."""
+    if coordinator.measurement_type is not HydroMeasurementType.WATER_LEVEL:
+        return None
+
+    return coordinator.station.historical_low_water_level_date
+
+
+def _waterbody_position(
+    coordinator: HydroMonitorCoordinator,
+) -> float | None:
+    """Return the station position on the waterbody in kilometres."""
+    value = coordinator.station.waterbody_position
+
+    if value in (None, ""):
+        return None
+
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+STATION_SENSOR_DESCRIPTIONS = (
+    HydroStationSensorEntityDescription(
+        key="station_type",
+        translation_key="station_type",
+        icon="mdi:map-marker-radius",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: coordinator.station.station_type,
+    ),
+    HydroStationSensorEntityDescription(
+        key="locality",
+        translation_key="locality",
+        icon="mdi:home-map-marker",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: coordinator.station.locality,
+    ),
+    HydroStationSensorEntityDescription(
+        key="operator",
+        translation_key="operator",
+        icon="mdi:office-building",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: coordinator.station.operator,
+    ),
+    HydroStationSensorEntityDescription(
+        key="institution",
+        translation_key="institution",
+        icon="mdi:domain",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: coordinator.station.institution,
+    ),
+    HydroStationSensorEntityDescription(
+        key="license_name",
+        translation_key="license",
+        icon="mdi:license",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: _format_license(coordinator.station.license_name),
+    ),
+    HydroStationSensorEntityDescription(
+        key="waterbody",
+        translation_key="waterbody",
+        icon="mdi:waves",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: coordinator.station.waterbody,
+    ),
+    HydroStationSensorEntityDescription(
+        key="waterbody_code",
+        translation_key="waterbody_code",
+        icon="mdi:identifier",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+        value_fn=lambda coordinator: coordinator.station.waterbody_code,
+    ),
+    HydroStationSensorEntityDescription(
+        key="waterbody_position",
+        translation_key="waterbody_position",
+        icon="mdi:map-marker-distance",
+        native_unit_of_measurement="km",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_waterbody_position,
+    ),
+    HydroStationSensorEntityDescription(
+        key="catchment_area",
+        translation_key="catchment_area",
+        icon="mdi:image-filter-hdr",
+        native_unit_of_measurement="km²",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
+        value_fn=lambda coordinator: coordinator.station.catchment_area_km2,
+    ),
+    HydroStationSensorEntityDescription(
+        key="gauge_zero_elevation",
+        translation_key="gauge_zero_elevation",
+        icon="mdi:altimeter",
+        native_unit_of_measurement="m",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        value_fn=lambda coordinator: coordinator.station.gauge_zero_elevation,
+    ),
+    HydroStationSensorEntityDescription(
+        key="elevation_ground",
+        translation_key="ground_elevation",
+        icon="mdi:terrain",
+        native_unit_of_measurement="m",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        value_fn=lambda coordinator: coordinator.station.elevation_ground,
+    ),
+    HydroStationSensorEntityDescription(
+        key="elevation_system",
+        translation_key="elevation_system",
+        icon="mdi:elevation-rise",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+        value_fn=lambda coordinator: coordinator.station.elevation_system,
+    ),
+    HydroStationSensorEntityDescription(
+        key="hydrogeological_region",
+        translation_key="hydrogeological_region",
+        icon="mdi:layers-triple",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda coordinator: coordinator.station.hydrogeological_region,
+    ),
+    HydroStationSensorEntityDescription(
+        key="hydrogeological_region_code",
+        translation_key="hydrogeological_region_code",
+        icon="mdi:identifier",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+        value_fn=lambda coordinator: coordinator.station.hydrogeological_region_code,
+    ),
+    HydroStationSensorEntityDescription(
+        key="historical_low_discharge",
+        translation_key="historical_low_discharge",
+        icon="mdi:waves-arrow-down",
+        native_unit_of_measurement="m³/s",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        value_fn=_historical_low_discharge,
+    ),
+    HydroStationSensorEntityDescription(
+        key="historical_low_discharge_date",
+        translation_key="historical_low_discharge_date",
+        icon="mdi:calendar-arrow-down",
+        device_class=SensorDeviceClass.DATE,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=_historical_low_discharge_date,
+    ),
+    HydroStationSensorEntityDescription(
+        key="historical_low_water_level",
+        translation_key="historical_low_water_level",
+        icon="mdi:arrow-collapse-down",
+        native_unit_of_measurement="m",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        value_fn=_historical_low_water_level,
+    ),
+    HydroStationSensorEntityDescription(
+        key="historical_low_water_level_date",
+        translation_key="historical_low_water_level_date",
+        icon="mdi:calendar-arrow-down",
+        device_class=SensorDeviceClass.DATE,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=_historical_low_water_level_date,
+    ),
+)
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: HydroMonitorConfigEntry,
@@ -241,16 +472,69 @@ async def async_setup_entry(
     """Set up Hydro Monitor sensor entities from a config entry."""
     coordinator = entry.runtime_data.coordinator
 
-    async_add_entities(
-        HydroObservationSensor(coordinator, description)
-        for description in SENSOR_DESCRIPTIONS
-    )
+    entities = [
+        *(
+            HydroObservationSensor(coordinator, description)
+            for description in SENSOR_DESCRIPTIONS
+        ),
+        *(
+            HydroStationSensor(coordinator, description)
+            for description in STATION_SENSOR_DESCRIPTIONS
+            if description.value_fn(coordinator) is not None
+        ),
+    ]
+
+    async_add_entities(entities)
 
 
-class HydroObservationSensor(
+class HydroBaseSensor(
     CoordinatorEntity[HydroMonitorCoordinator],
     SensorEntity,
 ):
+    """Base class for Hydro Monitor sensors."""
+
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        coordinator: HydroMonitorCoordinator,
+    ) -> None:
+        super().__init__(coordinator)
+
+        station = coordinator.station
+        measurement_type = coordinator.measurement_type
+
+        measurement_name = {
+            HydroMeasurementType.DISCHARGE: "Discharge",
+            HydroMeasurementType.WATER_LEVEL: "Water level",
+            HydroMeasurementType.GROUNDWATER_LEVEL: "Groundwater level",
+            HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
+        }[measurement_type]
+
+        self._station = station
+        self._measurement_type = measurement_type
+        self._measurement_name = measurement_name
+
+        self._attr_device_info = DeviceInfo(
+            identifiers={
+                (
+                    DOMAIN,
+                    f"{station.provider}:{station.station_id}:{measurement_type.value}",
+                )
+            },
+            name=station.name,
+            manufacturer=station.institution or station.provider.upper(),
+            model="Hydrological monitoring station",
+            configuration_url=station.source_url,
+        )
+
+    @property
+    def available(self) -> bool:
+        """Return whether the entity is available."""
+        return super().available
+
+
+class HydroObservationSensor(HydroBaseSensor):
     """Represent a Hydro Monitor observation sensor."""
 
     entity_description: HydroSensorEntityDescription
@@ -266,51 +550,18 @@ class HydroObservationSensor(
         super().__init__(coordinator)
         self.entity_description = description
 
+        self._attr_unique_id = (
+            f"{coordinator.station.provider}_"
+            f"{coordinator.station.station_id}_"
+            f"{coordinator.measurement_type.value}_"
+            f"{description.key}"
+        )
+
         if description.translation_key is not None:
             self._attr_translation_key = description.translation_key
 
         if description.options is not None:
             self._attr_options = description.options
-
-        station = coordinator.station
-        measurement_type = coordinator.measurement_type
-        measurement_name = {
-            HydroMeasurementType.DISCHARGE: "Discharge",
-            HydroMeasurementType.WATER_LEVEL: "Water level",
-            HydroMeasurementType.GROUNDWATER_LEVEL: "Groundwater level",
-            HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
-        }[measurement_type]
-
-        if description.is_primary:
-            # Keep the existing unique ID of the primary sensor.
-            self._attr_unique_id = (
-                f"{station.provider}:{station.station_id}:{measurement_type.value}"
-            )
-            self._attr_translation_key = PRIMARY_TRANSLATION_KEYS[measurement_type]
-        else:
-            self._attr_unique_id = (
-                f"{station.provider}:"
-                f"{station.station_id}:"
-                f"{measurement_type.value}:"
-                f"{description.key}"
-            )
-
-        self._attr_device_info = DeviceInfo(
-            identifiers={
-                (
-                    DOMAIN,
-                    (
-                        f"{station.provider}:"
-                        f"{station.station_id}:"
-                        f"{measurement_type.value}"
-                    ),
-                )
-            },
-            name=f"{station.name} – {measurement_name}",
-            manufacturer=station.institution or station.provider.upper(),
-            model="Hydrological monitoring station",
-            configuration_url=station.source_url,
-        )
 
     @property
     def icon(self) -> str | None:
@@ -364,10 +615,42 @@ class HydroObservationSensor(
             ),
             "quality_flag": observation.quality_flag,
             "sample_count": observation.sample_count,
-            "waterbody": station.waterbody,
-            "operator": station.operator,
-            "institution": station.institution,
-            "latitude": station.latitude,
-            "longitude": station.longitude,
-            "license": station.license_name,
         }
+
+
+class HydroStationSensor(HydroBaseSensor):
+    """Represent a Hydro Monitor station metadata sensor."""
+
+    entity_description: HydroStationSensorEntityDescription
+
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        coordinator: HydroMonitorCoordinator,
+        description: HydroStationSensorEntityDescription,
+    ) -> None:
+        """Initialize the station sensor."""
+        super().__init__(coordinator)
+
+        self.entity_description = description
+
+        self._attr_unique_id = (
+            f"{coordinator.station.provider}_"
+            f"{coordinator.station.station_id}_"
+            f"{coordinator.measurement_type.value}_"
+            f"station_{description.key}"
+        )
+
+        if description.translation_key is not None:
+            self._attr_translation_key = description.translation_key
+
+    @property
+    def native_value(self) -> Any:
+        """Return the sensor value."""
+        return self.entity_description.value_fn(self.coordinator)
+
+    @property
+    def available(self) -> bool:
+        """Return whether the sensor is available."""
+        return super().available and self.native_value is not None

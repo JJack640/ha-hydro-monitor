@@ -18,7 +18,10 @@ def as_float(value: Any) -> float | None:
 
 
 def _parse_date(value: Any) -> date | None:
-    """Parse a NIWIS observation date."""
+    """Parse a NIWIS date value."""
+    if value in (None, ""):
+        return None
+
     try:
         return date.fromisoformat(str(value)[:10])
     except (TypeError, ValueError):
@@ -52,11 +55,29 @@ def station_from_niwis(
         measurement_types=measurement_types,
         latitude=as_float(data.get("breite")),
         longitude=as_float(data.get("laenge")),
+        country_code=data.get("landcode"),
+        station_type=data.get("messstellentyp"),
+        locality=data.get("ortslage"),
         waterbody=data.get("gewaesser"),
+        waterbody_code=(str(data["gkz"]) if data.get("gkz") is not None else None),
+        waterbody_position=data.get("lageGewaesser"),
+        catchment_area_km2=as_float(data.get("ezgGroesse")),
+        elevation_ground=as_float(data.get("hoeheGok")),
+        gauge_zero_elevation=as_float(data.get("hoehePnp")),
+        elevation_system=data.get("hoehensystem"),
+        hydrogeological_region=data.get("teilraumName"),
+        hydrogeological_region_code=data.get("teilraumNr"),
         operator=data.get("betreiber"),
+        operator_url=data.get("urlBetreiber"),
         institution=data.get("institution"),
+        institution_url=data.get("urlInstitution"),
         source_url=data.get("urlMessstelle"),
         license_name=data.get("lizenz"),
+        remarks=data.get("bemerkung"),
+        historical_low_discharge=as_float(data.get("nnq")),
+        historical_low_discharge_date=_parse_date(data.get("nnqDatum")),
+        historical_low_water_level=as_float(data.get("nnw")),
+        historical_low_water_level_date=_parse_date(data.get("nnwDatum")),
         distance_km=distance_km,
     )
 
