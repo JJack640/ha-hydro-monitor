@@ -9,6 +9,7 @@ from custom_components.hydro_monitor.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from custom_components.hydro_monitor.models import (
+    HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
     HydroStation,
@@ -45,8 +46,20 @@ async def test_config_entry_diagnostics():
         minimum_30d=608.07,
         maximum_30d=608.18,
         sample_count=29,
-        low_water_class="extrem niedrig",
+        low_water_class="extremely_low",
+        low_water_class_raw="extrem niedrig",
         low_water_class_error=None,
+        boundaries=HydroLowWaterBoundaries(
+            classification_labels=("extremely_low", "very_low", "low", "no_low_water"),
+            open_ended=True,
+            static_thresholds=(20.3, 25.0, 33.4),
+            static_unit="m³/s",
+            static_error=None,
+            dynamic_thresholds=(24.3, 26.0, 33.6),
+            dynamic_unit="m³/s",
+            dynamic_reference_date=date(2026, 7, 15),
+            dynamic_error=None,
+        ),
     )
 
     coordinator = SimpleNamespace(
@@ -81,8 +94,25 @@ async def test_config_entry_diagnostics():
     assert diagnostics["observation"]["native_unit"] == "m. ü. NHN"
     assert diagnostics["observation"]["trend_state"] == "strong_falling"
     assert diagnostics["observation"]["is_stale"] is True
-    assert diagnostics["observation"]["low_water_class"] == "extrem niedrig"
+    assert diagnostics["observation"]["low_water_class"] == "extremely_low"
+    assert diagnostics["observation"]["low_water_class_raw"] == "extrem niedrig"
     assert diagnostics["observation"]["low_water_class_error"] is None
+
+    boundaries = diagnostics["observation"]["boundaries"]
+    assert boundaries["classification_labels"] == [
+        "extremely_low",
+        "very_low",
+        "low",
+        "no_low_water",
+    ]
+    assert boundaries["open_ended"] is True
+    assert boundaries["static_thresholds"] == [20.3, 25.0, 33.4]
+    assert boundaries["static_unit"] == "m³/s"
+    assert boundaries["static_error"] is None
+    assert boundaries["dynamic_thresholds"] == [24.3, 26.0, 33.6]
+    assert boundaries["dynamic_unit"] == "m³/s"
+    assert boundaries["dynamic_reference_date"] == "2026-07-15"
+    assert boundaries["dynamic_error"] is None
 
     # Station metadata
     assert diagnostics["station"]["latitude"] == 48.1

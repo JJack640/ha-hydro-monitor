@@ -25,6 +25,7 @@ from . import HydroMonitorConfigEntry
 from .const import DOMAIN, MEASUREMENT_STALE_AFTER
 from .coordinator import HydroMonitorCoordinator
 from .models import HydroMeasurementType, HydroObservation
+from .providers.niwis.const import LOW_WATER_CLASS_KEYS
 
 PARALLEL_UPDATES = 0
 
@@ -142,6 +143,40 @@ def _measurement_age_hours(
     )
 
 
+def _static_boundary(index: int) -> Callable[[HydroObservation], float | None]:
+    """Return a value_fn reading one static low-water threshold."""
+
+    def _value(observation: HydroObservation) -> float | None:
+        boundaries = observation.boundaries
+        if boundaries is None or boundaries.static_thresholds is None:
+            return None
+        return boundaries.static_thresholds[index]
+
+    return _value
+
+
+def _dynamic_boundary(index: int) -> Callable[[HydroObservation], float | None]:
+    """Return a value_fn reading one dynamic low-water threshold."""
+
+    def _value(observation: HydroObservation) -> float | None:
+        boundaries = observation.boundaries
+        if boundaries is None or boundaries.dynamic_thresholds is None:
+            return None
+        return boundaries.dynamic_thresholds[index]
+
+    return _value
+
+
+def _static_boundary_unit(observation: HydroObservation) -> str | None:
+    """Return the unit of the static low-water thresholds."""
+    return observation.boundaries.static_unit if observation.boundaries else None
+
+
+def _dynamic_boundary_unit(observation: HydroObservation) -> str | None:
+    """Return the unit of the dynamic low-water thresholds."""
+    return observation.boundaries.dynamic_unit if observation.boundaries else None
+
+
 @dataclass(frozen=True, kw_only=True)
 class HydroSensorEntityDescription(SensorEntityDescription):
     """Describe a Hydro Monitor sensor entity."""
@@ -220,8 +255,70 @@ SENSOR_DESCRIPTIONS = (
         translation_key="low_water_class",
         name=None,
         icon="mdi:water-alert-outline",
+        device_class=SensorDeviceClass.ENUM,
+        options=list(LOW_WATER_CLASS_KEYS),
         value_fn=lambda observation: observation.low_water_class,
         unit_fn=lambda observation: None,
+    ),
+    HydroSensorEntityDescription(
+        key="boundary_static_extremely_low",
+        translation_key="boundary_static_extremely_low",
+        name=None,
+        icon="mdi:ruler",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=_static_boundary(0),
+        unit_fn=_static_boundary_unit,
+    ),
+    HydroSensorEntityDescription(
+        key="boundary_static_very_low",
+        translation_key="boundary_static_very_low",
+        name=None,
+        icon="mdi:ruler",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=_static_boundary(1),
+        unit_fn=_static_boundary_unit,
+    ),
+    HydroSensorEntityDescription(
+        key="boundary_static_low",
+        translation_key="boundary_static_low",
+        name=None,
+        icon="mdi:ruler",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=_static_boundary(2),
+        unit_fn=_static_boundary_unit,
+    ),
+    HydroSensorEntityDescription(
+        key="boundary_dynamic_extremely_low",
+        translation_key="boundary_dynamic_extremely_low",
+        name=None,
+        icon="mdi:chart-line-variant",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=_dynamic_boundary(0),
+        unit_fn=_dynamic_boundary_unit,
+    ),
+    HydroSensorEntityDescription(
+        key="boundary_dynamic_very_low",
+        translation_key="boundary_dynamic_very_low",
+        name=None,
+        icon="mdi:chart-line-variant",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=_dynamic_boundary(1),
+        unit_fn=_dynamic_boundary_unit,
+    ),
+    HydroSensorEntityDescription(
+        key="boundary_dynamic_low",
+        translation_key="boundary_dynamic_low",
+        name=None,
+        icon="mdi:chart-line-variant",
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=False,
+        value_fn=_dynamic_boundary(2),
+        unit_fn=_dynamic_boundary_unit,
     ),
     HydroSensorEntityDescription(
         key="last_measurement",
@@ -611,7 +708,27 @@ class HydroObservationSensor(HydroBaseSensor):
             }
 
         if self.entity_description.key == "low_water_class":
-            return {"error": observation.low_water_class_error}
+            return {
+                "raw_value": observation.low_water_class_raw,
+                "error": observation.low_water_class_error,
+            }
+
+        if self.entity_description.key.startswith("boundary_static_"):
+            boundaries = observation.boundaries
+            return {
+                "error": boundaries.static_error if boundaries else None,
+            }
+
+        if self.entity_description.key.startswith("boundary_dynamic_"):
+            boundaries = observation.boundaries
+            return {
+                "error": boundaries.dynamic_error if boundaries else None,
+                "reference_date": (
+                    boundaries.dynamic_reference_date.isoformat()
+                    if boundaries and boundaries.dynamic_reference_date
+                    else None
+                ),
+            }
 
         if not self.entity_description.is_primary:
             return None

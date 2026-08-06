@@ -3,8 +3,11 @@
 from datetime import date
 from unittest.mock import MagicMock
 
+import pytest
+
 from custom_components.hydro_monitor.coordinator import HydroMonitorCoordinator
 from custom_components.hydro_monitor.models import (
+    HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
     HydroStation,
@@ -100,6 +103,7 @@ def test_low_water_class_sensor_exposes_official_error_message() -> None:
         unit="m. ü. NHN",
         observed_on=date(2026, 7, 15),
         low_water_class=None,
+        low_water_class_raw=None,
         low_water_class_error="Zu viele Fehlwerte im Referenzzeitraum",
     )
     coordinator.last_update_success = True
@@ -111,5 +115,87 @@ def test_low_water_class_sensor_exposes_official_error_message() -> None:
 
     assert sensor.native_value is None
     assert sensor.extra_state_attributes == {
-        "error": "Zu viele Fehlwerte im Referenzzeitraum"
+        "raw_value": None,
+        "error": "Zu viele Fehlwerte im Referenzzeitraum",
+    }
+
+
+def test_low_water_class_sensor_exposes_raw_value_for_unmapped_label() -> None:
+    """Test that an unrecognized NIWIS label is surfaced via raw_value."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.GROUNDWATER_LEVEL
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.GROUNDWATER_LEVEL,
+        value=608.07,
+        unit="m. ü. NHN",
+        observed_on=date(2026, 7, 15),
+        low_water_class=None,
+        low_water_class_raw="irgendwas",
+        low_water_class_error=None,
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("low_water_class"),
+    )
+
+    assert sensor.native_value is None
+    assert sensor.extra_state_attributes == {
+        "raw_value": "irgendwas",
+        "error": None,
+    }
+
+
+def test_static_boundary_sensor_exposes_error() -> None:
+    """Test that a static-boundary sensor surfaces its own error, not the 366-row array."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.GROUNDWATER_LEVEL
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.GROUNDWATER_LEVEL,
+        value=608.07,
+        unit="m. ü. NHN",
+        observed_on=date(2026, 7, 15),
+        boundaries=HydroLowWaterBoundaries(static_error="static down"),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("boundary_static_extremely_low"),
+    )
+
+    assert sensor.native_value is None
+    assert sensor.extra_state_attributes == {"error": "static down"}
+
+
+def test_dynamic_boundary_sensor_exposes_error_and_reference_date() -> None:
+    """Test that a dynamic-boundary sensor surfaces its error and reference date."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.GROUNDWATER_LEVEL
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.GROUNDWATER_LEVEL,
+        value=608.07,
+        unit="m. ü. NHN",
+        observed_on=date(2026, 7, 15),
+        boundaries=HydroLowWaterBoundaries(
+            dynamic_thresholds=(24.3, 26.0, 33.6),
+            dynamic_unit="m³/s",
+            dynamic_reference_date=date(2026, 7, 15),
+        ),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("boundary_dynamic_extremely_low"),
+    )
+
+    assert sensor.native_value == pytest.approx(24.3)
+    assert sensor.extra_state_attributes == {
+        "error": None,
+        "reference_date": "2026-07-15",
     }

@@ -71,6 +71,44 @@ def _trend_state(
     return "stable"
 
 
+def _boundaries_diagnostics(
+    observation: HydroObservation,
+) -> dict[str, Any] | None:
+    """Return diagnostics for the official low-water classification boundaries."""
+    boundaries = observation.boundaries
+
+    if boundaries is None:
+        return None
+
+    return {
+        "classification_labels": (
+            list(boundaries.classification_labels)
+            if boundaries.classification_labels is not None
+            else None
+        ),
+        "open_ended": boundaries.open_ended,
+        "static_thresholds": (
+            list(boundaries.static_thresholds)
+            if boundaries.static_thresholds is not None
+            else None
+        ),
+        "static_unit": boundaries.static_unit,
+        "static_error": boundaries.static_error,
+        "dynamic_thresholds": (
+            list(boundaries.dynamic_thresholds)
+            if boundaries.dynamic_thresholds is not None
+            else None
+        ),
+        "dynamic_unit": boundaries.dynamic_unit,
+        "dynamic_reference_date": (
+            boundaries.dynamic_reference_date.isoformat()
+            if boundaries.dynamic_reference_date is not None
+            else None
+        ),
+        "dynamic_error": boundaries.dynamic_error,
+    }
+
+
 async def async_get_config_entry_diagnostics(
     hass: HomeAssistant,
     entry: HydroMonitorConfigEntry,
@@ -161,7 +199,9 @@ async def async_get_config_entry_diagnostics(
                 "maximum_30d": observation.maximum_30d,
                 "sample_count": observation.sample_count,
                 "low_water_class": observation.low_water_class,
+                "low_water_class_raw": observation.low_water_class_raw,
                 "low_water_class_error": observation.low_water_class_error,
+                "boundaries": _boundaries_diagnostics(observation),
             }
             if observation is not None
             else None

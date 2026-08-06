@@ -1,15 +1,22 @@
 """Tests for the NIWIS data mapper."""
 
+import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
 from custom_components.hydro_monitor.models import HydroMeasurementType
 from custom_components.hydro_monitor.providers.niwis.mapper import (
+    day_of_year_index,
+    dynamic_low_water_boundaries_from_niwis,
     low_water_class_from_niwis,
     observation_from_niwis,
+    static_low_water_boundaries_from_niwis,
     station_from_niwis,
 )
+
+INVENTORY_DIR = Path(__file__).resolve().parent.parent / "niwis_inventory"
 
 
 def _observation(
@@ -315,7 +322,7 @@ def test_low_water_class_maps_normal_value() -> None:
         }
     )
 
-    assert result == ("extrem niedrig", None)
+    assert result == ("extremely_low", "extrem niedrig", None)
 
 
 def test_low_water_class_maps_second_observed_value() -> None:
@@ -329,11 +336,44 @@ def test_low_water_class_maps_second_observed_value() -> None:
         }
     )
 
-    assert result == ("Kein Niedrigwasser", None)
+    assert result == ("no_low_water", "Kein Niedrigwasser", None)
+
+
+def test_low_water_class_maps_case_insensitively() -> None:
+    """Test that label matching ignores case.
+
+    NIWIS is inconsistent about capitalization of "kein Niedrigwasser"
+    across its own endpoints (capital K in berechneEinzelwertKategorie
+    samples, lowercase k in classification-boundary samples).
+    """
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "kein niedrigwasser",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == ("no_low_water", "kein niedrigwasser", None)
+
+
+def test_low_water_class_unrecognized_label_preserves_raw_value() -> None:
+    """Test that an unmapped label is not discarded, only left unmapped."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "irgendwas",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, "irgendwas", None)
 
 
 def test_low_water_class_too_many_missing_values_without_error_message() -> None:
-    """Test that hatZuvieleFehlwerte alone suppresses the class."""
+    """Test that hatZuvieleFehlwerte suppresses the class but preserves the raw label."""
     result = low_water_class_from_niwis(
         {
             "einzelwert": "extrem niedrig",
@@ -343,7 +383,7 @@ def test_low_water_class_too_many_missing_values_without_error_message() -> None
         }
     )
 
-    assert result == (None, None)
+    assert result == (None, "extrem niedrig", None)
 
 
 def test_low_water_class_too_many_missing_values_with_error_message() -> None:
@@ -357,11 +397,11 @@ def test_low_water_class_too_many_missing_values_with_error_message() -> None:
         }
     )
 
-    assert result == (None, "Zu viele Fehlwerte im Referenzzeitraum")
+    assert result == (None, None, "Zu viele Fehlwerte im Referenzzeitraum")
 
 
 def test_low_water_class_error_message_takes_priority_over_value() -> None:
-    """Test that a present fehlermeldung suppresses an also-present einzelwert."""
+    """Test that a present fehlermeldung suppresses the mapped class but preserves the raw label."""
     result = low_water_class_from_niwis(
         {
             "einzelwert": "extrem niedrig",
@@ -371,7 +411,7 @@ def test_low_water_class_error_message_takes_priority_over_value() -> None:
         }
     )
 
-    assert result == (None, "Berechnung fehlgeschlagen")
+    assert result == (None, "extrem niedrig", "Berechnung fehlgeschlagen")
 
 
 def test_low_water_class_empty_value_is_ignored() -> None:
@@ -385,7 +425,7 @@ def test_low_water_class_empty_value_is_ignored() -> None:
         }
     )
 
-    assert result == (None, None)
+    assert result == (None, None, None)
 
 
 def test_low_water_class_missing_value_key_is_ignored() -> None:
@@ -398,10 +438,270 @@ def test_low_water_class_missing_value_key_is_ignored() -> None:
         }
     )
 
-    assert result == (None, None)
+    assert result == (None, None, None)
 
 
 @pytest.mark.parametrize("payload", [None, [], "oops", 42])
 def test_low_water_class_rejects_non_dict_input(payload: object) -> None:
     """Test that malformed non-dict responses are treated as no class."""
-    assert low_water_class_from_niwis(payload) == (None, None)
+    assert low_water_class_from_niwis(payload) == (None, None, None)
+
+
+@pytest.mark.parametrize(
+    ("reference_date", "expected_index"),
+    [
+        # Leap year: table row 60 = Feb 29, no adjustment needed anywhere.
+        (date(2024, 1, 1), 1),
+        (date(2024, 2, 28), 59),
+        (date(2024, 2, 29), 60),
+        (date(2024, 3, 1), 61),
+        (date(2024, 12, 31), 366),
+        # Non-leap year: dates on/after 1 March need +1 to skip the
+        # table's phantom Feb 29 row.
+        (date(2025, 1, 1), 1),
+        (date(2025, 2, 28), 59),
+        (date(2025, 3, 1), 61),
+        (date(2025, 12, 31), 366),
+    ],
+)
+def test_day_of_year_index(reference_date: date, expected_index: int) -> None:
+    """Test leap-year-aware alignment to NIWIS's fixed 366-row table."""
+    assert day_of_year_index(reference_date) == expected_index
+
+
+def test_static_boundaries_maps_real_fixture() -> None:
+    """Test mapping of a real captured static-boundaries response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneKlassifikationsgrenzeStatisch"
+            / "abfluss__abfluss_klassifikation_mit_statischen_grenzwerten.json"
+        ).read_text(encoding="utf-8")
+    )
+
+    boundaries = static_low_water_boundaries_from_niwis(data)
+
+    assert boundaries.classification_labels == (
+        "extremely_low",
+        "very_low",
+        "low",
+        "no_low_water",
+    )
+    assert boundaries.open_ended is True
+    assert boundaries.static_thresholds == pytest.approx((20.3, 25.0, 33.4))
+    assert boundaries.static_unit == "m³/s"
+    assert boundaries.static_error is None
+    assert boundaries.dynamic_thresholds is None
+
+
+def test_static_boundaries_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses thresholds but keeps labels."""
+    boundaries = static_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerte": [20.3, 25.0, 33.4],
+            "klassifikationen": [
+                "extrem niedrig",
+                "sehr niedrig",
+                "niedrig",
+                "kein Niedrigwasser",
+            ],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert boundaries.classification_labels == (
+        "extremely_low",
+        "very_low",
+        "low",
+        "no_low_water",
+    )
+    assert boundaries.static_thresholds is None
+    assert boundaries.static_error is None
+
+
+def test_static_boundaries_error_message() -> None:
+    """Test that a present fehlermeldung suppresses thresholds and is preserved."""
+    boundaries = static_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerte": [20.3, 25.0, 33.4],
+            "klassifikationen": [
+                "extrem niedrig",
+                "sehr niedrig",
+                "niedrig",
+                "kein Niedrigwasser",
+            ],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": "Berechnung fehlgeschlagen",
+        }
+    )
+
+    assert boundaries.static_thresholds is None
+    assert boundaries.static_error == "Berechnung fehlgeschlagen"
+
+
+def test_static_boundaries_unrecognized_labels() -> None:
+    """Test that an unexpected klassifikationen shape is rejected defensively.
+
+    This is also the guard against the dynamic endpoint's shared, 10-class
+    decile shape ever being misrouted into this classification parser.
+    """
+    boundaries = static_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerte": [1.0, 2.0, 3.0],
+            "klassifikationen": ["a", "b", "c", "d"],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert boundaries.classification_labels is None
+    assert boundaries.static_thresholds is None
+    assert boundaries.static_error == "unrecognized classification labels"
+
+
+def test_static_boundaries_malformed_thresholds() -> None:
+    """Test that a wrong-length schwellenwerte array is rejected."""
+    boundaries = static_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerte": [20.3, 25.0],
+            "klassifikationen": [
+                "extrem niedrig",
+                "sehr niedrig",
+                "niedrig",
+                "kein Niedrigwasser",
+            ],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert boundaries.classification_labels is not None
+    assert boundaries.static_thresholds is None
+    assert boundaries.static_error == "malformed schwellenwerte"
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_static_boundaries_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    boundaries = static_low_water_boundaries_from_niwis(payload)
+    assert boundaries.classification_labels is None
+    assert boundaries.static_thresholds is None
+    assert boundaries.static_error is None
+
+
+def test_dynamic_boundaries_maps_real_fixture() -> None:
+    """Test mapping of a real captured dynamic-boundaries response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneKlassifikationsgrenzeDynamisch"
+            / "abfluss__abfluss_klassifikation_mit_variablen_grenzwerten.json"
+        ).read_text(encoding="utf-8")
+    )
+    reference_date = date(2026, 1, 15)
+    expected_row = data["schwellenwerteProTag"][day_of_year_index(reference_date) - 1]
+
+    boundaries = dynamic_low_water_boundaries_from_niwis(data, reference_date)
+
+    assert boundaries.classification_labels == (
+        "extremely_low",
+        "very_low",
+        "low",
+        "no_low_water",
+    )
+    assert boundaries.dynamic_thresholds == pytest.approx(tuple(expected_row))
+    assert boundaries.dynamic_unit == "m³/s"
+    assert boundaries.dynamic_reference_date == reference_date
+    assert boundaries.dynamic_error is None
+    assert boundaries.static_thresholds is None
+
+
+def test_dynamic_boundaries_missing_row_table() -> None:
+    """Test that a wrong-length schwellenwerteProTag is rejected."""
+    boundaries = dynamic_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerteProTag": [[1.0, 2.0, 3.0]] * 10,
+            "klassifikationen": [
+                "extrem niedrig",
+                "sehr niedrig",
+                "niedrig",
+                "kein Niedrigwasser",
+            ],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        },
+        date(2026, 1, 15),
+    )
+
+    assert boundaries.classification_labels is not None
+    assert boundaries.dynamic_thresholds is None
+    assert boundaries.dynamic_error == "missing per-day threshold row"
+
+
+def test_dynamic_boundaries_malformed_row() -> None:
+    """Test that a row with the wrong number of thresholds is rejected."""
+    boundaries = dynamic_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerteProTag": [[1.0, 2.0]] * 366,
+            "klassifikationen": [
+                "extrem niedrig",
+                "sehr niedrig",
+                "niedrig",
+                "kein Niedrigwasser",
+            ],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        },
+        date(2026, 1, 15),
+    )
+
+    assert boundaries.dynamic_thresholds is None
+    assert boundaries.dynamic_error == "malformed schwellenwerteProTag row"
+
+
+def test_dynamic_boundaries_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses thresholds but keeps labels."""
+    boundaries = dynamic_low_water_boundaries_from_niwis(
+        {
+            "schwellenwerteProTag": [[1.0, 2.0, 3.0]] * 366,
+            "klassifikationen": [
+                "extrem niedrig",
+                "sehr niedrig",
+                "niedrig",
+                "kein Niedrigwasser",
+            ],
+            "einheit": "m³/s",
+            "beidseitigOffeneSchwellenwerte": True,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        },
+        date(2026, 1, 15),
+    )
+
+    assert boundaries.classification_labels is not None
+    assert boundaries.dynamic_thresholds is None
+    assert boundaries.dynamic_error is None
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_dynamic_boundaries_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    boundaries = dynamic_low_water_boundaries_from_niwis(payload, date(2026, 1, 15))
+    assert boundaries.classification_labels is None
+    assert boundaries.dynamic_thresholds is None
+    assert boundaries.dynamic_error is None

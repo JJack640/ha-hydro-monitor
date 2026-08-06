@@ -9,8 +9,12 @@ from homeassistant.helpers.entity import EntityCategory
 
 from custom_components.hydro_monitor import sensor as sensor_module
 from custom_components.hydro_monitor.models import (
+    HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
+)
+from custom_components.hydro_monitor.providers.niwis.const import (
+    LOW_WATER_CLASS_KEYS,
 )
 from custom_components.hydro_monitor.sensor import (
     SENSOR_DESCRIPTIONS,
@@ -32,6 +36,7 @@ def _observation(
     maximum_30d: float | None = 608.18,
     low_water_class: str | None = None,
     low_water_class_error: str | None = None,
+    boundaries: HydroLowWaterBoundaries | None = None,
 ) -> HydroObservation:
     """Create a Hydro Monitor observation for sensor tests."""
     return HydroObservation(
@@ -46,6 +51,7 @@ def _observation(
         sample_count=29,
         low_water_class=low_water_class,
         low_water_class_error=low_water_class_error,
+        boundaries=boundaries,
     )
 
 
@@ -181,22 +187,86 @@ def test_statistics_descriptions() -> None:
 def test_low_water_class_description() -> None:
     """Test the official low-water classification sensor description.
 
-    It is intentionally a plain string sensor, not SensorDeviceClass.ENUM:
-    the full domain of NIWIS category labels is not yet known, so declaring
-    a fixed options list would be dishonest (see docs/niwis_reference.md
-    §7.16 item 5).
+    The full domain of NIWIS category labels was confirmed (via the
+    classification-boundary endpoints) to be a fixed 4-value scheme, so
+    this is a proper SensorDeviceClass.ENUM sensor with a stable options
+    list, mirroring the water_level_trend pattern.
     """
     description = _description("low_water_class")
 
     assert description.translation_key == "low_water_class"
-    assert description.device_class is None
-    assert description.options is None
+    assert description.device_class is SensorDeviceClass.ENUM
+    assert description.options == list(LOW_WATER_CLASS_KEYS)
     assert description.entity_category is None
 
-    observation = _observation(low_water_class="extrem niedrig")
-    assert description.value_fn(observation) == "extrem niedrig"
+    observation = _observation(low_water_class="extremely_low")
+    assert description.value_fn(observation) == "extremely_low"
     assert description.unit_fn(observation) is None
     assert description.value_fn(_observation()) is None
+
+
+@pytest.mark.parametrize(
+    ("key", "index"),
+    [
+        ("boundary_static_extremely_low", 0),
+        ("boundary_static_very_low", 1),
+        ("boundary_static_low", 2),
+    ],
+)
+def test_static_boundary_descriptions(key: str, index: int) -> None:
+    """Test the static low-water boundary sensor descriptions."""
+    description = _description(key)
+
+    assert description.translation_key == key
+    assert description.entity_registry_enabled_default is False
+    assert description.entity_category is None
+
+    boundaries = HydroLowWaterBoundaries(
+        static_thresholds=(20.3, 25.0, 33.4),
+        static_unit="m³/s",
+    )
+    observation = _observation(boundaries=boundaries)
+    assert description.value_fn(observation) == pytest.approx(
+        (20.3, 25.0, 33.4)[index]
+    )
+    assert description.unit_fn(observation) == "m³/s"
+
+    # None-safe when boundaries are missing entirely or lack thresholds.
+    assert description.value_fn(_observation()) is None
+    assert description.value_fn(_observation(boundaries=HydroLowWaterBoundaries())) is None
+    assert description.unit_fn(_observation()) is None
+
+
+@pytest.mark.parametrize(
+    ("key", "index"),
+    [
+        ("boundary_dynamic_extremely_low", 0),
+        ("boundary_dynamic_very_low", 1),
+        ("boundary_dynamic_low", 2),
+    ],
+)
+def test_dynamic_boundary_descriptions(key: str, index: int) -> None:
+    """Test the dynamic low-water boundary sensor descriptions."""
+    description = _description(key)
+
+    assert description.translation_key == key
+    assert description.entity_registry_enabled_default is False
+    assert description.entity_category is None
+
+    boundaries = HydroLowWaterBoundaries(
+        dynamic_thresholds=(24.3, 26.0, 33.6),
+        dynamic_unit="m³/s",
+    )
+    observation = _observation(boundaries=boundaries)
+    assert description.value_fn(observation) == pytest.approx(
+        (24.3, 26.0, 33.6)[index]
+    )
+    assert description.unit_fn(observation) == "m³/s"
+
+    # None-safe when boundaries are missing entirely or lack thresholds.
+    assert description.value_fn(_observation()) is None
+    assert description.value_fn(_observation(boundaries=HydroLowWaterBoundaries())) is None
+    assert description.unit_fn(_observation()) is None
 
 
 def test_measurement_datetime_from_date() -> None:

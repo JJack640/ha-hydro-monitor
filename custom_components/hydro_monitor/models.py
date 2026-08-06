@@ -62,6 +62,31 @@ class HydroStation:
 
 
 @dataclass(frozen=True, slots=True)
+class HydroLowWaterBoundaries:
+    """Represent official NIWIS low-water classification boundaries.
+
+    Static and dynamic boundaries are fetched, cached and can fail
+    independently, hence the separate static_*/dynamic_* halves.
+    classification_labels/open_ended are shared metadata sourced from
+    whichever half succeeded (preferring static); NIWIS returns identical
+    values for both endpoints in every observed sample, but this is not
+    guaranteed by documentation.
+    """
+
+    classification_labels: tuple[str, ...] | None = None
+    open_ended: bool | None = None  # NIWIS beidseitigOffeneSchwellenwerte
+
+    static_thresholds: tuple[float, ...] | None = None
+    static_unit: str | None = None
+    static_error: str | None = None
+
+    dynamic_thresholds: tuple[float, ...] | None = None
+    dynamic_unit: str | None = None
+    dynamic_reference_date: date | None = None
+    dynamic_error: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class HydroObservation:
     """Represent a processed hydrological observation."""
 
@@ -81,7 +106,13 @@ class HydroObservation:
     sample_count: int = 0
 
     low_water_class: str | None = None
+    # The raw NIWIS label as received (e.g. "extrem niedrig"), preserved
+    # even when the mapped low_water_class key is suppressed. See ADR-005
+    # in docs/niwis_reference.md ("preserve unknown values").
+    low_water_class_raw: str | None = None
     # Preserves either NIWIS's official `fehlermeldung`, or (if the
     # classification request itself failed at the transport level) a local
     # description of that failure. See providers/niwis/mapper.py.
     low_water_class_error: str | None = None
+
+    boundaries: HydroLowWaterBoundaries | None = None

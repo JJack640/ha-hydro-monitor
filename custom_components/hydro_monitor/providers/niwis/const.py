@@ -12,3 +12,20 @@ HYDRO_TO_NIWIS_LOW_WATER_CLASS_QUANTITY={"discharge":"Abfluss Niedrigwasserklass
 DERIVED_YEAR_DEFINITION="KALENDERJAHR"
 DERIVED_REFERENCE_START_YEAR=1991
 DERIVED_REFERENCE_END_YEAR=2020
+
+# Shared vocabulary for the official NIWIS low-water classification scheme,
+# used both by the current-day classification (berechneEinzelwertKategorie)
+# and the classification-boundary endpoints. NIWIS is inconsistent about
+# capitalization of "kein Niedrigwasser" across endpoints, so lookups must
+# casefold the raw label before indexing this dict.
+LOW_WATER_CLASS_LABEL_TO_KEY={"extrem niedrig":"extremely_low","sehr niedrig":"very_low","niedrig":"low","kein niedrigwasser":"no_low_water"}
+LOW_WATER_CLASS_KEYS=tuple(LOW_WATER_CLASS_LABEL_TO_KEY.values())
+
+DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC="berechneKlassifikationsgrenzeStatisch"
+DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC="berechneKlassifikationsgrenzeDynamisch"
+HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY={"discharge":"Abfluss Klassifikation mit statischen Grenzwerten","water_level":"Wasserstand Klassifikation mit statischen Grenzwerten","groundwater_level":"Grundwasserstand Klassifikation mit statischen Grenzwerten","spring_discharge":"Quellschüttung Klassifikation mit statischen Grenzwerten"}
+# berechneKlassifikationsgrenzeDynamisch is SHARED/OVERLOADED: it also serves
+# "... Dezile tageweise" (deciles, 10-class, Sprint 5 — out of scope). Only
+# ever request the quantity names below; a future deciles constant must be
+# a SEPARATE dict, never merged into this one.
+HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY={"discharge":"Abfluss Klassifikation mit variablen Grenzwerten","water_level":"Wasserstand Klassifikation mit variablen Grenzwerten","groundwater_level":"Grundwasserstand Klassifikation mit variablen Grenzwerten","spring_discharge":"Quellschüttung Klassifikation mit variablen Grenzwerten"}

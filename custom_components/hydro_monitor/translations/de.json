@@ -60,7 +60,31 @@
         "name": "30-Tage-Tief"
       },
       "low_water_class": {
-        "name": "Niedrigwasserklasse"
+        "name": "Niedrigwasserklasse",
+        "state": {
+          "extremely_low": "Extrem niedrig",
+          "very_low": "Sehr niedrig",
+          "low": "Niedrig",
+          "no_low_water": "Kein Niedrigwasser"
+        }
+      },
+      "boundary_static_extremely_low": {
+        "name": "Statische Grenze: extrem niedrig"
+      },
+      "boundary_static_very_low": {
+        "name": "Statische Grenze: sehr niedrig"
+      },
+      "boundary_static_low": {
+        "name": "Statische Grenze: niedrig"
+      },
+      "boundary_dynamic_extremely_low": {
+        "name": "Variable Grenze: extrem niedrig"
+      },
+      "boundary_dynamic_very_low": {
+        "name": "Variable Grenze: sehr niedrig"
+      },
+      "boundary_dynamic_low": {
+        "name": "Variable Grenze: niedrig"
       },
       "last_measurement": {
         "name": "Letzte Messung"
