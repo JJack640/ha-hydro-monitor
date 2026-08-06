@@ -216,6 +216,14 @@ SENSOR_DESCRIPTIONS = (
         unit_fn=lambda observation: observation.unit,
     ),
     HydroSensorEntityDescription(
+        key="low_water_class",
+        translation_key="low_water_class",
+        name=None,
+        icon="mdi:water-alert-outline",
+        value_fn=lambda observation: observation.low_water_class,
+        unit_fn=lambda observation: None,
+    ),
+    HydroSensorEntityDescription(
         key="last_measurement",
         translation_key="last_measurement",
         name=None,
@@ -601,6 +609,9 @@ class HydroObservationSensor(HydroBaseSensor):
                 "stale": (age_hours is not None and age_hours >= stale_after_hours),
                 "stale_after_hours": stale_after_hours,
             }
+
+        if self.entity_description.key == "low_water_class":
+            return {"error": observation.low_water_class_error}
 
         if not self.entity_description.is_primary:
             return None

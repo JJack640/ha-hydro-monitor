@@ -15,6 +15,13 @@ from custom_components.hydro_monitor.sensor import (
 )
 
 
+def _description(key: str):
+    """Return one sensor description by key."""
+    return next(
+        description for description in SENSOR_DESCRIPTIONS if description.key == key
+    )
+
+
 def _observation() -> HydroObservation:
     """Create a representative observation."""
     return HydroObservation(
@@ -80,3 +87,29 @@ def test_primary_sensor_extra_state_attributes() -> None:
     assert attributes["quality_flag"] == "A"
     assert attributes["sample_count"] == 29
     assert attributes["observed_on"] == "2026-07-15"
+
+
+def test_low_water_class_sensor_exposes_official_error_message() -> None:
+    """Test that the low-water class sensor surfaces NIWIS's error message."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.GROUNDWATER_LEVEL
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.GROUNDWATER_LEVEL,
+        value=608.07,
+        unit="m. ü. NHN",
+        observed_on=date(2026, 7, 15),
+        low_water_class=None,
+        low_water_class_error="Zu viele Fehlwerte im Referenzzeitraum",
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("low_water_class"),
+    )
+
+    assert sensor.native_value is None
+    assert sensor.extra_state_attributes == {
+        "error": "Zu viele Fehlwerte im Referenzzeitraum"
+    }

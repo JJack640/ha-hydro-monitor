@@ -59,6 +59,9 @@
       "low_30_days": {
         "name": "30-day low"
       },
+      "low_water_class": {
+        "name": "Low-water class"
+      },
       "last_measurement": {
         "name": "Last measurement"
       },

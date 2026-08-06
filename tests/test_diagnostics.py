@@ -45,6 +45,8 @@ async def test_config_entry_diagnostics():
         minimum_30d=608.07,
         maximum_30d=608.18,
         sample_count=29,
+        low_water_class="extrem niedrig",
+        low_water_class_error=None,
     )
 
     coordinator = SimpleNamespace(
@@ -79,6 +81,8 @@ async def test_config_entry_diagnostics():
     assert diagnostics["observation"]["native_unit"] == "m. ü. NHN"
     assert diagnostics["observation"]["trend_state"] == "strong_falling"
     assert diagnostics["observation"]["is_stale"] is True
+    assert diagnostics["observation"]["low_water_class"] == "extrem niedrig"
+    assert diagnostics["observation"]["low_water_class_error"] is None
 
     # Station metadata
     assert diagnostics["station"]["latitude"] == 48.1

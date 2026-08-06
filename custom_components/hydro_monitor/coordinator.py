@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from dataclasses import replace
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -10,8 +11,19 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 from .const import DEFAULT_UPDATE_INTERVAL
 from .models import HydroMeasurementType, HydroObservation, HydroStation
 from .providers.niwis.api import NiwisClient, NiwisError
-from .providers.niwis.const import HYDRO_TO_NIWIS_ENDPOINT
-from .providers.niwis.mapper import observation_from_niwis, station_from_niwis
+from .providers.niwis.const import (
+    DERIVED_ENDPOINT_LOW_WATER_CLASS,
+    DERIVED_REFERENCE_END_YEAR,
+    DERIVED_REFERENCE_START_YEAR,
+    DERIVED_YEAR_DEFINITION,
+    HYDRO_TO_NIWIS_ENDPOINT,
+    HYDRO_TO_NIWIS_LOW_WATER_CLASS_QUANTITY,
+)
+from .providers.niwis.mapper import (
+    low_water_class_from_niwis,
+    observation_from_niwis,
+    station_from_niwis,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -46,9 +58,37 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         except NiwisError as err:
             raise UpdateFailed(str(err)) from err
 
-        return observation_from_niwis(
-            self.measurement_type,
-            series,
+        observation = observation_from_niwis(self.measurement_type, series)
+
+        try:
+            classification = await self.client.async_get_derived_result(
+                DERIVED_ENDPOINT_LOW_WATER_CLASS,
+                {
+                    "abgeleiteteGroesse": HYDRO_TO_NIWIS_LOW_WATER_CLASS_QUANTITY[
+                        self.measurement_type.value
+                    ],
+                    "messstelleNr": self.station.station_id,
+                    "jahresdefinition": DERIVED_YEAR_DEFINITION,
+                    "startJahr": str(DERIVED_REFERENCE_START_YEAR),
+                    "endJahr": str(DERIVED_REFERENCE_END_YEAR),
+                },
+            )
+        except NiwisError as err:
+            _LOGGER.warning(
+                "Could not fetch NIWIS low-water class for %s (%s): %s",
+                self.station.station_id,
+                self.measurement_type.value,
+                err,
+            )
+            return replace(observation, low_water_class_error=str(err))
+
+        low_water_class, low_water_class_error = low_water_class_from_niwis(
+            classification
+        )
+        return replace(
+            observation,
+            low_water_class=low_water_class,
+            low_water_class_error=low_water_class_error,
         )
 
 

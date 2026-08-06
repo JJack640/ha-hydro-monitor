@@ -160,6 +160,8 @@ async def async_get_config_entry_diagnostics(
                 "minimum_30d": observation.minimum_30d,
                 "maximum_30d": observation.maximum_30d,
                 "sample_count": observation.sample_count,
+                "low_water_class": observation.low_water_class,
+                "low_water_class_error": observation.low_water_class_error,
             }
             if observation is not None
             else None

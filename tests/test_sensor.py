@@ -30,6 +30,8 @@ def _observation(
     change_7d: float | None = -0.02,
     minimum_30d: float | None = 608.07,
     maximum_30d: float | None = 608.18,
+    low_water_class: str | None = None,
+    low_water_class_error: str | None = None,
 ) -> HydroObservation:
     """Create a Hydro Monitor observation for sensor tests."""
     return HydroObservation(
@@ -42,6 +44,8 @@ def _observation(
         minimum_30d=minimum_30d,
         maximum_30d=maximum_30d,
         sample_count=29,
+        low_water_class=low_water_class,
+        low_water_class_error=low_water_class_error,
     )
 
 
@@ -172,6 +176,27 @@ def test_statistics_descriptions() -> None:
 
     assert high.unit_fn(observation) == "m. ü. NHN"
     assert low.unit_fn(observation) == "m. ü. NHN"
+
+
+def test_low_water_class_description() -> None:
+    """Test the official low-water classification sensor description.
+
+    It is intentionally a plain string sensor, not SensorDeviceClass.ENUM:
+    the full domain of NIWIS category labels is not yet known, so declaring
+    a fixed options list would be dishonest (see docs/niwis_reference.md
+    §7.16 item 5).
+    """
+    description = _description("low_water_class")
+
+    assert description.translation_key == "low_water_class"
+    assert description.device_class is None
+    assert description.options is None
+    assert description.entity_category is None
+
+    observation = _observation(low_water_class="extrem niedrig")
+    assert description.value_fn(observation) == "extrem niedrig"
+    assert description.unit_fn(observation) is None
+    assert description.value_fn(_observation()) is None
 
 
 def test_measurement_datetime_from_date() -> None:

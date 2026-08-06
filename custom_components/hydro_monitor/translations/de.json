@@ -59,6 +59,9 @@
       "low_30_days": {
         "name": "30-Tage-Tief"
       },
+      "low_water_class": {
+        "name": "Niedrigwasserklasse"
+      },
       "last_measurement": {
         "name": "Letzte Messung"
       },

@@ -82,6 +82,29 @@ def station_from_niwis(
     )
 
 
+def low_water_class_from_niwis(data: Any) -> tuple[str | None, str | None]:
+    """Map a berechneEinzelwertKategorie result to (class, error).
+
+    hatZuvieleFehlwerte or a non-empty fehlermeldung take priority over any
+    co-present einzelwert (no observed sample has both set; treat as an
+    unverified-but-conservative assumption, revisit if seen).
+    """
+    if not isinstance(data, dict):
+        return None, None
+
+    raw_error = data.get("fehlermeldung")
+    error = raw_error if isinstance(raw_error, str) and raw_error.strip() else None
+
+    if error is not None or data.get("hatZuvieleFehlwerte"):
+        return None, error
+
+    value = data.get("einzelwert")
+    if not isinstance(value, str) or not value.strip():
+        return None, error
+
+    return value, error
+
+
 def observation_from_niwis(
     measurement_type: HydroMeasurementType,
     series: list[dict[str, Any]],

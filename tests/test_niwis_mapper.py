@@ -6,6 +6,7 @@ import pytest
 
 from custom_components.hydro_monitor.models import HydroMeasurementType
 from custom_components.hydro_monitor.providers.niwis.mapper import (
+    low_water_class_from_niwis,
     observation_from_niwis,
     station_from_niwis,
 )
@@ -301,3 +302,106 @@ def test_station_invalid_historical_dates_are_ignored() -> None:
     assert station.historical_low_discharge_date is None
     assert station.historical_low_water_level == pytest.approx(123.4)
     assert station.historical_low_water_level_date is None
+
+
+def test_low_water_class_maps_normal_value() -> None:
+    """Test mapping of a normal low-water classification result."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "extrem niedrig",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == ("extrem niedrig", None)
+
+
+def test_low_water_class_maps_second_observed_value() -> None:
+    """Test mapping of the other real-world observed category label."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "Kein Niedrigwasser",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == ("Kein Niedrigwasser", None)
+
+
+def test_low_water_class_too_many_missing_values_without_error_message() -> None:
+    """Test that hatZuvieleFehlwerte alone suppresses the class."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "extrem niedrig",
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, None)
+
+
+def test_low_water_class_too_many_missing_values_with_error_message() -> None:
+    """Test that hatZuvieleFehlwerte together with fehlermeldung preserves the error."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": None,
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": "Zu viele Fehlwerte im Referenzzeitraum",
+        }
+    )
+
+    assert result == (None, "Zu viele Fehlwerte im Referenzzeitraum")
+
+
+def test_low_water_class_error_message_takes_priority_over_value() -> None:
+    """Test that a present fehlermeldung suppresses an also-present einzelwert."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "extrem niedrig",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": "Berechnung fehlgeschlagen",
+        }
+    )
+
+    assert result == (None, "Berechnung fehlgeschlagen")
+
+
+def test_low_water_class_empty_value_is_ignored() -> None:
+    """Test that an empty einzelwert string is treated as no class."""
+    result = low_water_class_from_niwis(
+        {
+            "einzelwert": "",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, None)
+
+
+def test_low_water_class_missing_value_key_is_ignored() -> None:
+    """Test that a missing einzelwert key is treated as no class."""
+    result = low_water_class_from_niwis(
+        {
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, None)
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_low_water_class_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses are treated as no class."""
+    assert low_water_class_from_niwis(payload) == (None, None)

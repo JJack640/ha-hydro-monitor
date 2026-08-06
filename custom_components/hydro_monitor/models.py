@@ -79,3 +79,9 @@ class HydroObservation:
     maximum_30d: float | None = None
 
     sample_count: int = 0
+
+    low_water_class: str | None = None
+    # Preserves either NIWIS's official `fehlermeldung`, or (if the
+    # classification request itself failed at the transport level) a local
+    # description of that failure. See providers/niwis/mapper.py.
+    low_water_class_error: str | None = None
