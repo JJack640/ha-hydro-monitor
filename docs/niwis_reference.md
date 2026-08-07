@@ -3096,6 +3096,21 @@ applications include:
 Hydro Monitor intentionally avoids assuming a precise definition until it has
 been confirmed through observed payloads or official documentation.
 
+**Status: blocked, deferred (live-verified 2026-08-07).** The response is not
+station-specific: it returns `niedrigwassertageWinterhalbjahrProFlussgebiet` /
+`niedrigwassertageSommerhalbjahrProFlussgebiet` (35-year time series per German
+river basin — Rhein, Donau, Elbe, Weser, Oder, Ems, Maas, Eider, Schlei/Trave,
+Warnow/Peene, `startJahr` 1991) plus a `faktorenProFlussgebiet` weighting
+factor per basin. Calling the endpoint with a real `messstelleNr` and without
+one at all returns numerically identical data, confirming the station
+parameter has no effect. Station metadata as captured by Hydro Monitor has no
+river-basin ("Flussgebiet") field — only individual waterbody names (e.g.
+"Amper") — so there is no reliable way to attribute a configured station to
+one of the ten basins above. Exposing this as a per-station sensor would
+therefore be misleading: two stations in different basins would show
+identical numbers. Re-attempt only if NIWIS adds a station-to-basin mapping,
+or a trustworthy external river→basin lookup becomes available.
+
 ---
 
 ## 8.4 Monthly mean deviations
@@ -3123,6 +3138,20 @@ Before implementation the following aspects require verification:
 - aggregation interval;
 - sign convention;
 - update frequency.
+
+**Status: blocked, deferred (live-verified 2026-08-07).** Only advertised for
+`GRUNDWASSER` (groundwater). The response is two flat annual arrays
+(`ueberschreitungen`/`unterschreitungen`, exceedances/undershoots against the
+monthly mean, percentages, from `startJahr` 1992) with no per-station
+breakdown at all. As with the low-water-days endpoint above, calling it with
+a real `messstelleNr` and without one returns numerically identical data —
+this is a single nationwide aggregate across all German groundwater
+monitoring wells, not a per-station value. Exposing it as a sensor on an
+individual groundwater station's device would misrepresent it as
+station-specific data it is not. Re-attempt only if NIWIS starts accepting a
+station parameter that actually changes the result, or documents this as an
+intentionally nationwide indicator suitable for a separate, station-independent
+entity.
 
 ---
 
