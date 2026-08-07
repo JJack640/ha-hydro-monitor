@@ -8,8 +8,10 @@ import pytest
 
 from custom_components.hydro_monitor.models import HydroMeasurementType
 from custom_components.hydro_monitor.providers.niwis.mapper import (
+    as_float,
     day_of_year_index,
     dynamic_low_water_boundaries_from_niwis,
+    historical_statistic_from_niwis,
     low_water_class_from_niwis,
     observation_from_niwis,
     official_development_7d_from_niwis,
@@ -795,3 +797,102 @@ def test_official_development_7d_missing_value_key_is_ignored() -> None:
 def test_official_development_7d_rejects_non_dict_input(payload: object) -> None:
     """Test that malformed non-dict responses are treated as no value."""
     assert official_development_7d_from_niwis(payload) == (None, None, None)
+
+
+def test_as_float_rejects_nan_string() -> None:
+    """Test that the literal NIWIS 'NaN' placeholder is rejected."""
+    assert as_float("NaN") is None
+
+
+def test_as_float_rejects_float_nan() -> None:
+    """Test that a real NaN float is rejected, not silently passed through."""
+    assert as_float(float("nan")) is None
+
+
+def test_historical_statistic_maps_normal_value() -> None:
+    """Test mapping of a normal numeric historical-statistic result."""
+    stat = historical_statistic_from_niwis(
+        {
+            "einzelwert": 46.41388,
+            "einheit": "m³/s",
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert stat.value == pytest.approx(46.41388)
+    assert stat.unit == "m³/s"
+    assert stat.error is None
+
+
+def test_historical_statistic_too_many_missing_values_without_error_message() -> None:
+    """Test that hatZuvieleFehlwerte suppresses the value."""
+    stat = historical_statistic_from_niwis(
+        {
+            "einzelwert": 46.41388,
+            "einheit": "m³/s",
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert stat.value is None
+    assert stat.unit == "m³/s"
+    assert stat.error is None
+
+
+def test_historical_statistic_too_many_missing_values_with_error_message() -> None:
+    """Test that hatZuvieleFehlwerte together with fehlermeldung preserves the error."""
+    stat = historical_statistic_from_niwis(
+        {
+            "einzelwert": None,
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": "Zu viele Fehlwerte im Referenzzeitraum",
+        }
+    )
+
+    assert stat.value is None
+    assert stat.error == "Zu viele Fehlwerte im Referenzzeitraum"
+
+
+def test_historical_statistic_error_message_takes_priority_over_value() -> None:
+    """Test that a present fehlermeldung suppresses an also-present einzelwert."""
+    stat = historical_statistic_from_niwis(
+        {
+            "einzelwert": 46.41388,
+            "einheit": "m³/s",
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": "Berechnung fehlgeschlagen",
+        }
+    )
+
+    assert stat.value is None
+    assert stat.error == "Berechnung fehlgeschlagen"
+
+
+def test_historical_statistic_rejects_nan_value() -> None:
+    """Test the real-world NIWIS shape where einzelwert is the string 'NaN'.
+
+    Based on niwis_inventory/derived_results/berechneEinzelwertNummer/
+    wasserstand__tage_unter_glwrnwbwu_aktueller_tag.json.
+    """
+    stat = historical_statistic_from_niwis(
+        {
+            "einzelwert": "NaN",
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert stat.value is None
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_historical_statistic_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    stat = historical_statistic_from_niwis(payload)
+    assert stat.value is None
+    assert stat.unit is None
+    assert stat.error is None

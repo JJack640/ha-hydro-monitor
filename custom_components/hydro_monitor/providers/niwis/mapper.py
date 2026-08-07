@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import calendar
+import math
 from datetime import date, timedelta
 from typing import Any
 
 from ...models import (
+    HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
@@ -16,11 +18,19 @@ from .const import LOW_WATER_CLASS_KEYS, LOW_WATER_CLASS_LABEL_TO_KEY, NIWIS_TO_
 
 
 def as_float(value: Any) -> float | None:
-    """Convert a NIWIS value to float."""
+    """Convert a NIWIS value to float, rejecting NaN.
+
+    Python's float("NaN") succeeds and produces a real nan float rather
+    than raising -- silently allowing that through would eventually surface
+    as a NaN sensor state, breaking Home Assistant's state machine and
+    long-term statistics. NIWIS is confirmed to return the literal string
+    "NaN" for einzelwert on poor-quality derived results.
+    """
     try:
-        return float(str(value).replace(",", "."))
+        result = float(str(value).replace(",", "."))
     except (TypeError, ValueError):
         return None
+    return None if math.isnan(result) else result
 
 
 def _parse_date(value: Any) -> date | None:
@@ -165,6 +175,38 @@ def official_development_7d_from_niwis(
         return None, None, error
 
     return raw_label, raw_label, error
+
+
+def _single_numeric_result_from_niwis(
+    data: Any,
+) -> tuple[float | None, str | None, str | None]:
+    """Map a berechneEinzelwertNummer envelope's common fields.
+
+    Returns (value, unit, error). Same fehlermeldung/hatZuvieleFehlwerte
+    suppression-priority as _single_category_result_from_niwis; einzelwert
+    goes through as_float() (rejects NaN, including the literal "NaN"
+    string NIWIS returns on poor data quality). Kept separate from
+    _single_category_result_from_niwis: same field names, different
+    einzelwert type/NaN-handling, and einheit is meaningful here but not
+    there.
+    """
+    if not isinstance(data, dict):
+        return None, None, None
+
+    raw_error = data.get("fehlermeldung")
+    error = raw_error if isinstance(raw_error, str) and raw_error.strip() else None
+    unit = data.get("einheit") if isinstance(data.get("einheit"), str) else None
+
+    if error is not None or bool(data.get("hatZuvieleFehlwerte")):
+        return None, unit, error
+
+    return as_float(data.get("einzelwert")), unit, error
+
+
+def historical_statistic_from_niwis(data: Any) -> HydroDerivedValue:
+    """Map one berechneEinzelwertNummer result (MQ/MNQ/NM7Q/NM30Q/MW/MNW)."""
+    value, unit, error = _single_numeric_result_from_niwis(data)
+    return HydroDerivedValue(value=value, unit=unit, error=error)
 
 
 def day_of_year_index(reference_date: date) -> int:

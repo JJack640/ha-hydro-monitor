@@ -25,7 +25,7 @@ from . import HydroMonitorConfigEntry
 from .const import DOMAIN, MEASUREMENT_STALE_AFTER
 from .coordinator import HydroMonitorCoordinator
 from .models import HydroMeasurementType, HydroObservation
-from .providers.niwis.const import LOW_WATER_CLASS_KEYS
+from .providers.niwis.const import HISTORICAL_STATISTIC_NIWIS_NAMES, LOW_WATER_CLASS_KEYS
 
 PARALLEL_UPDATES = 0
 
@@ -175,6 +175,29 @@ def _static_boundary_unit(observation: HydroObservation) -> str | None:
 def _dynamic_boundary_unit(observation: HydroObservation) -> str | None:
     """Return the unit of the dynamic low-water thresholds."""
     return observation.boundaries.dynamic_unit if observation.boundaries else None
+
+
+def _historical_statistic(key: str) -> Callable[[HydroObservation], float | None]:
+    """Return a value_fn reading one historical-statistic quantity."""
+
+    def _value(observation: HydroObservation) -> float | None:
+        stat = getattr(observation, key)
+        return stat.value if stat is not None else None
+
+    return _value
+
+
+def _historical_statistic_unit(key: str) -> Callable[[HydroObservation], str | None]:
+    """Return a unit_fn reading one historical-statistic quantity's unit."""
+
+    def _unit(observation: HydroObservation) -> str | None:
+        stat = getattr(observation, key)
+        return stat.unit if stat is not None else None
+
+    return _unit
+
+
+HISTORICAL_STATISTIC_KEYS: Final = frozenset(HISTORICAL_STATISTIC_NIWIS_NAMES)
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -327,6 +350,72 @@ SENSOR_DESCRIPTIONS = (
         entity_registry_enabled_default=False,
         value_fn=_dynamic_boundary(2),
         unit_fn=_dynamic_boundary_unit,
+    ),
+    HydroSensorEntityDescription(
+        key="mq",
+        translation_key="mq",
+        name=None,
+        icon="mdi:chart-timeline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("mq"),
+        unit_fn=_historical_statistic_unit("mq"),
+    ),
+    HydroSensorEntityDescription(
+        key="mnq",
+        translation_key="mnq",
+        name=None,
+        icon="mdi:water-minus-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("mnq"),
+        unit_fn=_historical_statistic_unit("mnq"),
+    ),
+    HydroSensorEntityDescription(
+        key="nm7q",
+        translation_key="nm7q",
+        name=None,
+        icon="mdi:calendar-week",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("nm7q"),
+        unit_fn=_historical_statistic_unit("nm7q"),
+    ),
+    HydroSensorEntityDescription(
+        key="nm30q",
+        translation_key="nm30q",
+        name=None,
+        icon="mdi:calendar-range",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("nm30q"),
+        unit_fn=_historical_statistic_unit("nm30q"),
+    ),
+    HydroSensorEntityDescription(
+        key="mw",
+        translation_key="mw",
+        name=None,
+        icon="mdi:chart-timeline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("mw"),
+        unit_fn=_historical_statistic_unit("mw"),
+    ),
+    HydroSensorEntityDescription(
+        key="mnw",
+        translation_key="mnw",
+        name=None,
+        icon="mdi:water-minus-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("mnw"),
+        unit_fn=_historical_statistic_unit("mnw"),
     ),
     HydroSensorEntityDescription(
         key="last_measurement",
@@ -743,6 +832,10 @@ class HydroObservationSensor(HydroBaseSensor):
                     else None
                 ),
             }
+
+        if self.entity_description.key in HISTORICAL_STATISTIC_KEYS:
+            stat = getattr(observation, self.entity_description.key)
+            return {"error": stat.error if stat is not None else None}
 
         if not self.entity_description.is_primary:
             return None

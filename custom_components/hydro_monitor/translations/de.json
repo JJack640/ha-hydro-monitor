@@ -89,6 +89,24 @@
       "boundary_dynamic_low": {
         "name": "Variable Grenze: niedrig"
       },
+      "mq": {
+        "name": "Mittlerer Abfluss (MQ)"
+      },
+      "mnq": {
+        "name": "Mittlerer Niedrigwasserabfluss (MNQ)"
+      },
+      "nm7q": {
+        "name": "Niedrigster 7-Tage-Mittelabfluss (NM7Q)"
+      },
+      "nm30q": {
+        "name": "Niedrigster 30-Tage-Mittelabfluss (NM30Q)"
+      },
+      "mw": {
+        "name": "Mittlerer Wasserstand (MW)"
+      },
+      "mnw": {
+        "name": "Mittlerer Niedrigwasserstand (MNW)"
+      },
       "last_measurement": {
         "name": "Letzte Messung"
       },

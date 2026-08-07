@@ -87,6 +87,21 @@ class HydroLowWaterBoundaries:
 
 
 @dataclass(frozen=True, slots=True)
+class HydroDerivedValue:
+    """Represent one numeric derived-quantity result from a provider.
+
+    A minimal, deliberately trimmed instance of the HydroDerivedValue
+    concept sketched in docs/ARCHITECTURE.md §4 -- source/reference_period/
+    observed_on/quality are omitted since HydroReferencePeriod/HydroQuality
+    don't exist yet and would be premature to build for one sprint.
+    """
+
+    value: float | None = None
+    unit: str | None = None
+    error: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class HydroObservation:
     """Represent a processed hydrological observation."""
 
@@ -126,3 +141,14 @@ class HydroObservation:
     official_development_7d: str | None = None
     official_development_7d_raw: str | None = None
     official_development_7d_error: str | None = None
+
+    # Official NIWIS historical statistics (berechneEinzelwertNummer).
+    # MQ/MNQ/NM7Q/NM30Q are discharge-only; MW/MNW are their water_level
+    # equivalents (mean / mean-low value). None for groundwater_level and
+    # spring_discharge, which have no entries in this endpoint family.
+    mq: HydroDerivedValue | None = None
+    mnq: HydroDerivedValue | None = None
+    nm7q: HydroDerivedValue | None = None
+    nm30q: HydroDerivedValue | None = None
+    mw: HydroDerivedValue | None = None
+    mnw: HydroDerivedValue | None = None

@@ -9,6 +9,7 @@ from homeassistant.helpers.entity import EntityCategory
 
 from custom_components.hydro_monitor import sensor as sensor_module
 from custom_components.hydro_monitor.models import (
+    HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
@@ -40,6 +41,12 @@ def _observation(
     official_development_7d: str | None = None,
     official_development_7d_raw: str | None = None,
     official_development_7d_error: str | None = None,
+    mq: HydroDerivedValue | None = None,
+    mnq: HydroDerivedValue | None = None,
+    nm7q: HydroDerivedValue | None = None,
+    nm30q: HydroDerivedValue | None = None,
+    mw: HydroDerivedValue | None = None,
+    mnw: HydroDerivedValue | None = None,
 ) -> HydroObservation:
     """Create a Hydro Monitor observation for sensor tests."""
     return HydroObservation(
@@ -58,6 +65,12 @@ def _observation(
         official_development_7d=official_development_7d,
         official_development_7d_raw=official_development_7d_raw,
         official_development_7d_error=official_development_7d_error,
+        mq=mq,
+        mnq=mnq,
+        nm7q=nm7q,
+        nm30q=nm30q,
+        mw=mw,
+        mnw=mnw,
     )
 
 
@@ -293,6 +306,26 @@ def test_dynamic_boundary_descriptions(key: str, index: int) -> None:
     # None-safe when boundaries are missing entirely or lack thresholds.
     assert description.value_fn(_observation()) is None
     assert description.value_fn(_observation(boundaries=HydroLowWaterBoundaries())) is None
+    assert description.unit_fn(_observation()) is None
+
+
+@pytest.mark.parametrize("key", ["mq", "mnq", "nm7q", "nm30q", "mw", "mnw"])
+def test_historical_statistic_descriptions(key: str) -> None:
+    """Test the official historical-statistic sensor descriptions."""
+    description = _description(key)
+
+    assert description.translation_key == key
+    assert description.entity_registry_enabled_default is False
+    assert description.entity_category is None
+    assert description.state_class == SensorStateClass.MEASUREMENT
+
+    stat = HydroDerivedValue(value=46.41388, unit="m³/s", error=None)
+    observation = _observation(**{key: stat})
+    assert description.value_fn(observation) == pytest.approx(46.41388)
+    assert description.unit_fn(observation) == "m³/s"
+
+    # None-safe when the quantity is absent (e.g. unsupported measurement type).
+    assert description.value_fn(_observation()) is None
     assert description.unit_fn(_observation()) is None
 
 

@@ -36,3 +36,31 @@ HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY={"discharge":"Abfluss Klass
 # period is required (unlike every other derived quantity above).
 HYDRO_TO_NIWIS_OFFICIAL_DEVELOPMENT_7D_QUANTITY={"discharge":"Abfluss Entwicklung letzte 7 Tage","water_level":"Wasserstand Entwicklung letzte 7 Tage"}
 OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES=frozenset({"discharge","water_level"})
+
+DERIVED_ENDPOINT_HISTORICAL_STATISTICS="berechneEinzelwertNummer"
+# SHARED/OVERLOADED (same caveat as the boundaries-dynamic endpoint): also
+# serves NQ, median_q_statisch, sumd/sumv_zeitfenster, nw, and
+# median_w_bezogen_auf_referenzzeitraum — none in scope this sprint.
+
+# MQ/MNQ/NM7Q/NM30Q are discharge-only; MW/MNW are their water_level
+# equivalents (mean / mean-low value). No catalog entry exists at all for
+# groundwater_level or spring_discharge in this endpoint family. Unlike the
+# dicts above, these abgeleiteteGroesse values are fixed literals that do
+# not vary by measurement type, so there is nothing to look up per type —
+# only applicability to gate.
+HISTORICAL_STATISTIC_NIWIS_NAMES={"mq":"MQ","mnq":"MNQ","nm7q":"NM7Q","nm30q":"NM30Q","mw":"MW","mnw":"MNW"}
+HISTORICAL_STATISTIC_MEASUREMENT_TYPES={"mq":frozenset({"discharge"}),"mnq":frozenset({"discharge"}),"nm7q":frozenset({"discharge"}),"nm30q":frozenset({"discharge"}),"mw":frozenset({"water_level"}),"mnw":frozenset({"water_level"})}
+
+# NM7Q/NM30Q use benoetigtZeitintervall (von/bis) instead of a reference
+# period. LIVE-VERIFIED against the real API (2026-08-07): a bare 7-day
+# interval for NM7Q returns hatZuvieleFehlwerte=true (einzelwert "NaN") --
+# NIWIS apparently needs a wider analysis window than the statistic's own
+# name suggests to compute it (likely searching for the lowest N-day mean
+# *within* the requested interval, not treating the interval as the window
+# itself). A flat 30-day interval succeeds for BOTH NM7Q and NM30Q
+# (confirmed via direct API calls), matching tools/niwis_discovery.py's
+# original probing approach -- which this project's own Sprint 4 planning
+# had initially (incorrectly) dismissed as a probing-script artifact. Not
+# user-configurable in Sprint 4.
+HISTORICAL_STATISTIC_INTERVAL_QUANTITIES=frozenset({"nm7q","nm30q"})
+HISTORICAL_STATISTIC_INTERVAL_DAYS=30

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import replace
-from datetime import date
+from datetime import date, timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -11,6 +11,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .const import DEFAULT_UPDATE_INTERVAL
 from .models import (
+    HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
@@ -18,12 +19,17 @@ from .models import (
 )
 from .providers.niwis.api import NiwisClient, NiwisError
 from .providers.niwis.const import (
+    DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC,
     DERIVED_ENDPOINT_LOW_WATER_CLASS,
     DERIVED_REFERENCE_END_YEAR,
     DERIVED_REFERENCE_START_YEAR,
     DERIVED_YEAR_DEFINITION,
+    HISTORICAL_STATISTIC_INTERVAL_DAYS,
+    HISTORICAL_STATISTIC_INTERVAL_QUANTITIES,
+    HISTORICAL_STATISTIC_MEASUREMENT_TYPES,
+    HISTORICAL_STATISTIC_NIWIS_NAMES,
     HYDRO_TO_NIWIS_ENDPOINT,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY,
@@ -33,6 +39,7 @@ from .providers.niwis.const import (
 )
 from .providers.niwis.mapper import (
     dynamic_low_water_boundaries_from_niwis,
+    historical_statistic_from_niwis,
     low_water_class_from_niwis,
     observation_from_niwis,
     official_development_7d_from_niwis,
@@ -73,6 +80,17 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
             "jahresdefinition": DERIVED_YEAR_DEFINITION,
             "startJahr": str(DERIVED_REFERENCE_START_YEAR),
             "endJahr": str(DERIVED_REFERENCE_END_YEAR),
+        }
+
+    def _interval_params(
+        self, quantity: str, start: date, end: date
+    ) -> dict[str, str]:
+        """Return request params for interval-based (von/bis) derived quantities."""
+        return {
+            "abgeleiteteGroesse": quantity,
+            "messstelleNr": self.station.station_id,
+            "von": start.isoformat(),
+            "bis": end.isoformat(),
         }
 
     async def _async_update_data(self) -> HydroObservation:
@@ -149,6 +167,8 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
                     official_development_7d_error=official_development_7d_error,
                 )
 
+        observation = await self._async_fetch_historical_statistics(observation)
+
         static_boundaries = await self._async_fetch_static_boundaries()
         dynamic_boundaries = await self._async_fetch_dynamic_boundaries_cached()
 
@@ -170,6 +190,55 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         )
 
         return replace(observation, boundaries=boundaries)
+
+    async def _async_fetch_historical_statistics(
+        self, observation: HydroObservation
+    ) -> HydroObservation:
+        """Fetch MQ/MNQ/NM7Q/NM30Q/MW/MNW where applicable for this station.
+
+        Each quantity is fetched and can fail independently, mirroring
+        every other derived-quantity fetch in this coordinator: a failure
+        never raises UpdateFailed, it only sets that quantity's own
+        HydroDerivedValue.error and leaves value=None.
+        """
+        today = date.today()
+        updates: dict[str, HydroDerivedValue] = {}
+
+        for key, niwis_name in HISTORICAL_STATISTIC_NIWIS_NAMES.items():
+            if (
+                self.measurement_type.value
+                not in HISTORICAL_STATISTIC_MEASUREMENT_TYPES[key]
+            ):
+                continue
+
+            params = (
+                self._interval_params(
+                    niwis_name,
+                    today - timedelta(days=HISTORICAL_STATISTIC_INTERVAL_DAYS),
+                    today,
+                )
+                if key in HISTORICAL_STATISTIC_INTERVAL_QUANTITIES
+                else self._reference_period_params(niwis_name)
+            )
+
+            try:
+                data = await self.client.async_get_derived_result(
+                    DERIVED_ENDPOINT_HISTORICAL_STATISTICS, params
+                )
+            except NiwisError as err:
+                _LOGGER.warning(
+                    "Could not fetch NIWIS %s for %s (%s): %s",
+                    niwis_name,
+                    self.station.station_id,
+                    self.measurement_type.value,
+                    err,
+                )
+                updates[key] = HydroDerivedValue(error=str(err))
+                continue
+
+            updates[key] = historical_statistic_from_niwis(data)
+
+        return replace(observation, **updates)
 
     async def _async_fetch_static_boundaries(self) -> HydroLowWaterBoundaries:
         """Fetch the official static low-water classification boundaries."""

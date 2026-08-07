@@ -89,6 +89,24 @@
       "boundary_dynamic_low": {
         "name": "Dynamic boundary: low"
       },
+      "mq": {
+        "name": "Mean discharge (MQ)"
+      },
+      "mnq": {
+        "name": "Mean low discharge (MNQ)"
+      },
+      "nm7q": {
+        "name": "Lowest 7-day mean discharge (NM7Q)"
+      },
+      "nm30q": {
+        "name": "Lowest 30-day mean discharge (NM30Q)"
+      },
+      "mw": {
+        "name": "Mean water level (MW)"
+      },
+      "mnw": {
+        "name": "Mean low water level (MNW)"
+      },
       "last_measurement": {
         "name": "Last measurement"
       },

@@ -7,6 +7,7 @@ import pytest
 
 from custom_components.hydro_monitor.coordinator import HydroMonitorCoordinator
 from custom_components.hydro_monitor.models import (
+    HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
@@ -254,3 +255,51 @@ def test_dynamic_boundary_sensor_exposes_error_and_reference_date() -> None:
         "error": None,
         "reference_date": "2026-07-15",
     }
+
+
+@pytest.mark.parametrize("key", ["mq", "mnq", "nm7q", "nm30q", "mw", "mnw"])
+def test_historical_statistic_sensor_exposes_error(key: str) -> None:
+    """Test that a historical-statistic sensor surfaces its own error."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+        **{key: HydroDerivedValue(error="mq down")},
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    assert sensor.native_value is None
+    assert sensor.extra_state_attributes == {"error": "mq down"}
+
+
+@pytest.mark.parametrize("key", ["mq", "mnq", "nm7q", "nm30q", "mw", "mnw"])
+def test_historical_statistic_sensor_reports_value(key: str) -> None:
+    """Test that a historical-statistic sensor reports its numeric value."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+        **{key: HydroDerivedValue(value=46.41388, unit="m³/s", error=None)},
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    assert sensor.native_value == pytest.approx(46.41388)
+    assert sensor.extra_state_attributes == {"error": None}

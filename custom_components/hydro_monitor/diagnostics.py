@@ -10,7 +10,7 @@ from homeassistant.util import dt as dt_util
 
 from . import HydroMonitorConfigEntry
 from .const import MEASUREMENT_STALE_AFTER
-from .models import HydroObservation
+from .models import HydroDerivedValue, HydroObservation
 
 
 def _observation_datetime(
@@ -107,6 +107,16 @@ def _boundaries_diagnostics(
         ),
         "dynamic_error": boundaries.dynamic_error,
     }
+
+
+def _historical_statistic_diagnostics(
+    stat: HydroDerivedValue | None,
+) -> dict[str, Any] | None:
+    """Return diagnostics for one historical-statistics quantity."""
+    if stat is None:
+        return None
+
+    return {"value": stat.value, "unit": stat.unit, "error": stat.error}
 
 
 async def async_get_config_entry_diagnostics(
@@ -207,6 +217,14 @@ async def async_get_config_entry_diagnostics(
                     observation.official_development_7d_error
                 ),
                 "boundaries": _boundaries_diagnostics(observation),
+                "historical_statistics": {
+                    "mq": _historical_statistic_diagnostics(observation.mq),
+                    "mnq": _historical_statistic_diagnostics(observation.mnq),
+                    "nm7q": _historical_statistic_diagnostics(observation.nm7q),
+                    "nm30q": _historical_statistic_diagnostics(observation.nm30q),
+                    "mw": _historical_statistic_diagnostics(observation.mw),
+                    "mnw": _historical_statistic_diagnostics(observation.mnw),
+                },
             }
             if observation is not None
             else None

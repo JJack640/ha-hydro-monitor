@@ -9,6 +9,7 @@ from custom_components.hydro_monitor.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from custom_components.hydro_monitor.models import (
+    HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
@@ -63,6 +64,12 @@ async def test_config_entry_diagnostics():
             dynamic_reference_date=date(2026, 7, 15),
             dynamic_error=None,
         ),
+        mq=HydroDerivedValue(value=46.41388, unit="m³/s", error=None),
+        mnq=HydroDerivedValue(value=25.013334, unit="m³/s", error=None),
+        nm7q=HydroDerivedValue(value=15.257143, unit="m³/s", error=None),
+        nm30q=HydroDerivedValue(value=17.503448, unit="m³/s", error=None),
+        mw=HydroDerivedValue(value=88.48911, unit="cm", error=None),
+        mnw=HydroDerivedValue(value=49.866665, unit="cm", error=None),
     )
 
     coordinator = SimpleNamespace(
@@ -119,6 +126,38 @@ async def test_config_entry_diagnostics():
     assert boundaries["dynamic_unit"] == "m³/s"
     assert boundaries["dynamic_reference_date"] == "2026-07-15"
     assert boundaries["dynamic_error"] is None
+
+    historical_statistics = diagnostics["observation"]["historical_statistics"]
+    assert historical_statistics["mq"] == {
+        "value": pytest.approx(46.41388),
+        "unit": "m³/s",
+        "error": None,
+    }
+    assert historical_statistics["mnq"] == {
+        "value": pytest.approx(25.013334),
+        "unit": "m³/s",
+        "error": None,
+    }
+    assert historical_statistics["nm7q"] == {
+        "value": pytest.approx(15.257143),
+        "unit": "m³/s",
+        "error": None,
+    }
+    assert historical_statistics["nm30q"] == {
+        "value": pytest.approx(17.503448),
+        "unit": "m³/s",
+        "error": None,
+    }
+    assert historical_statistics["mw"] == {
+        "value": pytest.approx(88.48911),
+        "unit": "cm",
+        "error": None,
+    }
+    assert historical_statistics["mnw"] == {
+        "value": pytest.approx(49.866665),
+        "unit": "cm",
+        "error": None,
+    }
 
     # Station metadata
     assert diagnostics["station"]["latitude"] == 48.1
