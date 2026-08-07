@@ -30,12 +30,13 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 > Hydro Monitor is currently under active development. NIWIS is the first supported provider.
 
 > [!NOTE]
-> **Current status:** Feature-complete Alpha (`v0.3.0-alpha2`) – recommended for testing and feedback.
+> **Current status:** Feature-complete Alpha (`v0.3.0-alpha4`) – recommended for testing and feedback.
 
 ## Features
 
 - Native Home Assistant integration
 - Automatic station discovery based on your Home Assistant location
+- Manual station search by name, across all stations nationwide
 - Groundwater level monitoring
 - Water level monitoring
 - River discharge monitoring
@@ -46,6 +47,11 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 - 30-day minimum and maximum sensors
 - Last observation timestamp
 - Measurement age sensor
+- Official NIWIS low-water classification (enum)
+- Official NIWIS static and dynamic low-water classification boundaries
+- Official NIWIS decile boundaries (P0-P100) for discharge and water level
+- Official NIWIS 7-day development assessment for discharge and water level
+- Official NIWIS historical statistics: MQ, MNQ, NM7Q, NM30Q (discharge), MW, MNW (water level)
 - Built-in diagnostics download
 - Home Assistant System Health support
 - English and German translations
@@ -58,7 +64,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-**Current release:** `v0.3.0-alpha2`
+**Current release:** `v0.3.0-alpha4`
 
 Hydro Monitor currently supports the NIWIS public hydrological data service.
 
@@ -112,6 +118,21 @@ After installation:
 | 30-day maximum | Highest value during the last 30 days |
 | Last observation | Timestamp of the latest observation |
 | Measurement age | Hours since the latest observation |
+| Low-water class | NIWIS's own current low-water classification |
+| Official 7-day development | NIWIS's own assessment of the last 7 days (discharge, water level) |
+
+The following sensors are official NIWIS-calculated statistics. They are
+disabled by default (enable them individually in the entity list) to keep
+the default device page focused on everyday values:
+
+| Sensor | Description |
+|---------|-------------|
+| Static low-water boundaries | Fixed classification thresholds (extremely low / very low / low) |
+| Dynamic low-water boundaries | Day-of-year-adjusted classification thresholds |
+| Decile boundaries (P0-P100) | 11-point decile distribution (discharge, water level) |
+| MQ / MNQ | Mean discharge / mean low discharge |
+| NM7Q / NM30Q | Lowest 7-day / 30-day mean discharge |
+| MW / MNW | Mean water level / mean low water level |
 
 ## Diagnostics
 
