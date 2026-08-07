@@ -49,6 +49,9 @@ async def test_config_entry_diagnostics():
         low_water_class="extremely_low",
         low_water_class_raw="extrem niedrig",
         low_water_class_error=None,
+        official_development_7d="gleichbleibend",
+        official_development_7d_raw="gleichbleibend",
+        official_development_7d_error=None,
         boundaries=HydroLowWaterBoundaries(
             classification_labels=("extremely_low", "very_low", "low", "no_low_water"),
             open_ended=True,
@@ -97,6 +100,9 @@ async def test_config_entry_diagnostics():
     assert diagnostics["observation"]["low_water_class"] == "extremely_low"
     assert diagnostics["observation"]["low_water_class_raw"] == "extrem niedrig"
     assert diagnostics["observation"]["low_water_class_error"] is None
+    assert diagnostics["observation"]["official_development_7d"] == "gleichbleibend"
+    assert diagnostics["observation"]["official_development_7d_raw"] == "gleichbleibend"
+    assert diagnostics["observation"]["official_development_7d_error"] is None
 
     boundaries = diagnostics["observation"]["boundaries"]
     assert boundaries["classification_labels"] == [

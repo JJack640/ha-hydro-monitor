@@ -261,6 +261,14 @@ SENSOR_DESCRIPTIONS = (
         unit_fn=lambda observation: None,
     ),
     HydroSensorEntityDescription(
+        key="official_development_7d",
+        translation_key="official_development_7d",
+        name=None,
+        icon="mdi:water-check-outline",
+        value_fn=lambda observation: observation.official_development_7d,
+        unit_fn=lambda observation: None,
+    ),
+    HydroSensorEntityDescription(
         key="boundary_static_extremely_low",
         translation_key="boundary_static_extremely_low",
         name=None,
@@ -711,6 +719,12 @@ class HydroObservationSensor(HydroBaseSensor):
             return {
                 "raw_value": observation.low_water_class_raw,
                 "error": observation.low_water_class_error,
+            }
+
+        if self.entity_description.key == "official_development_7d":
+            return {
+                "raw_value": observation.official_development_7d_raw,
+                "error": observation.official_development_7d_error,
             }
 
         if self.entity_description.key.startswith("boundary_static_"):

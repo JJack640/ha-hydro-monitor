@@ -29,3 +29,10 @@ HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY={"discharge":"Abfluss Klassi
 # ever request the quantity names below; a future deciles constant must be
 # a SEPARATE dict, never merged into this one.
 HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY={"discharge":"Abfluss Klassifikation mit variablen Grenzwerten","water_level":"Wasserstand Klassifikation mit variablen Grenzwerten","groundwater_level":"Grundwasserstand Klassifikation mit variablen Grenzwerten","spring_discharge":"Quellschüttung Klassifikation mit variablen Grenzwerten"}
+
+# Also serves the unrelated "Entwicklung letzte 7 Tage" quantity (Sprint 3)
+# — same endpoint, distinguished only by abgeleiteteGroesse. Only discharge
+# and water_level have a catalog entry for this quantity; no reference
+# period is required (unlike every other derived quantity above).
+HYDRO_TO_NIWIS_OFFICIAL_DEVELOPMENT_7D_QUANTITY={"discharge":"Abfluss Entwicklung letzte 7 Tage","water_level":"Wasserstand Entwicklung letzte 7 Tage"}
+OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES=frozenset({"discharge","water_level"})

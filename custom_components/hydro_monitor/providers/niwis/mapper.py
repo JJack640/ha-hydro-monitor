@@ -97,6 +97,31 @@ def _low_water_class_key(label: str) -> str | None:
     return LOW_WATER_CLASS_LABEL_TO_KEY.get(label.strip().casefold())
 
 
+def _single_category_result_from_niwis(
+    data: Any,
+) -> tuple[str | None, str | None, bool]:
+    """Map a berechneEinzelwertKategorie envelope's common fields.
+
+    Returns (raw_label, error, suppressed). suppressed is True when NIWIS
+    flagged hatZuvieleFehlwerte or returned a non-empty fehlermeldung --
+    callers should treat their mapped/authoritative value as unavailable in
+    that case, while still exposing the raw label and error for
+    transparency. Shared by every quantity served through this endpoint's
+    einzelwert/fehlermeldung/hatZuvieleFehlwerte envelope.
+    """
+    if not isinstance(data, dict):
+        return None, None, False
+
+    raw_error = data.get("fehlermeldung")
+    error = raw_error if isinstance(raw_error, str) and raw_error.strip() else None
+
+    raw_value = data.get("einzelwert")
+    raw_label = raw_value if isinstance(raw_value, str) and raw_value.strip() else None
+
+    suppressed = error is not None or bool(data.get("hatZuvieleFehlwerte"))
+    return raw_label, error, suppressed
+
+
 def low_water_class_from_niwis(
     data: Any,
 ) -> tuple[str | None, str | None, str | None]:
@@ -109,22 +134,37 @@ def low_water_class_from_niwis(
     mapped class is suppressed, so nothing NIWIS returned is silently
     discarded.
     """
-    if not isinstance(data, dict):
-        return None, None, None
+    raw_label, error, suppressed = _single_category_result_from_niwis(data)
 
-    raw_error = data.get("fehlermeldung")
-    error = raw_error if isinstance(raw_error, str) and raw_error.strip() else None
-
-    raw_value = data.get("einzelwert")
-    raw_label = raw_value if isinstance(raw_value, str) and raw_value.strip() else None
-
-    if error is not None or data.get("hatZuvieleFehlwerte"):
+    if suppressed:
         return None, raw_label, error
 
     if raw_label is None:
         return None, None, error
 
     return _low_water_class_key(raw_label), raw_label, error
+
+
+def official_development_7d_from_niwis(
+    data: Any,
+) -> tuple[str | None, str | None, str | None]:
+    """Map a berechneEinzelwertKategorie 'Entwicklung letzte 7 Tage' result.
+
+    Same envelope and priority rules as low_water_class_from_niwis, but no
+    label-to-key mapping is applied yet: NIWIS's development-direction
+    vocabulary is unconfirmed (only "gleichbleibend" observed so far), so
+    the value is exposed as-is (raw label == value). See ADR-005 in
+    docs/niwis_reference.md ("preserve unknown values").
+    """
+    raw_label, error, suppressed = _single_category_result_from_niwis(data)
+
+    if suppressed:
+        return None, raw_label, error
+
+    if raw_label is None:
+        return None, None, error
+
+    return raw_label, raw_label, error
 
 
 def day_of_year_index(reference_date: date) -> int:

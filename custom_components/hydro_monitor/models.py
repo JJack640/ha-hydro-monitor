@@ -116,3 +116,13 @@ class HydroObservation:
     low_water_class_error: str | None = None
 
     boundaries: HydroLowWaterBoundaries | None = None
+
+    # Official NIWIS "development over the last 7 days" (Abfluss/Wasserstand
+    # only). Distinct from the locally-calculated change_7d/trend_state
+    # above: this is NIWIS's own categorical assessment, not a Hydro
+    # Monitor computation. The vocabulary is unconfirmed (only
+    # "gleichbleibend" observed so far), so the value is the raw NIWIS
+    # label, not a mapped key.
+    official_development_7d: str | None = None
+    official_development_7d_raw: str | None = None
+    official_development_7d_error: str | None = None

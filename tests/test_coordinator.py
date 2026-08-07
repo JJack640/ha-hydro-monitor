@@ -43,6 +43,18 @@ def _classification_response(**overrides: object) -> dict[str, object]:
     return response
 
 
+def _official_development_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS 'Entwicklung letzte 7 Tage' response."""
+    response: dict[str, object] = {
+        "einzelwert": "gleichbleibend",
+        "einheit": None,
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
 def _classification_labels() -> list[str]:
     """Return the official 4-value low-water classification scheme."""
     return ["extrem niedrig", "sehr niedrig", "niedrig", "kein Niedrigwasser"]
@@ -79,15 +91,23 @@ def _dynamic_boundaries_response(**overrides: object) -> dict[str, object]:
 def _routed_client(
     *,
     classification: object = None,
+    official_development: object = None,
     static: object = None,
     dynamic: object = None,
 ) -> AsyncMock:
-    """Build a client whose async_get_derived_result routes by endpoint."""
+    """Build a client whose async_get_derived_result routes by quantity.
+
+    DERIVED_ENDPOINT_LOW_WATER_CLASS is shared by two different quantities
+    (low-water classification and, since Sprint 3, the official 7-day
+    development) — routed by whether "Entwicklung" appears in the
+    requested abgeleiteteGroesse, which holds regardless of measurement
+    type. The two boundary endpoints are still routed by endpoint alone
+    since each only ever serves one quantity family in this codebase.
+    """
     client = AsyncMock()
     client.async_get_series.return_value = _series()
 
-    responses = {
-        DERIVED_ENDPOINT_LOW_WATER_CLASS: classification or _classification_response(),
+    by_endpoint = {
         DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC: (
             static or _static_boundaries_response()
         ),
@@ -97,7 +117,14 @@ def _routed_client(
     }
 
     async def _async_get_derived_result(endpoint: str, params: dict[str, str]) -> object:
-        result = responses[endpoint]
+        if endpoint == DERIVED_ENDPOINT_LOW_WATER_CLASS:
+            if "Entwicklung" in params["abgeleiteteGroesse"]:
+                result = official_development or _official_development_response()
+            else:
+                result = classification or _classification_response()
+        else:
+            result = by_endpoint[endpoint]
+
         if isinstance(result, Exception):
             raise result
         return result
@@ -106,11 +133,14 @@ def _routed_client(
     return client
 
 
-def _coordinator(client: AsyncMock) -> HydroMonitorCoordinator:
+def _coordinator(
+    client: AsyncMock,
+    measurement_type: HydroMeasurementType = HydroMeasurementType.DISCHARGE,
+) -> HydroMonitorCoordinator:
     """Build a coordinator instance without running __init__."""
     coordinator = HydroMonitorCoordinator.__new__(HydroMonitorCoordinator)
     coordinator.station = _station()
-    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.measurement_type = measurement_type
     coordinator.client = client
     coordinator._dynamic_boundaries = None
     coordinator._dynamic_boundaries_date = None
@@ -319,3 +349,71 @@ async def test_update_requests_expected_dynamic_boundary_parameters() -> None:
             "endJahr": "2020",
         },
     )
+
+
+@pytest.mark.asyncio
+async def test_update_merges_official_development_7d_on_success() -> None:
+    """Test that a successful development-7d call is merged into the observation."""
+    observation = await _coordinator(_routed_client())._async_update_data()
+
+    assert observation.official_development_7d == "gleichbleibend"
+    assert observation.official_development_7d_raw == "gleichbleibend"
+    assert observation.official_development_7d_error is None
+
+
+@pytest.mark.asyncio
+async def test_update_survives_official_development_7d_failure() -> None:
+    """Test that a failed development-7d call does not fail the whole update."""
+    client = _routed_client(
+        official_development=NiwisConnectionError("development down")
+    )
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.official_development_7d is None
+    assert observation.official_development_7d_error == "development down"
+    # Low-water class is unaffected by the development-7d failure.
+    assert observation.low_water_class == "extremely_low"
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_official_development_7d_parameters() -> None:
+    """Test that no reference-period params are sent (benoetigtReferenzzeitraum=false)."""
+    client = _routed_client()
+
+    await _coordinator(client)._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_LOW_WATER_CLASS,
+        {
+            "abgeleiteteGroesse": "Abfluss Entwicklung letzte 7 Tage",
+            "messstelleNr": "DESM_DEBY16607001",
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "measurement_type",
+    [HydroMeasurementType.GROUNDWATER_LEVEL, HydroMeasurementType.SPRING_DISCHARGE],
+)
+@pytest.mark.asyncio
+async def test_official_development_7d_not_fetched_for_unsupported_types(
+    measurement_type: HydroMeasurementType,
+) -> None:
+    """Test that groundwater/spring-discharge coordinators skip this quantity.
+
+    No catalog entry exists for these measurement types (only discharge and
+    water_level support "Entwicklung letzte 7 Tage"), so the fetch must be
+    skipped entirely rather than attempted and failing on a KeyError.
+    """
+    client = _routed_client()
+
+    observation = await _coordinator(client, measurement_type)._async_update_data()
+
+    assert observation.official_development_7d is None
+    assert observation.official_development_7d_error is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_CLASS:
+            assert "Entwicklung" not in call.args[1]["abgeleiteteGroesse"]

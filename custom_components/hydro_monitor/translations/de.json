@@ -68,6 +68,9 @@
           "no_low_water": "Kein Niedrigwasser"
         }
       },
+      "official_development_7d": {
+        "name": "Offizielle Entwicklung 7 Tage"
+      },
       "boundary_static_extremely_low": {
         "name": "Statische Grenze: extrem niedrig"
       },

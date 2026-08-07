@@ -68,6 +68,9 @@
           "no_low_water": "No low water"
         }
       },
+      "official_development_7d": {
+        "name": "Official 7-day development"
+      },
       "boundary_static_extremely_low": {
         "name": "Static boundary: extremely low"
       },

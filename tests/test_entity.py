@@ -148,6 +148,61 @@ def test_low_water_class_sensor_exposes_raw_value_for_unmapped_label() -> None:
     }
 
 
+def test_official_development_7d_sensor_exposes_official_error_message() -> None:
+    """Test that the development-7d sensor surfaces NIWIS's error message."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+        official_development_7d=None,
+        official_development_7d_raw=None,
+        official_development_7d_error="Zu viele Fehlwerte im Referenzzeitraum",
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("official_development_7d"),
+    )
+
+    assert sensor.native_value is None
+    assert sensor.extra_state_attributes == {
+        "raw_value": None,
+        "error": "Zu viele Fehlwerte im Referenzzeitraum",
+    }
+
+
+def test_official_development_7d_sensor_becomes_unavailable_when_not_supported() -> None:
+    """Test that the sensor auto-hides for measurement types without this quantity.
+
+    Groundwater/spring-discharge coordinators never fetch this quantity, so
+    the model field stays at its None default and the entity should behave
+    exactly as if the fetch had failed: unavailable, not an error state.
+    """
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.GROUNDWATER_LEVEL
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.GROUNDWATER_LEVEL,
+        value=608.07,
+        unit="m. ü. NHN",
+        observed_on=date(2026, 7, 15),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("official_development_7d"),
+    )
+
+    assert sensor.native_value is None
+    assert sensor.available is False
+
+
 def test_static_boundary_sensor_exposes_error() -> None:
     """Test that a static-boundary sensor surfaces its own error, not the 366-row array."""
     coordinator = MagicMock(spec=HydroMonitorCoordinator)

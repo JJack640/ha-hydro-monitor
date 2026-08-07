@@ -28,11 +28,14 @@ from .providers.niwis.const import (
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY,
     HYDRO_TO_NIWIS_LOW_WATER_CLASS_QUANTITY,
+    HYDRO_TO_NIWIS_OFFICIAL_DEVELOPMENT_7D_QUANTITY,
+    OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES,
 )
 from .providers.niwis.mapper import (
     dynamic_low_water_boundaries_from_niwis,
     low_water_class_from_niwis,
     observation_from_niwis,
+    official_development_7d_from_niwis,
     static_low_water_boundaries_from_niwis,
     station_from_niwis,
 )
@@ -111,6 +114,40 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
                 low_water_class_raw=low_water_class_raw,
                 low_water_class_error=low_water_class_error,
             )
+
+        if self.measurement_type.value in OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES:
+            try:
+                development = await self.client.async_get_derived_result(
+                    DERIVED_ENDPOINT_LOW_WATER_CLASS,
+                    {
+                        "abgeleiteteGroesse": HYDRO_TO_NIWIS_OFFICIAL_DEVELOPMENT_7D_QUANTITY[
+                            self.measurement_type.value
+                        ],
+                        "messstelleNr": self.station.station_id,
+                    },
+                )
+            except NiwisError as err:
+                _LOGGER.warning(
+                    "Could not fetch NIWIS official 7-day development for %s (%s): %s",
+                    self.station.station_id,
+                    self.measurement_type.value,
+                    err,
+                )
+                observation = replace(
+                    observation, official_development_7d_error=str(err)
+                )
+            else:
+                (
+                    official_development_7d,
+                    official_development_7d_raw,
+                    official_development_7d_error,
+                ) = official_development_7d_from_niwis(development)
+                observation = replace(
+                    observation,
+                    official_development_7d=official_development_7d,
+                    official_development_7d_raw=official_development_7d_raw,
+                    official_development_7d_error=official_development_7d_error,
+                )
 
         static_boundaries = await self._async_fetch_static_boundaries()
         dynamic_boundaries = await self._async_fetch_dynamic_boundaries_cached()

@@ -12,6 +12,7 @@ from custom_components.hydro_monitor.providers.niwis.mapper import (
     dynamic_low_water_boundaries_from_niwis,
     low_water_class_from_niwis,
     observation_from_niwis,
+    official_development_7d_from_niwis,
     static_low_water_boundaries_from_niwis,
     station_from_niwis,
 )
@@ -705,3 +706,92 @@ def test_dynamic_boundaries_rejects_non_dict_input(payload: object) -> None:
     assert boundaries.classification_labels is None
     assert boundaries.dynamic_thresholds is None
     assert boundaries.dynamic_error is None
+
+
+def test_official_development_7d_maps_normal_value() -> None:
+    """Test mapping of the only real-world observed development value."""
+    result = official_development_7d_from_niwis(
+        {
+            "einzelwert": "gleichbleibend",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == ("gleichbleibend", "gleichbleibend", None)
+
+
+def test_official_development_7d_too_many_missing_values_without_error_message() -> None:
+    """Test that hatZuvieleFehlwerte suppresses the value but preserves the raw label."""
+    result = official_development_7d_from_niwis(
+        {
+            "einzelwert": "gleichbleibend",
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, "gleichbleibend", None)
+
+
+def test_official_development_7d_too_many_missing_values_with_error_message() -> None:
+    """Test that hatZuvieleFehlwerte together with fehlermeldung preserves the error."""
+    result = official_development_7d_from_niwis(
+        {
+            "einzelwert": None,
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": "Zu viele Fehlwerte im Referenzzeitraum",
+        }
+    )
+
+    assert result == (None, None, "Zu viele Fehlwerte im Referenzzeitraum")
+
+
+def test_official_development_7d_error_message_takes_priority_over_value() -> None:
+    """Test that a present fehlermeldung suppresses the value but preserves the raw label."""
+    result = official_development_7d_from_niwis(
+        {
+            "einzelwert": "gleichbleibend",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": "Berechnung fehlgeschlagen",
+        }
+    )
+
+    assert result == (None, "gleichbleibend", "Berechnung fehlgeschlagen")
+
+
+def test_official_development_7d_empty_value_is_ignored() -> None:
+    """Test that an empty einzelwert string is treated as no value."""
+    result = official_development_7d_from_niwis(
+        {
+            "einzelwert": "",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, None, None)
+
+
+def test_official_development_7d_missing_value_key_is_ignored() -> None:
+    """Test that a missing einzelwert key is treated as no value."""
+    result = official_development_7d_from_niwis(
+        {
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result == (None, None, None)
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_official_development_7d_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses are treated as no value."""
+    assert official_development_7d_from_niwis(payload) == (None, None, None)

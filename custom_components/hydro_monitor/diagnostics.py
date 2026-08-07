@@ -201,6 +201,11 @@ async def async_get_config_entry_diagnostics(
                 "low_water_class": observation.low_water_class,
                 "low_water_class_raw": observation.low_water_class_raw,
                 "low_water_class_error": observation.low_water_class_error,
+                "official_development_7d": observation.official_development_7d,
+                "official_development_7d_raw": observation.official_development_7d_raw,
+                "official_development_7d_error": (
+                    observation.official_development_7d_error
+                ),
                 "boundaries": _boundaries_diagnostics(observation),
             }
             if observation is not None

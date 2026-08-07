@@ -37,6 +37,9 @@ def _observation(
     low_water_class: str | None = None,
     low_water_class_error: str | None = None,
     boundaries: HydroLowWaterBoundaries | None = None,
+    official_development_7d: str | None = None,
+    official_development_7d_raw: str | None = None,
+    official_development_7d_error: str | None = None,
 ) -> HydroObservation:
     """Create a Hydro Monitor observation for sensor tests."""
     return HydroObservation(
@@ -52,6 +55,9 @@ def _observation(
         low_water_class=low_water_class,
         low_water_class_error=low_water_class_error,
         boundaries=boundaries,
+        official_development_7d=official_development_7d,
+        official_development_7d_raw=official_development_7d_raw,
+        official_development_7d_error=official_development_7d_error,
     )
 
 
@@ -201,6 +207,27 @@ def test_low_water_class_description() -> None:
 
     observation = _observation(low_water_class="extremely_low")
     assert description.value_fn(observation) == "extremely_low"
+    assert description.unit_fn(observation) is None
+    assert description.value_fn(_observation()) is None
+
+
+def test_official_development_7d_description() -> None:
+    """Test the official 7-day development sensor description.
+
+    Unlike low_water_class, this stays a plain string sensor: NIWIS's
+    development-direction vocabulary is unconfirmed (only "gleichbleibend"
+    observed), so no device_class/options are declared yet.
+    """
+    description = _description("official_development_7d")
+
+    assert description.translation_key == "official_development_7d"
+    assert description.device_class is None
+    assert description.options is None
+    assert description.entity_category is None
+    assert description.entity_registry_enabled_default is True
+
+    observation = _observation(official_development_7d="gleichbleibend")
+    assert description.value_fn(observation) == "gleichbleibend"
     assert description.unit_fn(observation) is None
     assert description.value_fn(_observation()) is None
 
