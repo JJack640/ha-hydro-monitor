@@ -2457,6 +2457,18 @@ user-facing documentation.
 
 It is likely to be optional and disabled by default in the entity registry.
 
+**Status: blocked, deferred past Sprint 5 (live-verified 2026-08-07).** All
+5 discharge stations used for manual verification returned the official
+NIWIS error `"Für diese Messstelle kann der LFI nicht berechnet werden."`
+(`fehlermeldung`) — leaving no working sample to validate a mapper
+against. The response envelope is also structurally more complex than
+every other derived-quantity endpoint implemented so far (a nested
+`duerreperiodenindizeProTag` per-day array plus a
+`klassifikationProDuerreperiode` dict keyed by drought period, neither
+confirmed successful). Implementing this blind is not justified given
+ADR-004/ADR-006. Re-attempt only after a station returns a non-error
+result, or NIWIS publishes the response schema.
+
 ---
 
 ## 7.4 Representative discovered quantities

@@ -8,13 +8,19 @@ from datetime import date, timedelta
 from typing import Any
 
 from ...models import (
+    HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
     HydroObservation,
     HydroStation,
 )
-from .const import LOW_WATER_CLASS_KEYS, LOW_WATER_CLASS_LABEL_TO_KEY, NIWIS_TO_HYDRO_TYPE
+from .const import (
+    DECILE_CLASS_LABELS,
+    LOW_WATER_CLASS_KEYS,
+    LOW_WATER_CLASS_LABEL_TO_KEY,
+    NIWIS_TO_HYDRO_TYPE,
+)
 
 
 def as_float(value: Any) -> float | None:
@@ -355,6 +361,67 @@ def dynamic_low_water_boundaries_from_niwis(
         dynamic_thresholds=thresholds,
         dynamic_unit=unit,
         dynamic_reference_date=reference_date,
+    )
+
+
+def _decile_labels_from_niwis(raw_labels: Any) -> tuple[str, ...] | None:
+    """Validate a klassifikationen array against the fixed decile label set.
+
+    No key-mapping is applied (unlike _classification_keys_from_niwis):
+    the labels ("0-10%" etc.) are already stable, language-neutral
+    percentage-band identifiers with no German-to-English translation need.
+    """
+    if not isinstance(raw_labels, list):
+        return None
+
+    labels = tuple(raw_labels)
+    return labels if labels == DECILE_CLASS_LABELS else None
+
+
+def deciles_from_niwis(data: Any, reference_date: date) -> HydroDeciles:
+    """Map a berechneKlassifikationsgrenzeDynamisch deciles result's 'today' row.
+
+    Mirrors dynamic_low_water_boundaries_from_niwis's structure. Two
+    deltas: labels are validated, not mapped to keys (see
+    _decile_labels_from_niwis), and expected_count is len(labels) + 1
+    rather than len(labels) - 1 -- deciles are the CLOSED/bounded variant
+    of this endpoint's shape (beidseitigOffeneSchwellenwerte is False,
+    confirmed via real captured samples), so its 11 threshold points
+    include the reference period's absolute min/max in addition to the 9
+    interior boundaries between the 10 classification_labels bands.
+    """
+    if not isinstance(data, dict):
+        return HydroDeciles()
+
+    error = _boundary_error(data)
+    labels = _decile_labels_from_niwis(data.get("klassifikationen"))
+    unit = data.get("einheit") if isinstance(data.get("einheit"), str) else None
+
+    if error is not None or data.get("hatZuvieleFehlwerte"):
+        return HydroDeciles(classification_labels=labels, error=error)
+
+    if labels is None:
+        return HydroDeciles(error="unrecognized classification labels")
+
+    row = _boundary_row(data.get("schwellenwerteProTag"), reference_date)
+    if row is None:
+        return HydroDeciles(
+            classification_labels=labels,
+            error="missing per-day threshold row",
+        )
+
+    thresholds = _boundary_thresholds(row, len(labels) + 1)
+    if thresholds is None:
+        return HydroDeciles(
+            classification_labels=labels,
+            error="malformed schwellenwerteProTag row",
+        )
+
+    return HydroDeciles(
+        classification_labels=labels,
+        thresholds=thresholds,
+        unit=unit,
+        reference_date=reference_date,
     )
 
 

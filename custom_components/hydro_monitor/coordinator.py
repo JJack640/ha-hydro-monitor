@@ -11,6 +11,7 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .const import DEFAULT_UPDATE_INTERVAL
 from .models import (
+    HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
@@ -19,6 +20,7 @@ from .models import (
 )
 from .providers.niwis.api import NiwisClient, NiwisError
 from .providers.niwis.const import (
+    DECILES_MEASUREMENT_TYPES,
     DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC,
@@ -30,6 +32,7 @@ from .providers.niwis.const import (
     HISTORICAL_STATISTIC_INTERVAL_QUANTITIES,
     HISTORICAL_STATISTIC_MEASUREMENT_TYPES,
     HISTORICAL_STATISTIC_NIWIS_NAMES,
+    HYDRO_TO_NIWIS_DECILES_QUANTITY,
     HYDRO_TO_NIWIS_ENDPOINT,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY,
@@ -38,6 +41,7 @@ from .providers.niwis.const import (
     OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES,
 )
 from .providers.niwis.mapper import (
+    deciles_from_niwis,
     dynamic_low_water_boundaries_from_niwis,
     historical_statistic_from_niwis,
     low_water_class_from_niwis,
@@ -64,6 +68,8 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         self.client = NiwisClient(async_get_clientsession(hass))
         self._dynamic_boundaries: HydroLowWaterBoundaries | None = None
         self._dynamic_boundaries_date: date | None = None
+        self._deciles: HydroDeciles | None = None
+        self._deciles_date: date | None = None
         super().__init__(
             hass,
             _LOGGER,
@@ -171,6 +177,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
 
         static_boundaries = await self._async_fetch_static_boundaries()
         dynamic_boundaries = await self._async_fetch_dynamic_boundaries_cached()
+        deciles = await self._async_fetch_deciles_cached()
 
         boundaries = replace(
             static_boundaries,
@@ -189,7 +196,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
             ),
         )
 
-        return replace(observation, boundaries=boundaries)
+        return replace(observation, boundaries=boundaries, deciles=deciles)
 
     async def _async_fetch_historical_statistics(
         self, observation: HydroObservation
@@ -300,6 +307,42 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         self._dynamic_boundaries = boundaries
         self._dynamic_boundaries_date = today
         return boundaries
+
+    async def _async_fetch_deciles_cached(self) -> HydroDeciles:
+        """Fetch the official NIWIS deciles, cached per day.
+
+        Same caching rationale as _async_fetch_dynamic_boundaries_cached,
+        with its own cache slot: deciles share an endpoint with the
+        low-water dynamic boundaries but are fetched with a different
+        abgeleiteteGroesse and fail independently.
+        """
+        if self.measurement_type.value not in DECILES_MEASUREMENT_TYPES:
+            return HydroDeciles()
+
+        today = date.today()
+        if self._deciles is not None and self._deciles_date == today:
+            return self._deciles
+
+        try:
+            data = await self.client.async_get_derived_result(
+                DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
+                self._reference_period_params(
+                    HYDRO_TO_NIWIS_DECILES_QUANTITY[self.measurement_type.value]
+                ),
+            )
+        except NiwisError as err:
+            _LOGGER.warning(
+                "Could not fetch NIWIS deciles for %s (%s): %s",
+                self.station.station_id,
+                self.measurement_type.value,
+                err,
+            )
+            return HydroDeciles(error=str(err))
+
+        deciles = deciles_from_niwis(data, today)
+        self._deciles = deciles
+        self._deciles_date = today
+        return deciles
 
 
 async def async_get_station(

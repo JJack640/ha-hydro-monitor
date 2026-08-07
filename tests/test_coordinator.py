@@ -89,6 +89,28 @@ def _dynamic_boundaries_response(**overrides: object) -> dict[str, object]:
     return response
 
 
+def _decile_labels() -> list[str]:
+    """Return the official 10-value decile classification scheme."""
+    return [
+        "0-10%", "10-20%", "20-30%", "30-40%", "40-50%",
+        "50-60%", "60-70%", "70-80%", "80-90%", "90-100%",
+    ]
+
+
+def _decile_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS deciles response."""
+    response: dict[str, object] = {
+        "schwellenwerteProTag": [list(range(11))] * 366,
+        "klassifikationen": _decile_labels(),
+        "einheit": "m³/s",
+        "beidseitigOffeneSchwellenwerte": False,
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
 def _historical_statistic_response(**overrides: object) -> dict[str, object]:
     """Create a representative NIWIS berechneEinzelwertNummer response."""
     response: dict[str, object] = {
@@ -107,6 +129,7 @@ def _routed_client(
     official_development: object = None,
     static: object = None,
     dynamic: object = None,
+    deciles: object = None,
     historical_statistics: dict[str, object] | None = None,
 ) -> AsyncMock:
     """Build a client whose async_get_derived_result routes by quantity.
@@ -115,8 +138,11 @@ def _routed_client(
     (low-water classification and, since Sprint 3, the official 7-day
     development) — routed by whether "Entwicklung" appears in the
     requested abgeleiteteGroesse, which holds regardless of measurement
-    type. The two boundary endpoints are still routed by endpoint alone
-    since each only ever serves one quantity family in this codebase.
+    type. DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC is likewise shared
+    by the low-water dynamic boundaries and, since Sprint 5, deciles —
+    routed by whether "Dezile" appears in the requested abgeleiteteGroesse.
+    DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC still only ever serves one
+    quantity family, so it's routed by endpoint alone.
     DERIVED_ENDPOINT_HISTORICAL_STATISTICS (Sprint 4) is routed by the
     exact abgeleiteteGroesse value (e.g. "MQ", "MW") via the
     historical_statistics override dict, keyed the same way.
@@ -124,14 +150,6 @@ def _routed_client(
     client = AsyncMock()
     client.async_get_series.return_value = _series()
 
-    by_endpoint = {
-        DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC: (
-            static or _static_boundaries_response()
-        ),
-        DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC: (
-            dynamic or _dynamic_boundaries_response()
-        ),
-    }
     historical_statistics = historical_statistics or {}
 
     async def _async_get_derived_result(endpoint: str, params: dict[str, str]) -> object:
@@ -140,12 +158,19 @@ def _routed_client(
                 result = official_development or _official_development_response()
             else:
                 result = classification or _classification_response()
+        elif endpoint == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC:
+            if "Dezile" in params["abgeleiteteGroesse"]:
+                result = deciles or _decile_response()
+            else:
+                result = dynamic or _dynamic_boundaries_response()
+        elif endpoint == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC:
+            result = static or _static_boundaries_response()
         elif endpoint == DERIVED_ENDPOINT_HISTORICAL_STATISTICS:
             result = historical_statistics.get(
                 params["abgeleiteteGroesse"], _historical_statistic_response()
             )
         else:
-            result = by_endpoint[endpoint]
+            raise AssertionError(f"unrouted endpoint: {endpoint}")
 
         if isinstance(result, Exception):
             raise result
@@ -166,6 +191,8 @@ def _coordinator(
     coordinator.client = client
     coordinator._dynamic_boundaries = None
     coordinator._dynamic_boundaries_date = None
+    coordinator._deciles = None
+    coordinator._deciles_date = None
     return coordinator
 
 
@@ -291,6 +318,7 @@ async def test_dynamic_boundary_failure_is_not_cached() -> None:
         call
         for call in client.async_get_derived_result.await_args_list
         if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+        and "Dezile" not in call.args[1]["abgeleiteteGroesse"]
     ]
     assert len(dynamic_calls) == 2
 
@@ -308,6 +336,7 @@ async def test_dynamic_boundaries_are_cached_within_the_same_day() -> None:
         call
         for call in client.async_get_derived_result.await_args_list
         if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+        and "Dezile" not in call.args[1]["abgeleiteteGroesse"]
     ]
     assert len(dynamic_calls) == 1
 
@@ -331,6 +360,7 @@ async def test_dynamic_boundaries_refetch_after_day_rollover() -> None:
         call
         for call in client.async_get_derived_result.await_args_list
         if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+        and "Dezile" not in call.args[1]["abgeleiteteGroesse"]
     ]
     assert len(dynamic_calls) == 2
 
@@ -590,3 +620,133 @@ async def test_historical_statistics_not_fetched_for_unsupported_types(
 
     for call in client.async_get_derived_result.await_args_list:
         assert call.args[0] != DERIVED_ENDPOINT_HISTORICAL_STATISTICS
+
+
+@pytest.mark.asyncio
+async def test_update_merges_deciles_on_success() -> None:
+    """Test that a successful deciles fetch is merged into the observation."""
+    observation = await _coordinator(_routed_client())._async_update_data()
+
+    deciles = observation.deciles
+    assert deciles is not None
+    assert deciles.classification_labels == tuple(_decile_labels())
+    assert deciles.thresholds == pytest.approx(tuple(range(11)))
+    assert deciles.unit == "m³/s"
+    assert deciles.error is None
+
+
+@pytest.mark.asyncio
+async def test_update_survives_deciles_failure() -> None:
+    """Test that a failed deciles fetch does not fail the whole update."""
+    client = _routed_client(deciles=NiwisConnectionError("deciles down"))
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.deciles is not None
+    assert observation.deciles.thresholds is None
+    assert observation.deciles.error == "deciles down"
+    # Low-water boundaries are unaffected by the deciles failure.
+    assert observation.boundaries.dynamic_thresholds is not None
+
+
+@pytest.mark.asyncio
+async def test_deciles_failure_is_not_cached() -> None:
+    """Test that a failed deciles fetch is retried on the next update."""
+    client = _routed_client(deciles=NiwisConnectionError("deciles down"))
+    coordinator = _coordinator(client)
+
+    await coordinator._async_update_data()
+    await coordinator._async_update_data()
+
+    decile_calls = [
+        call
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+        and "Dezile" in call.args[1]["abgeleiteteGroesse"]
+    ]
+    assert len(decile_calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_deciles_are_cached_within_the_same_day() -> None:
+    """Test that a second same-day update reuses the cached deciles."""
+    client = _routed_client()
+    coordinator = _coordinator(client)
+
+    await coordinator._async_update_data()
+    await coordinator._async_update_data()
+
+    decile_calls = [
+        call
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+        and "Dezile" in call.args[1]["abgeleiteteGroesse"]
+    ]
+    assert len(decile_calls) == 1
+
+
+@pytest.mark.asyncio
+async def test_deciles_refetch_after_day_rollover() -> None:
+    """Test that a calendar-day rollover triggers a deciles refetch."""
+    client = _routed_client()
+    coordinator = _coordinator(client)
+
+    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
+        mock_date.today.return_value = date(2026, 1, 1)
+        await coordinator._async_update_data()
+
+        mock_date.today.return_value = date(2026, 1, 2)
+        await coordinator._async_update_data()
+
+    decile_calls = [
+        call
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+        and "Dezile" in call.args[1]["abgeleiteteGroesse"]
+    ]
+    assert len(decile_calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_deciles_parameters() -> None:
+    """Test the exact endpoint and params sent for the deciles request."""
+    client = _routed_client()
+
+    await _coordinator(client)._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
+        {
+            "abgeleiteteGroesse": "Abfluss Dezile tageweise",
+            "messstelleNr": "DESM_DEBY16607001",
+            "jahresdefinition": "KALENDERJAHR",
+            "startJahr": "1991",
+            "endJahr": "2020",
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "measurement_type",
+    [HydroMeasurementType.GROUNDWATER_LEVEL, HydroMeasurementType.SPRING_DISCHARGE],
+)
+@pytest.mark.asyncio
+async def test_deciles_not_fetched_for_unsupported_types(
+    measurement_type: HydroMeasurementType,
+) -> None:
+    """Test that groundwater/spring-discharge coordinators skip deciles.
+
+    No catalog entry exists at all for these measurement types.
+    """
+    client = _routed_client()
+
+    observation = await _coordinator(client, measurement_type)._async_update_data()
+
+    assert observation.deciles is not None
+    assert observation.deciles.thresholds is None
+    assert observation.deciles.classification_labels is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC:
+            assert "Dezile" not in call.args[1]["abgeleiteteGroesse"]

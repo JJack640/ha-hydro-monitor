@@ -109,6 +109,34 @@ def _boundaries_diagnostics(
     }
 
 
+def _deciles_diagnostics(
+    observation: HydroObservation,
+) -> dict[str, Any] | None:
+    """Return diagnostics for the official NIWIS deciles."""
+    deciles = observation.deciles
+
+    if deciles is None:
+        return None
+
+    return {
+        "classification_labels": (
+            list(deciles.classification_labels)
+            if deciles.classification_labels is not None
+            else None
+        ),
+        "thresholds": (
+            list(deciles.thresholds) if deciles.thresholds is not None else None
+        ),
+        "unit": deciles.unit,
+        "reference_date": (
+            deciles.reference_date.isoformat()
+            if deciles.reference_date is not None
+            else None
+        ),
+        "error": deciles.error,
+    }
+
+
 def _historical_statistic_diagnostics(
     stat: HydroDerivedValue | None,
 ) -> dict[str, Any] | None:
@@ -217,6 +245,7 @@ async def async_get_config_entry_diagnostics(
                     observation.official_development_7d_error
                 ),
                 "boundaries": _boundaries_diagnostics(observation),
+                "deciles": _deciles_diagnostics(observation),
                 "historical_statistics": {
                     "mq": _historical_statistic_diagnostics(observation.mq),
                     "mnq": _historical_statistic_diagnostics(observation.mnq),

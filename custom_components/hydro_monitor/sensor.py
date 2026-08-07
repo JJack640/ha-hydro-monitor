@@ -200,6 +200,26 @@ def _historical_statistic_unit(key: str) -> Callable[[HydroObservation], str | N
 HISTORICAL_STATISTIC_KEYS: Final = frozenset(HISTORICAL_STATISTIC_NIWIS_NAMES)
 
 
+def _decile(index: int) -> Callable[[HydroObservation], float | None]:
+    """Return a value_fn reading one decile threshold point."""
+
+    def _value(observation: HydroObservation) -> float | None:
+        deciles = observation.deciles
+        if deciles is None or deciles.thresholds is None:
+            return None
+        return deciles.thresholds[index]
+
+    return _value
+
+
+def _decile_unit(observation: HydroObservation) -> str | None:
+    """Return the unit of the decile thresholds."""
+    return observation.deciles.unit if observation.deciles else None
+
+
+DECILE_PERCENTILES: Final = (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
+
+
 @dataclass(frozen=True, kw_only=True)
 class HydroSensorEntityDescription(SensorEntityDescription):
     """Describe a Hydro Monitor sensor entity."""
@@ -215,6 +235,22 @@ class HydroStationSensorEntityDescription(SensorEntityDescription):
     """Describe a Hydro Monitor station sensor."""
 
     value_fn: Callable[[HydroMonitorCoordinator], Any]
+
+
+_DECILE_SENSOR_DESCRIPTIONS: Final = tuple(
+    HydroSensorEntityDescription(
+        key=f"decile_p{percentile}",
+        translation_key=f"decile_p{percentile}",
+        name=None,
+        icon="mdi:chart-bell-curve-cumulative",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_decile(index),
+        unit_fn=_decile_unit,
+    )
+    for index, percentile in enumerate(DECILE_PERCENTILES)
+)
 
 
 SENSOR_DESCRIPTIONS = (
@@ -297,6 +333,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:ruler",
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
         entity_registry_enabled_default=False,
         value_fn=_static_boundary(0),
         unit_fn=_static_boundary_unit,
@@ -307,6 +344,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:ruler",
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
         entity_registry_enabled_default=False,
         value_fn=_static_boundary(1),
         unit_fn=_static_boundary_unit,
@@ -317,6 +355,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:ruler",
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
         entity_registry_enabled_default=False,
         value_fn=_static_boundary(2),
         unit_fn=_static_boundary_unit,
@@ -327,6 +366,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:chart-line-variant",
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
         entity_registry_enabled_default=False,
         value_fn=_dynamic_boundary(0),
         unit_fn=_dynamic_boundary_unit,
@@ -337,6 +377,7 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:chart-line-variant",
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
         entity_registry_enabled_default=False,
         value_fn=_dynamic_boundary(1),
         unit_fn=_dynamic_boundary_unit,
@@ -347,10 +388,12 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:chart-line-variant",
         state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
         entity_registry_enabled_default=False,
         value_fn=_dynamic_boundary(2),
         unit_fn=_dynamic_boundary_unit,
     ),
+    *_DECILE_SENSOR_DESCRIPTIONS,
     HydroSensorEntityDescription(
         key="mq",
         translation_key="mq",
@@ -836,6 +879,17 @@ class HydroObservationSensor(HydroBaseSensor):
         if self.entity_description.key in HISTORICAL_STATISTIC_KEYS:
             stat = getattr(observation, self.entity_description.key)
             return {"error": stat.error if stat is not None else None}
+
+        if self.entity_description.key.startswith("decile_p"):
+            deciles = observation.deciles
+            return {
+                "error": deciles.error if deciles else None,
+                "reference_date": (
+                    deciles.reference_date.isoformat()
+                    if deciles and deciles.reference_date
+                    else None
+                ),
+            }
 
         if not self.entity_description.is_primary:
             return None

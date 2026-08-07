@@ -9,6 +9,7 @@ from custom_components.hydro_monitor.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from custom_components.hydro_monitor.models import (
+    HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
@@ -63,6 +64,36 @@ async def test_config_entry_diagnostics():
             dynamic_unit="m³/s",
             dynamic_reference_date=date(2026, 7, 15),
             dynamic_error=None,
+        ),
+        deciles=HydroDeciles(
+            classification_labels=(
+                "0-10%",
+                "10-20%",
+                "20-30%",
+                "30-40%",
+                "40-50%",
+                "50-60%",
+                "60-70%",
+                "70-80%",
+                "80-90%",
+                "90-100%",
+            ),
+            thresholds=(
+                10.0,
+                12.0,
+                14.0,
+                16.0,
+                18.0,
+                20.0,
+                22.0,
+                24.0,
+                26.0,
+                28.0,
+                30.0,
+            ),
+            unit="m³/s",
+            reference_date=date(2026, 7, 15),
+            error=None,
         ),
         mq=HydroDerivedValue(value=46.41388, unit="m³/s", error=None),
         mnq=HydroDerivedValue(value=25.013334, unit="m³/s", error=None),
@@ -126,6 +157,36 @@ async def test_config_entry_diagnostics():
     assert boundaries["dynamic_unit"] == "m³/s"
     assert boundaries["dynamic_reference_date"] == "2026-07-15"
     assert boundaries["dynamic_error"] is None
+
+    deciles = diagnostics["observation"]["deciles"]
+    assert deciles["classification_labels"] == [
+        "0-10%",
+        "10-20%",
+        "20-30%",
+        "30-40%",
+        "40-50%",
+        "50-60%",
+        "60-70%",
+        "70-80%",
+        "80-90%",
+        "90-100%",
+    ]
+    assert deciles["thresholds"] == [
+        10.0,
+        12.0,
+        14.0,
+        16.0,
+        18.0,
+        20.0,
+        22.0,
+        24.0,
+        26.0,
+        28.0,
+        30.0,
+    ]
+    assert deciles["unit"] == "m³/s"
+    assert deciles["reference_date"] == "2026-07-15"
+    assert deciles["error"] is None
 
     historical_statistics = diagnostics["observation"]["historical_statistics"]
     assert historical_statistics["mq"] == {

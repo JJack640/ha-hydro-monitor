@@ -102,6 +102,27 @@ class HydroDerivedValue:
 
 
 @dataclass(frozen=True, slots=True)
+class HydroDeciles:
+    """Represent official NIWIS decile boundaries (10-class, dynamic-only).
+
+    No static counterpart exists in the NIWIS catalog, so unlike
+    HydroLowWaterBoundaries there is no static/dynamic split -- this
+    always represents the per-day table's "today" row. thresholds has 11
+    points (not the len(labels)-1 formula used for open-ended boundaries):
+    berechneKlassifikationsgrenzeDynamisch returns
+    beidseitigOffeneSchwellenwerte=False for deciles (closed on both
+    ends), so thresholds[0]/[10] are the reference period's absolute
+    min/max, with 9 interior points dividing the 10 bands.
+    """
+
+    classification_labels: tuple[str, ...] | None = None  # "0-10%".."90-100%"
+    thresholds: tuple[float, ...] | None = None
+    unit: str | None = None
+    reference_date: date | None = None
+    error: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class HydroObservation:
     """Represent a processed hydrological observation."""
 
@@ -152,3 +173,8 @@ class HydroObservation:
     nm30q: HydroDerivedValue | None = None
     mw: HydroDerivedValue | None = None
     mnw: HydroDerivedValue | None = None
+
+    # Official NIWIS deciles (berechneKlassifikationsgrenzeDynamisch,
+    # "... Dezile tageweise"). Discharge/water_level only. See
+    # HydroDeciles for why this has no static/dynamic split.
+    deciles: HydroDeciles | None = None

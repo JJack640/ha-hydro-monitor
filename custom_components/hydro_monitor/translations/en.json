@@ -100,6 +100,39 @@
       "boundary_dynamic_low": {
         "name": "Dynamic boundary: low"
       },
+      "decile_p0": {
+        "name": "Decile boundary: minimum (P0)"
+      },
+      "decile_p10": {
+        "name": "Decile boundary: P10"
+      },
+      "decile_p20": {
+        "name": "Decile boundary: P20"
+      },
+      "decile_p30": {
+        "name": "Decile boundary: P30"
+      },
+      "decile_p40": {
+        "name": "Decile boundary: P40"
+      },
+      "decile_p50": {
+        "name": "Decile boundary: median (P50)"
+      },
+      "decile_p60": {
+        "name": "Decile boundary: P60"
+      },
+      "decile_p70": {
+        "name": "Decile boundary: P70"
+      },
+      "decile_p80": {
+        "name": "Decile boundary: P80"
+      },
+      "decile_p90": {
+        "name": "Decile boundary: P90"
+      },
+      "decile_p100": {
+        "name": "Decile boundary: maximum (P100)"
+      },
       "mq": {
         "name": "Mean discharge (MQ)"
       },

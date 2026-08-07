@@ -10,6 +10,7 @@ from custom_components.hydro_monitor.models import HydroMeasurementType
 from custom_components.hydro_monitor.providers.niwis.mapper import (
     as_float,
     day_of_year_index,
+    deciles_from_niwis,
     dynamic_low_water_boundaries_from_niwis,
     historical_statistic_from_niwis,
     low_water_class_from_niwis,
@@ -896,3 +897,134 @@ def test_historical_statistic_rejects_non_dict_input(payload: object) -> None:
     assert stat.value is None
     assert stat.unit is None
     assert stat.error is None
+
+
+_DECILE_LABELS = (
+    "0-10%", "10-20%", "20-30%", "30-40%", "40-50%",
+    "50-60%", "60-70%", "70-80%", "80-90%", "90-100%",
+)
+
+
+def _decile_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS deciles response."""
+    response: dict[str, object] = {
+        "schwellenwerteProTag": [list(range(11))] * 366,
+        "klassifikationen": list(_DECILE_LABELS),
+        "einheit": "m³/s",
+        "beidseitigOffeneSchwellenwerte": False,
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
+def test_deciles_maps_real_discharge_fixture() -> None:
+    """Test mapping of a real captured discharge deciles response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneKlassifikationsgrenzeDynamisch"
+            / "abfluss__abfluss_dezile_tageweise.json"
+        ).read_text(encoding="utf-8")
+    )
+    reference_date = date(2026, 1, 15)
+    expected_row = data["schwellenwerteProTag"][day_of_year_index(reference_date) - 1]
+
+    deciles = deciles_from_niwis(data, reference_date)
+
+    assert deciles.classification_labels == _DECILE_LABELS
+    assert len(deciles.thresholds) == 11
+    assert deciles.thresholds == pytest.approx(tuple(expected_row))
+    assert deciles.unit == "m³/s"
+    assert deciles.reference_date == reference_date
+    assert deciles.error is None
+
+
+def test_deciles_maps_real_water_level_fixture() -> None:
+    """Test mapping of a real captured water-level deciles response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneKlassifikationsgrenzeDynamisch"
+            / "wasserstand__wasserstand_dezile_tageweise.json"
+        ).read_text(encoding="utf-8")
+    )
+    reference_date = date(2026, 1, 15)
+
+    deciles = deciles_from_niwis(data, reference_date)
+
+    assert deciles.classification_labels == _DECILE_LABELS
+    assert len(deciles.thresholds) == 11
+    assert deciles.unit == "cm"
+    assert deciles.error is None
+
+
+def test_deciles_missing_row_table() -> None:
+    """Test that a wrong-length schwellenwerteProTag is rejected."""
+    deciles = deciles_from_niwis(
+        _decile_response(schwellenwerteProTag=[list(range(11))] * 10),
+        date(2026, 1, 15),
+    )
+
+    assert deciles.classification_labels == _DECILE_LABELS
+    assert deciles.thresholds is None
+    assert deciles.error == "missing per-day threshold row"
+
+
+def test_deciles_malformed_row() -> None:
+    """Test that a row without exactly 11 values is rejected.
+
+    Direct regression guard for the len(labels) + 1 formula: naively
+    reusing the low-water boundaries' len(labels) - 1 formula (9, not 11)
+    would silently reject every real decile response.
+    """
+    deciles = deciles_from_niwis(
+        _decile_response(schwellenwerteProTag=[[1.0, 2.0, 3.0]] * 366),
+        date(2026, 1, 15),
+    )
+
+    assert deciles.classification_labels == _DECILE_LABELS
+    assert deciles.thresholds is None
+    assert deciles.error == "malformed schwellenwerteProTag row"
+
+
+def test_deciles_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses thresholds but keeps labels."""
+    deciles = deciles_from_niwis(
+        _decile_response(hatZuvieleFehlwerte=True),
+        date(2026, 1, 15),
+    )
+
+    assert deciles.classification_labels == _DECILE_LABELS
+    assert deciles.thresholds is None
+    assert deciles.error is None
+
+
+def test_deciles_unrecognized_labels() -> None:
+    """Test that the low-water 4-class labels are rejected here.
+
+    Guards against the shared/overloaded berechneKlassifikationsgrenzeDynamisch
+    endpoint ever returning the low-water boundaries' shape here by mistake.
+    """
+    deciles = deciles_from_niwis(
+        _decile_response(
+            klassifikationen=["extrem niedrig", "sehr niedrig", "niedrig", "kein Niedrigwasser"]
+        ),
+        date(2026, 1, 15),
+    )
+
+    assert deciles.classification_labels is None
+    assert deciles.thresholds is None
+    assert deciles.error == "unrecognized classification labels"
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_deciles_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    deciles = deciles_from_niwis(payload, date(2026, 1, 15))
+    assert deciles.classification_labels is None
+    assert deciles.thresholds is None
+    assert deciles.error is None

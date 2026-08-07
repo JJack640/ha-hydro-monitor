@@ -24,11 +24,23 @@ LOW_WATER_CLASS_KEYS=tuple(LOW_WATER_CLASS_LABEL_TO_KEY.values())
 DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC="berechneKlassifikationsgrenzeStatisch"
 DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC="berechneKlassifikationsgrenzeDynamisch"
 HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY={"discharge":"Abfluss Klassifikation mit statischen Grenzwerten","water_level":"Wasserstand Klassifikation mit statischen Grenzwerten","groundwater_level":"Grundwasserstand Klassifikation mit statischen Grenzwerten","spring_discharge":"Quellschüttung Klassifikation mit statischen Grenzwerten"}
-# berechneKlassifikationsgrenzeDynamisch is SHARED/OVERLOADED: it also serves
-# "... Dezile tageweise" (deciles, 10-class, Sprint 5 — out of scope). Only
-# ever request the quantity names below; a future deciles constant must be
-# a SEPARATE dict, never merged into this one.
+# berechneKlassifikationsgrenzeDynamisch is SHARED/OVERLOADED: it also
+# serves "... Dezile tageweise" (deciles, 10-class,
+# HYDRO_TO_NIWIS_DECILES_QUANTITY below). Only ever request the quantity
+# names in each dict below — never merge the two dicts.
 HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY={"discharge":"Abfluss Klassifikation mit variablen Grenzwerten","water_level":"Wasserstand Klassifikation mit variablen Grenzwerten","groundwater_level":"Grundwasserstand Klassifikation mit variablen Grenzwerten","spring_discharge":"Quellschüttung Klassifikation mit variablen Grenzwerten"}
+
+# Deciles ("Dezile tageweise") share berechneKlassifikationsgrenzeDynamisch
+# with the low-water dynamic boundaries above — kept as a SEPARATE dict per
+# that comment's instruction. Only discharge/water_level have a catalog
+# entry (same applicability as the boundaries above and Sprint 3's
+# official_development_7d).
+HYDRO_TO_NIWIS_DECILES_QUANTITY={"discharge":"Abfluss Dezile tageweise","water_level":"Wasserstand Dezile tageweise"}
+DECILES_MEASUREMENT_TYPES=frozenset({"discharge","water_level"})
+# Expected klassifikationen labels for the deciles shape, in exact NIWIS
+# order — guards against the shared/overloaded endpoint ever returning the
+# low-water boundaries' 4-class shape here by mistake.
+DECILE_CLASS_LABELS=("0-10%","10-20%","20-30%","30-40%","40-50%","50-60%","60-70%","70-80%","80-90%","90-100%")
 
 # Also serves the unrelated "Entwicklung letzte 7 Tage" quantity (Sprint 3)
 # — same endpoint, distinguished only by abgeleiteteGroesse. Only discharge

@@ -9,6 +9,7 @@ from homeassistant.helpers.entity import EntityCategory
 
 from custom_components.hydro_monitor import sensor as sensor_module
 from custom_components.hydro_monitor.models import (
+    HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
@@ -38,6 +39,7 @@ def _observation(
     low_water_class: str | None = None,
     low_water_class_error: str | None = None,
     boundaries: HydroLowWaterBoundaries | None = None,
+    deciles: HydroDeciles | None = None,
     official_development_7d: str | None = None,
     official_development_7d_raw: str | None = None,
     official_development_7d_error: str | None = None,
@@ -62,6 +64,7 @@ def _observation(
         low_water_class=low_water_class,
         low_water_class_error=low_water_class_error,
         boundaries=boundaries,
+        deciles=deciles,
         official_development_7d=official_development_7d,
         official_development_7d_raw=official_development_7d_raw,
         official_development_7d_error=official_development_7d_error,
@@ -306,6 +309,43 @@ def test_dynamic_boundary_descriptions(key: str, index: int) -> None:
     # None-safe when boundaries are missing entirely or lack thresholds.
     assert description.value_fn(_observation()) is None
     assert description.value_fn(_observation(boundaries=HydroLowWaterBoundaries())) is None
+    assert description.unit_fn(_observation()) is None
+
+
+@pytest.mark.parametrize(
+    ("key", "index"),
+    [
+        ("decile_p0", 0),
+        ("decile_p10", 1),
+        ("decile_p20", 2),
+        ("decile_p30", 3),
+        ("decile_p40", 4),
+        ("decile_p50", 5),
+        ("decile_p60", 6),
+        ("decile_p70", 7),
+        ("decile_p80", 8),
+        ("decile_p90", 9),
+        ("decile_p100", 10),
+    ],
+)
+def test_decile_descriptions(key: str, index: int) -> None:
+    """Test the official NIWIS decile sensor descriptions."""
+    description = _description(key)
+
+    assert description.translation_key == key
+    assert description.entity_registry_enabled_default is False
+    assert description.entity_category is None
+    assert description.state_class == SensorStateClass.MEASUREMENT
+
+    thresholds = (10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0)
+    deciles = HydroDeciles(thresholds=thresholds, unit="m³/s")
+    observation = _observation(deciles=deciles)
+    assert description.value_fn(observation) == pytest.approx(thresholds[index])
+    assert description.unit_fn(observation) == "m³/s"
+
+    # None-safe when deciles are missing entirely or lack thresholds.
+    assert description.value_fn(_observation()) is None
+    assert description.value_fn(_observation(deciles=HydroDeciles())) is None
     assert description.unit_fn(_observation()) is None
 
 

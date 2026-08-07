@@ -7,6 +7,7 @@ import pytest
 
 from custom_components.hydro_monitor.coordinator import HydroMonitorCoordinator
 from custom_components.hydro_monitor.models import (
+    HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
     HydroMeasurementType,
@@ -251,6 +252,48 @@ def test_dynamic_boundary_sensor_exposes_error_and_reference_date() -> None:
     )
 
     assert sensor.native_value == pytest.approx(24.3)
+    assert sensor.extra_state_attributes == {
+        "error": None,
+        "reference_date": "2026-07-15",
+    }
+
+
+def test_decile_sensor_exposes_error_and_reference_date() -> None:
+    """Test that a decile sensor surfaces its error and reference date."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+        deciles=HydroDeciles(
+            thresholds=(
+                10.0,
+                12.0,
+                14.0,
+                16.0,
+                18.0,
+                20.0,
+                22.0,
+                24.0,
+                26.0,
+                28.0,
+                30.0,
+            ),
+            unit="m³/s",
+            reference_date=date(2026, 7, 15),
+        ),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("decile_p50"),
+    )
+
+    assert sensor.native_value == pytest.approx(20.0)
     assert sensor.extra_state_attributes == {
         "error": None,
         "reference_date": "2026-07-15",
