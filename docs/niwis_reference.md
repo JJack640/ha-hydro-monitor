@@ -3776,25 +3776,42 @@ facts, observed behaviour and assumptions that still require validation.
 
 ## 11.1 Quality flags
 
-Quality flags are preserved exactly as returned by NIWIS.
+Quality flags are preserved exactly as returned by NIWIS (raw field `flag`).
 
-Observed examples include
+**Re-audited 2026-08-07** against the current captured inventory
+(`niwis_inventory/series/`: 40 stations across all four measurement types,
+30 days each, 1,200 raw observations). Exactly two values were observed:
 
 ```text
-A
-BfGAdded
+null          1,059 occurrences (87.4%) -- every value NIWIS treats as real
+"BfGAdded"      141 occurrences (11.8%)
 ```
 
-However, the complete list of possible values and their official semantics have
-not yet been verified.
+`"BfGAdded"` correlates 1:1 with the `-777.0` placeholder value in this
+sample: every `BfGAdded`-flagged observation carries `messwert: -777.0`, and
+every `-777.0` observation is flagged `BfGAdded` -- no exceptions in either
+direction. This is consistent with "value added/estimated by the BfG
+(Bundesanstalt für Gewässerkunde)" as a plausible reading, though NIWIS does
+not document the flag's official semantics.
 
-Future work should establish:
+The value `"A"` cited in earlier revisions of this document as an observed
+example has **not** been found anywhere in the current captured inventory
+(raw series data, derived-quantity fixtures, or discovery probe results). It
+may have been present in an earlier, uncaptured manual sample, but it should
+not be treated as verified until it reappears in a reproducible fixture --
+carrying it forward here without that caveat would violate this project's
+own evidence-based standard.
 
-- the complete quality-flag catalogue;
-- the official meaning of each flag;
-- whether flags indicate validation level, correction status or another
-  quality concept;
-- whether any flags should influence Home Assistant availability or diagnostics.
+Because `"BfGAdded"` has so far only ever accompanied a value the placeholder
+filter already rejects, it currently adds no information beyond what
+`_is_valid_measurement()` already achieves. Open questions for future audits:
+
+- the complete quality-flag catalogue (only one non-null value confirmed so
+  far);
+- whether any flag can appear on a numerically valid (non-placeholder)
+  measurement, which would make it informative rather than redundant;
+- whether flags should influence Home Assistant availability or diagnostics
+  once (or if) that turns out to be the case.
 
 Until then, Hydro Monitor intentionally treats quality flags as informational
 metadata only.
@@ -3803,31 +3820,35 @@ metadata only.
 
 ## 11.2 Placeholder values
 
-Several technical placeholder values have been observed.
+Technical placeholder values are filtered via a threshold
+(`_is_valid_measurement()`: `value > -700.0`) rather than an exact-match
+list, deliberately covering codes that have not yet been individually
+confirmed.
 
-Examples include
+**Re-audited 2026-08-07** against the same 1,200-observation inventory
+sample as 11.1: the only placeholder value actually observed is
 
 ```text
--777
--888
--999
--9999
+-777.0   141 occurrences, 100% of all invalid values in the sample
 ```
 
-These values are currently filtered before observation processing.
+`-888`, `-999`, and `-9999`, previously listed here as examples, do **not**
+appear anywhere in the current captured inventory or derived-quantity
+fixtures. The threshold filter still defensively covers them if NIWIS ever
+returns them, but until one is actually observed in a reproducible sample,
+treat their existence as unconfirmed rather than as a documented fact.
 
-The exact distinction between the individual placeholder codes remains
-undocumented.
+All observed `-777.0` occurrences were confined to `groundwater_level` and
+`spring_discharge` series in this sample; `discharge` and `water_level` had
+zero invalid values across their sampled stations. This may reflect which
+stations happened to be sampled rather than a structural difference between
+measurement types, and should not be read as a guarantee.
 
-Future work should determine whether they represent different technical
-conditions such as:
-
-- missing observation;
-- invalid measurement;
-- unavailable station;
-- suppressed value.
-
-Until verified, all known placeholders are treated uniformly.
+Future work should determine whether `-777` represents a specific technical
+condition (missing observation, invalid measurement, unavailable station,
+suppressed value) distinct from other placeholder codes, once one of those
+codes is actually observed. Until then, all known placeholders continue to
+be treated uniformly.
 
 ---
 

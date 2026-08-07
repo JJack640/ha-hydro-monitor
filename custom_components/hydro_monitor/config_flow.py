@@ -26,6 +26,7 @@ from .const import (
     SEARCH_RESULT_LIMIT,
 )
 from .core.station_discovery import StationDiscoveryService
+from .localization import measurement_type_name, resolve_language
 from .models import HydroMeasurementType, HydroStation
 from .providers.niwis.api import NiwisError
 
@@ -75,16 +76,18 @@ class HydroMonitorConfigFlow(
         return self._discovery
 
     def _measurement_type_display_name(self) -> str:
-        """Return a readable measurement type for the config entry title."""
+        """Return a readable measurement type for the config entry title.
+
+        Config entry titles, like device model text, have no
+        translation_key mechanism and must be resolved manually against the
+        configured instance language (see .localization).
+        """
         if self._measurement_type is None:
             return ""
 
-        return {
-            HydroMeasurementType.DISCHARGE: "Discharge",
-            HydroMeasurementType.WATER_LEVEL: "Water level",
-            HydroMeasurementType.GROUNDWATER_LEVEL: "Groundwater level",
-            HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
-        }[self._measurement_type]
+        return measurement_type_name(
+            self._measurement_type, resolve_language(self.hass)
+        )
 
     async def async_step_user(
         self,

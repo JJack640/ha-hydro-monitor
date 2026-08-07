@@ -13,7 +13,7 @@ from homeassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from homeassistant.const import UnitOfTime
+from homeassistant.const import PERCENTAGE, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityCategory
@@ -24,6 +24,7 @@ from homeassistant.util import dt as dt_util
 from . import HydroMonitorConfigEntry
 from .const import DOMAIN, MEASUREMENT_STALE_AFTER
 from .coordinator import HydroMonitorCoordinator
+from .localization import device_model, measurement_type_name, resolve_language
 from .models import HydroMeasurementType, HydroObservation
 from .providers.niwis.const import HISTORICAL_STATISTIC_NIWIS_NAMES, LOW_WATER_CLASS_KEYS
 
@@ -198,6 +199,27 @@ def _historical_statistic_unit(key: str) -> Callable[[HydroObservation], str | N
 
 
 HISTORICAL_STATISTIC_KEYS: Final = frozenset(HISTORICAL_STATISTIC_NIWIS_NAMES)
+
+
+def _percent_of_statistic(key: str) -> Callable[[HydroObservation], float | None]:
+    """Return a value_fn expressing the current value as % of one historical statistic.
+
+    Purely local arithmetic on already-fetched HydroDerivedValue fields
+    (mq/mnq/mw/mnw) -- no new API call. None-safe when the statistic is
+    missing/errored, the current value is missing, or the statistic is
+    exactly zero (guards a division by zero rather than assuming NIWIS
+    never returns it).
+    """
+
+    def _value(observation: HydroObservation) -> float | None:
+        stat = getattr(observation, key)
+        if stat is None or not stat.value:
+            return None
+        if observation.value is None:
+            return None
+        return observation.value / stat.value * 100
+
+    return _value
 
 
 def _decile(index: int) -> Callable[[HydroObservation], float | None]:
@@ -459,6 +481,50 @@ SENSOR_DESCRIPTIONS = (
         entity_registry_enabled_default=False,
         value_fn=_historical_statistic("mnw"),
         unit_fn=_historical_statistic_unit("mnw"),
+    ),
+    HydroSensorEntityDescription(
+        key="percent_of_mq",
+        translation_key="percent_of_mq",
+        name=None,
+        icon="mdi:percent-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_percent_of_statistic("mq"),
+        unit_fn=lambda observation: PERCENTAGE,
+    ),
+    HydroSensorEntityDescription(
+        key="percent_of_mnq",
+        translation_key="percent_of_mnq",
+        name=None,
+        icon="mdi:percent-circle-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_percent_of_statistic("mnq"),
+        unit_fn=lambda observation: PERCENTAGE,
+    ),
+    HydroSensorEntityDescription(
+        key="percent_of_mw",
+        translation_key="percent_of_mw",
+        name=None,
+        icon="mdi:percent-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_percent_of_statistic("mw"),
+        unit_fn=lambda observation: PERCENTAGE,
+    ),
+    HydroSensorEntityDescription(
+        key="percent_of_mnw",
+        translation_key="percent_of_mnw",
+        name=None,
+        icon="mdi:percent-circle-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_percent_of_statistic("mnw"),
+        unit_fn=lambda observation: PERCENTAGE,
     ),
     HydroSensorEntityDescription(
         key="last_measurement",
@@ -748,17 +814,11 @@ class HydroBaseSensor(
 
         station = coordinator.station
         measurement_type = coordinator.measurement_type
-
-        measurement_name = {
-            HydroMeasurementType.DISCHARGE: "Discharge",
-            HydroMeasurementType.WATER_LEVEL: "Water level",
-            HydroMeasurementType.GROUNDWATER_LEVEL: "Groundwater level",
-            HydroMeasurementType.SPRING_DISCHARGE: "Spring discharge",
-        }[measurement_type]
+        language = resolve_language(getattr(coordinator, "hass", None))
 
         self._station = station
         self._measurement_type = measurement_type
-        self._measurement_name = measurement_name
+        self._measurement_name = measurement_type_name(measurement_type, language)
 
         self._attr_device_info = DeviceInfo(
             identifiers={
@@ -769,7 +829,7 @@ class HydroBaseSensor(
             },
             name=station.name,
             manufacturer=station.institution or station.provider.upper(),
-            model="Hydrological monitoring station",
+            model=device_model(measurement_type, language),
             configuration_url=station.source_url,
         )
 
@@ -878,6 +938,12 @@ class HydroObservationSensor(HydroBaseSensor):
 
         if self.entity_description.key in HISTORICAL_STATISTIC_KEYS:
             stat = getattr(observation, self.entity_description.key)
+            return {"error": stat.error if stat is not None else None}
+
+        if self.entity_description.key.startswith("percent_of_"):
+            stat = getattr(
+                observation, self.entity_description.key.removeprefix("percent_of_")
+            )
             return {"error": stat.error if stat is not None else None}
 
         if self.entity_description.key.startswith("decile_p"):

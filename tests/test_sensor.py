@@ -4,7 +4,7 @@ from datetime import UTC, date, datetime
 
 import pytest
 from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
-from homeassistant.const import UnitOfTime
+from homeassistant.const import PERCENTAGE, UnitOfTime
 from homeassistant.helpers.entity import EntityCategory
 
 from custom_components.hydro_monitor import sensor as sensor_module
@@ -367,6 +367,37 @@ def test_historical_statistic_descriptions(key: str) -> None:
     # None-safe when the quantity is absent (e.g. unsupported measurement type).
     assert description.value_fn(_observation()) is None
     assert description.unit_fn(_observation()) is None
+
+
+@pytest.mark.parametrize(
+    ("key", "stat_key"),
+    [
+        ("percent_of_mq", "mq"),
+        ("percent_of_mnq", "mnq"),
+        ("percent_of_mw", "mw"),
+        ("percent_of_mnw", "mnw"),
+    ],
+)
+def test_percent_of_statistic_descriptions(key: str, stat_key: str) -> None:
+    """Test the current-value-as-%-of-historical-statistic sensor descriptions."""
+    description = _description(key)
+
+    assert description.translation_key == key
+    assert description.entity_registry_enabled_default is False
+    assert description.entity_category is None
+    assert description.state_class == SensorStateClass.MEASUREMENT
+
+    stat = HydroDerivedValue(value=100.0, unit="m³/s", error=None)
+    observation = _observation(value=72.3, **{stat_key: stat})
+    assert description.value_fn(observation) == pytest.approx(72.3)
+    assert description.unit_fn(observation) == PERCENTAGE
+
+    # None-safe when the statistic is absent, the current value is absent, or
+    # the statistic is exactly zero (division-by-zero guard).
+    assert description.value_fn(_observation()) is None
+    assert description.value_fn(_observation(value=None, **{stat_key: stat})) is None
+    zero_stat = HydroDerivedValue(value=0.0, unit="m³/s", error=None)
+    assert description.value_fn(_observation(value=72.3, **{stat_key: zero_stat})) is None
 
 
 def test_measurement_datetime_from_date() -> None:

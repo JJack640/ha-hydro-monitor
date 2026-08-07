@@ -151,6 +151,18 @@
       "mnw": {
         "name": "Mittlerer Niedrigwasserstand (MNW)"
       },
+      "percent_of_mq": {
+        "name": "% des mittleren Abflusses (MQ)"
+      },
+      "percent_of_mnq": {
+        "name": "% des mittleren Niedrigwasserabflusses (MNQ)"
+      },
+      "percent_of_mw": {
+        "name": "% des mittleren Wasserstands (MW)"
+      },
+      "percent_of_mnw": {
+        "name": "% des mittleren Niedrigwasserstands (MNW)"
+      },
       "last_measurement": {
         "name": "Letzte Messung"
       },

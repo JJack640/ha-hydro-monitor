@@ -151,6 +151,18 @@
       "mnw": {
         "name": "Mean low water level (MNW)"
       },
+      "percent_of_mq": {
+        "name": "% of mean discharge (MQ)"
+      },
+      "percent_of_mnq": {
+        "name": "% of mean low discharge (MNQ)"
+      },
+      "percent_of_mw": {
+        "name": "% of mean water level (MW)"
+      },
+      "percent_of_mnw": {
+        "name": "% of mean low water level (MNW)"
+      },
       "last_measurement": {
         "name": "Last measurement"
       },
