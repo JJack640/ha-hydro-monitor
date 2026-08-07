@@ -1,0 +1,59 @@
+# Hydro Monitor -- multi-station comparison example (English).
+# German version: dashboard_multi_station_comparison.de.yaml
+#
+# See docs/examples/README.md before using this file: every
+# "sensor.REPLACE_..." entity ID below is a placeholder and must be swapped
+# for your own stations' real entity IDs. This example compares up to four
+# stations at once (mix of measurement types is fine); add or remove rows
+# for the number of stations you actually have configured.
+#
+# This is a full Lovelace VIEW (title/icon/path + cards) -- paste it as one
+# item under an existing dashboard's `views:` list for a new tab with a
+# title and icon already set, or paste just the nested `cards:` block into
+# an existing view instead.
+#
+# Uses `entities` cards rather than `glance` cards: glance cards give each
+# entity a fixed, narrow column that truncates Hydro Monitor's longer,
+# already-localized names -- entities cards give each row the card's full
+# width. Entity names are not overridden: each row's own, already-localized
+# name already starts with its station name (Home Assistant's
+# has_entity_name convention prefixes the device name), so it identifies
+# itself without a hardcoded "Station 1/2/3/4" label.
+
+title: Station Comparison
+icon: mdi:compare
+path: hydro-monitor-comparison
+cards:
+  - type: entities
+    title: Current values
+    entities:
+      - entity: sensor.REPLACE_STATION_1_VALUE
+      - entity: sensor.REPLACE_STATION_2_VALUE
+      - entity: sensor.REPLACE_STATION_3_VALUE
+      - entity: sensor.REPLACE_STATION_4_VALUE
+
+  - type: entities
+    title: Low-water class
+    entities:
+      - entity: sensor.REPLACE_STATION_1_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_STATION_2_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_STATION_3_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_STATION_4_LOW_WATER_CLASS
+
+  # "% of mean" only exists for discharge (percent_of_mq/mnq) and water
+  # level (percent_of_mw/mnw) stations -- drop rows for groundwater/spring
+  # discharge stations, which don't have a comparable sensor.
+  - type: entities
+    title: "% of mean"
+    entities:
+      - entity: sensor.REPLACE_STATION_1_PERCENT_OF_MEAN
+      - entity: sensor.REPLACE_STATION_2_PERCENT_OF_MEAN
+
+  - type: history-graph
+    title: Last 7 days
+    hours_to_show: 168
+    entities:
+      - entity: sensor.REPLACE_STATION_1_VALUE
+      - entity: sensor.REPLACE_STATION_2_VALUE
+      - entity: sensor.REPLACE_STATION_3_VALUE
+      - entity: sensor.REPLACE_STATION_4_VALUE

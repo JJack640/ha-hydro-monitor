@@ -1,0 +1,99 @@
+# Hydro Monitor -- Beispiel-Dashboard für QUELLSCHÜTTUNG-Stationen
+# (Deutsch).
+# Englische Version: dashboard_station_overview_spring_discharge.yaml
+# Abfluss: dashboard_station_overview_discharge.de.yaml
+# Wasserstand: dashboard_station_overview_water_level.de.yaml
+# Grundwasserstand: dashboard_station_overview_groundwater.de.yaml
+#
+# Quellschüttung-Stationen haben keine historischen Statistiken, keine
+# Dezile, keine "%-des-Mittelwerts"-Vergleichssensoren und keine offizielle
+# 7-Tage-Entwicklungseinschätzung -- diese Sensoren gibt es nur für
+# Abfluss/Wasserstand (siehe custom_components/hydro_monitor/providers/
+# niwis/const.py: HISTORICAL_STATISTIC_MEASUREMENT_TYPES,
+# DECILES_MEASUREMENT_TYPES, OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES --
+# alle drei nur {discharge, water_level}). Die entsprechenden Entitäten
+# werden bei Quellschüttungs-Geräten zwar trotzdem angelegt, zeigen dort
+# aber dauerhaft "nicht verfügbar" -- diese Datei lässt sie deshalb weg,
+# statt Karten zu zeigen, die nie einen Wert haben. Auch die
+# Stationsmetadaten unterscheiden sich von Abfluss/Wasserstand: keine
+# Gewässer-/Einzugsgebiets-/Flusskilometer-Felder (gewässerspezifisch),
+# stattdessen Ortslage/Geländehöhe/hydrogeologischer Teilraum.
+#
+# Vor der Nutzung docs/examples/README.md lesen: jede "sensor.REPLACE_..."
+# Entity-ID unten ist ein Platzhalter und muss durch deine echte Entity-ID
+# ersetzt werden (Einstellungen -> Geräte & Dienste -> Hydro Monitor ->
+# Gerät öffnen -> jede Entitätszeile zeigt ihre ID).
+#
+# Das ist eine vollständige Lovelace-VIEW (Titel/Icon/Pfad + Karten), keine
+# reine Karten-Liste -- als ein Eintrag unter der `views:`-Liste eines
+# bestehenden Dashboards einfügen, um einen neuen Tab mit bereits gesetztem
+# Titel und Icon zu bekommen. Willst du nur die Karten in deiner aktuellen
+# Ansicht, füge stattdessen nur den verschachtelten `cards:`-Block ein und
+# setze Titel/Icon selbst (Stift-Symbol neben dem Ansichts-Tab).
+#
+# Nutzt `entities`-Karten statt `glance`-Karten: Glance-Karten geben jeder
+# Entität eine feste, schmale Spalte, die Hydro Monitors längere, bereits
+# lokalisierte Namen abschneidet -- Entities-Karten geben jeder Zeile die
+# volle Kartenbreite.
+#
+# Entity-Namen werden bewusst nicht überschrieben (außer beim primären
+# Wert-Sensor, der stattdessen per Kopfzeilen-Vorlage eingebunden wird):
+# Hydro Monitors Sensor-Namen sind bereits übersetzt (translations/en.json
+# / de.json) und folgen automatisch der eingestellten Sprache.
+#
+# Mehrere hier genutzte Sensoren sind standardmäßig deaktiviert
+# (Klassifikationsgrenzen). Zeigt eine Karte "Entität nicht gefunden",
+# wurde diese Entität noch nie aktiviert -- einmalig auf der
+# Entitäts-Einstellungsseite aktivieren (Einstellungen -> Geräte & Dienste
+# -> Entitäten) und einen Aktualisierungszyklus abwarten.
+
+title: Hydro Monitor
+icon: mdi:fountain
+path: hydro-monitor-quellschuettung
+cards:
+  - type: markdown
+    content: >
+      ## {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'name') }}
+
+      {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'model') }}
+
+  # --- Aktueller Status -------------------------------------------------
+  - type: entities
+    title: Aktueller Status
+    entities:
+      - entity: sensor.REPLACE_VALUE
+      - entity: sensor.REPLACE_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_TREND_STATE
+      - entity: sensor.REPLACE_MEASUREMENT_AGE
+
+  # --- Verlauf ------------------------------------------------------------
+  - type: history-graph
+    title: Letzte 30 Tage
+    hours_to_show: 720
+    entities:
+      - entity: sensor.REPLACE_VALUE
+
+  # --- Klassifikationskontext -----------------------------------------
+  - type: entities
+    title: Klassifikationsgrenzen
+    entities:
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_EXTREMELY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_VERY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_LOW
+      - type: divider
+      - entity: sensor.REPLACE_BOUNDARY_STATIC_EXTREMELY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_STATIC_VERY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_STATIC_LOW
+
+  # --- Stationsmetadaten --------------------------------------------------
+  - type: entities
+    title: Station
+    entities:
+      - entity: sensor.REPLACE_LOCALITY
+      - entity: sensor.REPLACE_STATION_TYPE
+      - entity: sensor.REPLACE_GROUND_ELEVATION
+      - entity: sensor.REPLACE_HYDROGEOLOGICAL_REGION
+      - entity: sensor.REPLACE_OPERATOR
+      - entity: sensor.REPLACE_INSTITUTION
+      - entity: sensor.REPLACE_LICENSE
+      - entity: sensor.REPLACE_LAST_MEASUREMENT

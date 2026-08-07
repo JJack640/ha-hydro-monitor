@@ -1,0 +1,98 @@
+# Hydro Monitor -- single-station dashboard example for SPRING DISCHARGE
+# stations (English).
+# German version: dashboard_station_overview_spring_discharge.de.yaml
+# Discharge: dashboard_station_overview_discharge.yaml
+# Water level: dashboard_station_overview_water_level.yaml
+# Groundwater level: dashboard_station_overview_groundwater.yaml
+#
+# Spring discharge stations don't have historical statistics, deciles, the
+# "% of mean" comparison sensors, or an official 7-day development
+# assessment -- those sensors only exist for discharge/water level (see
+# custom_components/hydro_monitor/providers/niwis/const.py:
+# HISTORICAL_STATISTIC_MEASUREMENT_TYPES, DECILES_MEASUREMENT_TYPES,
+# OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES -- all three are
+# {discharge, water_level} only). The corresponding entities do still get
+# created on spring discharge devices, but sit permanently "unavailable",
+# so this file omits them rather than showing cards that never have a
+# value. Station metadata also differs from discharge/water level: no
+# waterbody/catchment area/river-kilometre fields (river-specific);
+# locality/ground elevation/hydrogeological region instead.
+#
+# See docs/examples/README.md before using this file: every
+# "sensor.REPLACE_..." entity ID below is a placeholder and must be swapped
+# for your own station's real entity IDs (Settings -> Devices & Services ->
+# Hydro Monitor -> open the device -> each entity row shows its ID).
+#
+# This is a full Lovelace VIEW (title/icon/path + cards), not just a list
+# of cards -- paste it as one item under an existing dashboard's `views:`
+# list to get a new tab with a title and icon already set. If you only want
+# the cards inside your current view instead, paste just the nested
+# `cards:` block and set a title/icon for that view yourself (the pencil
+# icon next to the view tab).
+#
+# Uses `entities` cards rather than `glance` cards: glance cards give each
+# entity a fixed, narrow column that truncates Hydro Monitor's longer,
+# already-localized names -- entities cards give each row the card's full
+# width instead.
+#
+# Deliberately does NOT override entity names (other than the primary value
+# entity, referenced via the header template instead of a plain row): Hydro
+# Monitor's entity names are already translated (translations/en.json /
+# de.json) and follow Home Assistant's configured language automatically.
+#
+# Several sensors used here are disabled by default (classification
+# boundaries). If a card shows "Entity not found", that specific entity has
+# never been enabled -- enable it once on the entity's settings page
+# (Settings -> Devices & Services -> Entities), and give it one update
+# cycle to get a value.
+
+title: Hydro Monitor
+icon: mdi:fountain
+path: hydro-monitor-spring-discharge
+cards:
+  - type: markdown
+    content: >
+      ## {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'name') }}
+
+      {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'model') }}
+
+  # --- Current status -------------------------------------------------
+  - type: entities
+    title: Current status
+    entities:
+      - entity: sensor.REPLACE_VALUE
+      - entity: sensor.REPLACE_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_TREND_STATE
+      - entity: sensor.REPLACE_MEASUREMENT_AGE
+
+  # --- History ----------------------------------------------------------
+  - type: history-graph
+    title: Last 30 days
+    hours_to_show: 720
+    entities:
+      - entity: sensor.REPLACE_VALUE
+
+  # --- Classification context ---------------------------------------------
+  - type: entities
+    title: Classification boundaries
+    entities:
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_EXTREMELY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_VERY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_LOW
+      - type: divider
+      - entity: sensor.REPLACE_BOUNDARY_STATIC_EXTREMELY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_STATIC_VERY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_STATIC_LOW
+
+  # --- Station metadata -------------------------------------------------
+  - type: entities
+    title: Station
+    entities:
+      - entity: sensor.REPLACE_LOCALITY
+      - entity: sensor.REPLACE_STATION_TYPE
+      - entity: sensor.REPLACE_GROUND_ELEVATION
+      - entity: sensor.REPLACE_HYDROGEOLOGICAL_REGION
+      - entity: sensor.REPLACE_OPERATOR
+      - entity: sensor.REPLACE_INSTITUTION
+      - entity: sensor.REPLACE_LICENSE
+      - entity: sensor.REPLACE_LAST_MEASUREMENT

@@ -1,0 +1,124 @@
+# Hydro Monitor -- Beispiel-Dashboard für WASSERSTAND-Stationen (Deutsch).
+# Englische Version: dashboard_station_overview_water_level.yaml
+# Abfluss: dashboard_station_overview_discharge.de.yaml
+# Grundwasserstand: dashboard_station_overview_groundwater.de.yaml
+# Quellschüttung: dashboard_station_overview_spring_discharge.de.yaml
+#
+# Vor der Nutzung docs/examples/README.md lesen: jede "sensor.REPLACE_..."
+# Entity-ID unten ist ein Platzhalter und muss durch deine echte Entity-ID
+# ersetzt werden (Einstellungen -> Geräte & Dienste -> Hydro Monitor ->
+# Gerät öffnen -> jede Entitätszeile zeigt ihre ID).
+#
+# Das ist eine vollständige Lovelace-VIEW (Titel/Icon/Pfad + Karten), keine
+# reine Karten-Liste -- als ein Eintrag unter der `views:`-Liste eines
+# bestehenden Dashboards einfügen, um einen neuen Tab mit bereits gesetztem
+# Titel und Icon zu bekommen. Willst du nur die Karten in deiner aktuellen
+# Ansicht, füge stattdessen nur den verschachtelten `cards:`-Block ein und
+# setze Titel/Icon selbst (Stift-Symbol neben dem Ansichts-Tab).
+#
+# Legst du für eine Station Views für mehrere Messgrößentypen an (z.B.
+# diese Datei plus dashboard_station_overview_discharge.de.yaml für
+# dieselbe Station), hat jede Datei bereits einen eigenen `path:` -- keine
+# Anpassung nötig, die vier Messgrößentyp-Dateien kollidieren nicht
+# miteinander (Lovelace verlangt eindeutige Pfade pro Dashboard).
+#
+# Nutzt `entities`-Karten statt `glance`-Karten (außer bei den Gauges):
+# Glance-Karten geben jeder Entität eine feste, schmale Spalte, die Hydro
+# Monitors längere, bereits lokalisierte Namen abschneidet -- Entities-
+# Karten geben jeder Zeile die volle Kartenbreite.
+#
+# Die meisten Entity-Namen werden bewusst NICHT überschrieben: Hydro
+# Monitors Sensor-Namen sind bereits übersetzt (translations/en.json /
+# de.json) und folgen automatisch der eingestellten Sprache. Ausnahmen: der
+# primäre Wert-Sensor (stattdessen per Kopfzeilen-Vorlage eingebunden,
+# trägt keinen eigenen Namen über den Gerätenamen hinaus) und die beiden
+# Gauge-Karten, deren kleine, feste Anzeigefläche keinen langen
+# automatisch generierten Namen fasst.
+#
+# Mehrere hier genutzte Sensoren sind standardmäßig deaktiviert
+# (Klassifikationsgrenzen, Dezile, historische Statistiken, die
+# "%-des-Mittelwerts"-Vergleichssensoren). Zeigt eine Karte "Entität nicht
+# gefunden", wurde diese Entität noch nie aktiviert -- einmalig auf der
+# Entitäts-Einstellungsseite aktivieren (Einstellungen -> Geräte & Dienste
+# -> Entitäten) und einen Aktualisierungszyklus abwarten.
+
+title: Hydro Monitor
+icon: mdi:water
+path: hydro-monitor-wasserstand
+cards:
+  - type: markdown
+    content: >
+      ## {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'name') }}
+
+      {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'model') }}
+
+  # --- Aktueller Status -------------------------------------------------
+  - type: entities
+    title: Aktueller Status
+    entities:
+      - entity: sensor.REPLACE_VALUE
+      - entity: sensor.REPLACE_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_OFFICIAL_DEVELOPMENT_7D
+      - entity: sensor.REPLACE_TREND_STATE
+      - entity: sensor.REPLACE_MEASUREMENT_AGE
+
+  # --- Verlauf ------------------------------------------------------------
+  - type: history-graph
+    title: Letzte 30 Tage
+    hours_to_show: 720
+    entities:
+      - entity: sensor.REPLACE_VALUE
+
+  # --- Vergleich mit dem historischen Mittelwert ---------------------------
+  - type: horizontal-stack
+    cards:
+      - type: gauge
+        entity: sensor.REPLACE_PERCENT_OF_MW
+        name: "% von MW"
+        min: 0
+        max: 150
+        severity:
+          red: 0
+          yellow: 40
+          green: 70
+      - type: gauge
+        entity: sensor.REPLACE_PERCENT_OF_MNW
+        name: "% von MNW"
+        min: 0
+        max: 200
+        severity:
+          red: 0
+          yellow: 60
+          green: 100
+
+  - type: entities
+    title: Historische Statistiken
+    entities:
+      - entity: sensor.REPLACE_MW
+      - entity: sensor.REPLACE_MNW
+      - entity: sensor.REPLACE_MINIMUM_30D
+      - entity: sensor.REPLACE_MAXIMUM_30D
+
+  # --- Klassifikation & Perzentil-Kontext ----------------------------------
+  - type: entities
+    title: Klassifikationsgrenzen
+    entities:
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_EXTREMELY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_VERY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_LOW
+      - type: divider
+      - entity: sensor.REPLACE_DECILE_P10
+      - entity: sensor.REPLACE_DECILE_P50
+      - entity: sensor.REPLACE_DECILE_P90
+
+  # --- Stationsmetadaten --------------------------------------------------
+  - type: entities
+    title: Station
+    entities:
+      - entity: sensor.REPLACE_WATERBODY
+      - entity: sensor.REPLACE_CATCHMENT_AREA
+      - entity: sensor.REPLACE_GAUGE_ZERO_ELEVATION
+      - entity: sensor.REPLACE_OPERATOR
+      - entity: sensor.REPLACE_INSTITUTION
+      - entity: sensor.REPLACE_LICENSE
+      - entity: sensor.REPLACE_LAST_MEASUREMENT

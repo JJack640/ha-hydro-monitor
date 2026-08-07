@@ -1,0 +1,128 @@
+# Hydro Monitor -- single-station dashboard example for DISCHARGE stations
+# (English).
+# German version: dashboard_station_overview_discharge.de.yaml
+# Water level: dashboard_station_overview_water_level.yaml
+# Groundwater level: dashboard_station_overview_groundwater.yaml
+# Spring discharge: dashboard_station_overview_spring_discharge.yaml
+#
+# See docs/examples/README.md before using this file: every
+# "sensor.REPLACE_..." entity ID below is a placeholder and must be swapped
+# for your own station's real entity IDs (Settings -> Devices & Services ->
+# Hydro Monitor -> open the device -> each entity row shows its ID).
+#
+# This is a full Lovelace VIEW (title/icon/path + cards), not just a list
+# of cards -- paste it as one item under an existing dashboard's `views:`
+# list to get a new tab with a title and icon already set. If you only want
+# the cards inside your current view instead, paste just the nested
+# `cards:` block and set a title/icon for that view yourself (the pencil
+# icon next to the view tab).
+#
+# If you're adding views for more than one measurement type from the same
+# station (e.g. this file plus dashboard_station_overview_water_level.yaml
+# for the same station), each file already has its own `path:`, so there's
+# no need to change it -- Lovelace requires unique paths per dashboard, and
+# the four measurement-type files here won't collide with each other.
+#
+# Uses `entities` cards rather than `glance` cards (other than the two
+# gauges): glance cards give each entity a fixed, narrow column that
+# truncates Hydro Monitor's longer, already-localized names (e.g. "Inkofen
+# Mittlerer Abfluss (MQ)") -- entities cards give each row the card's full
+# width instead.
+#
+# Deliberately does NOT override most entity names: Hydro Monitor's entity
+# names are already translated (translations/en.json / de.json) and follow
+# Home Assistant's configured language automatically. Exceptions: the
+# primary value entity (referenced via the header template instead of a
+# plain row, since it carries no name of its own beyond the device name)
+# and the two gauge cards, whose small fixed dial area can't fit a long
+# auto-generated name.
+#
+# Several sensors used here are disabled by default (classification
+# boundaries, deciles, historical statistics, the "% of mean" comparison
+# sensors). If a card shows "Entity not found", that specific entity has
+# never been enabled -- enable it once on the entity's settings page
+# (Settings -> Devices & Services -> Entities), and give it one update
+# cycle to get a value.
+
+title: Hydro Monitor
+icon: mdi:waves
+path: hydro-monitor-discharge
+cards:
+  - type: markdown
+    content: >
+      ## {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'name') }}
+
+      {{ device_attr(device_id('sensor.REPLACE_VALUE'), 'model') }}
+
+  # --- Current status -------------------------------------------------
+  - type: entities
+    title: Current status
+    entities:
+      - entity: sensor.REPLACE_VALUE
+      - entity: sensor.REPLACE_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_OFFICIAL_DEVELOPMENT_7D
+      - entity: sensor.REPLACE_TREND_STATE
+      - entity: sensor.REPLACE_MEASUREMENT_AGE
+
+  # --- History ----------------------------------------------------------
+  - type: history-graph
+    title: Last 30 days
+    hours_to_show: 720
+    entities:
+      - entity: sensor.REPLACE_VALUE
+
+  # --- Compared to the historical mean -----------------------------------
+  - type: horizontal-stack
+    cards:
+      - type: gauge
+        entity: sensor.REPLACE_PERCENT_OF_MQ
+        name: "% of MQ"
+        min: 0
+        max: 150
+        severity:
+          red: 0
+          yellow: 40
+          green: 70
+      - type: gauge
+        entity: sensor.REPLACE_PERCENT_OF_MNQ
+        name: "% of MNQ"
+        min: 0
+        max: 200
+        severity:
+          red: 0
+          yellow: 60
+          green: 100
+
+  - type: entities
+    title: Historical statistics
+    entities:
+      - entity: sensor.REPLACE_MQ
+      - entity: sensor.REPLACE_MNQ
+      - entity: sensor.REPLACE_NM7Q
+      - entity: sensor.REPLACE_NM30Q
+      - entity: sensor.REPLACE_MINIMUM_30D
+      - entity: sensor.REPLACE_MAXIMUM_30D
+
+  # --- Classification & percentile context --------------------------------
+  - type: entities
+    title: Classification boundaries
+    entities:
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_EXTREMELY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_VERY_LOW
+      - entity: sensor.REPLACE_BOUNDARY_DYNAMIC_LOW
+      - type: divider
+      - entity: sensor.REPLACE_DECILE_P10
+      - entity: sensor.REPLACE_DECILE_P50
+      - entity: sensor.REPLACE_DECILE_P90
+
+  # --- Station metadata -------------------------------------------------
+  - type: entities
+    title: Station
+    entities:
+      - entity: sensor.REPLACE_WATERBODY
+      - entity: sensor.REPLACE_CATCHMENT_AREA
+      - entity: sensor.REPLACE_GAUGE_ZERO_ELEVATION
+      - entity: sensor.REPLACE_OPERATOR
+      - entity: sensor.REPLACE_INSTITUTION
+      - entity: sensor.REPLACE_LICENSE
+      - entity: sensor.REPLACE_LAST_MEASUREMENT

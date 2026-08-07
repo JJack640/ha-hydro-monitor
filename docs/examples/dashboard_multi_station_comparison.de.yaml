@@ -1,0 +1,61 @@
+# Hydro Monitor -- Vergleich mehrerer Stationen (Deutsch).
+# Englische Version: dashboard_multi_station_comparison.yaml
+#
+# Vor der Nutzung docs/examples/README.md lesen: jede "sensor.REPLACE_..."
+# Entity-ID unten ist ein Platzhalter und muss durch deine echten Entity-IDs
+# ersetzt werden. Dieses Beispiel vergleicht bis zu vier Stationen
+# gleichzeitig (Mischung aus Messgrößentypen ist kein Problem); Zeilen für
+# deine tatsächliche Stationsanzahl ergänzen oder entfernen.
+#
+# Das ist eine vollständige Lovelace-VIEW (Titel/Icon/Pfad + Karten) -- als
+# ein Eintrag unter der `views:`-Liste eines bestehenden Dashboards
+# einfügen für einen neuen Tab mit bereits gesetztem Titel und Icon, oder
+# nur den verschachtelten `cards:`-Block in eine bestehende Ansicht
+# einfügen.
+#
+# Nutzt `entities`-Karten statt `glance`-Karten: Glance-Karten geben jeder
+# Entität eine feste, schmale Spalte, die Hydro Monitors längere, bereits
+# lokalisierte Namen abschneidet -- Entities-Karten geben jeder Zeile die
+# volle Kartenbreite. Entity-Namen werden nicht überschrieben: jede Zeile
+# beginnt durch Home Assistants has_entity_name-Konvention bereits mit dem
+# eigenen, schon lokalisierten Stationsnamen -- ein hartcodiertes
+# "Station 1/2/3/4" ist damit überflüssig.
+
+title: Stationsvergleich
+icon: mdi:compare
+path: hydro-monitor-vergleich
+cards:
+  - type: entities
+    title: Aktuelle Werte
+    entities:
+      - entity: sensor.REPLACE_STATION_1_VALUE
+      - entity: sensor.REPLACE_STATION_2_VALUE
+      - entity: sensor.REPLACE_STATION_3_VALUE
+      - entity: sensor.REPLACE_STATION_4_VALUE
+
+  - type: entities
+    title: Niedrigwasserklasse
+    entities:
+      - entity: sensor.REPLACE_STATION_1_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_STATION_2_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_STATION_3_LOW_WATER_CLASS
+      - entity: sensor.REPLACE_STATION_4_LOW_WATER_CLASS
+
+  # "% des Mittelwerts" gibt es nur für Abfluss- (percent_of_mq/mnq) und
+  # Wasserstand-Stationen (percent_of_mw/mnw) -- Zeilen für Grundwasser-/
+  # Quellschüttungsstationen weglassen, dafür gibt es keinen
+  # vergleichbaren Sensor.
+  - type: entities
+    title: "% des Mittelwerts"
+    entities:
+      - entity: sensor.REPLACE_STATION_1_PERCENT_OF_MEAN
+      - entity: sensor.REPLACE_STATION_2_PERCENT_OF_MEAN
+
+  - type: history-graph
+    title: Letzte 7 Tage
+    hours_to_show: 168
+    entities:
+      - entity: sensor.REPLACE_STATION_1_VALUE
+      - entity: sensor.REPLACE_STATION_2_VALUE
+      - entity: sensor.REPLACE_STATION_3_VALUE
+      - entity: sensor.REPLACE_STATION_4_VALUE
