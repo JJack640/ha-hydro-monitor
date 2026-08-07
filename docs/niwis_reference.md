@@ -48,17 +48,22 @@ results available for release `0.3.0-alpha`.
 Hydro Monitor is designed as a provider-independent hydrological monitoring
 integration for Home Assistant.
 
-The Bavarian NIWIS (Niedrigwasser-Informationssystem) is the first supported
-provider and therefore serves as the reference implementation for the project's
-architecture.
+NIWIS (Niedrigwasser-Informationssystem) is the first supported provider and
+therefore serves as the reference implementation for the project's
+architecture. NIWIS is a nationwide German service: its station catalogue
+spans nearly every federal state (confirmed via each station's `landcode`
+field) plus a separate set of federal waterway gauges (`landcode` `DEXX`,
+e.g. Worms, Mainz, Kaub, Würzburg) published under a distinct open licence.
+It is not limited to a single Bundesland.
 
 Although the current implementation focuses exclusively on NIWIS, the overall
 design deliberately separates provider-specific logic from the provider-neutral
 core models used throughout the integration.
 
-As a result, future providers (for example other German federal states or
-European hydrological services) should be able to integrate into Hydro Monitor
-without requiring changes to the Home Assistant entity layer.
+As a result, future providers (for example European hydrological services, or
+specialised German sources not already covered by NIWIS) should be able to
+integrate into Hydro Monitor without requiring changes to the Home Assistant
+entity layer.
 
 This document serves as the technical reference for the NIWIS provider.
 
@@ -3900,7 +3905,13 @@ implementation of climate indicators.
 
 Hydro Monitor was designed for multiple providers from the beginning.
 
-At present, however, only the Bavarian NIWIS provider has been implemented.
+At present, however, only the NIWIS provider has been implemented. NIWIS
+itself already covers nearly all German federal states plus the federal
+waterway network (confirmed via its station catalogue's `landcode` field),
+so a second provider is unlikely to add German geographic coverage that
+NIWIS is missing. It would instead validate the provider abstraction
+against a structurally different API and/or add coverage outside Germany
+(e.g. neighbouring European hydrological services).
 
 Future providers will help validate whether the provider-independent models are
 sufficiently generic or require refinement.
