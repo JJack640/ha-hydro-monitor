@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/github/license/JJack640/ha-hydro-monitor" alt="License">
   <img src="https://img.shields.io/badge/HACS-Compatible-41BDF5.svg" alt="HACS Compatible">
   <img src="https://img.shields.io/badge/Home%20Assistant-2026.7+-41BDF5" alt="Home Assistant">
+  <a href="https://buymeacoffee.com/JJack640"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-support-FFDD00.svg?logo=buy-me-a-coffee&logoColor=black" alt="Buy me a coffee"></a>
 </p>
 
 <p align="center">
@@ -30,7 +31,7 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 > Hydro Monitor is currently under active development. NIWIS is the first supported provider.
 
 > [!NOTE]
-> **Current status:** Feature-complete Alpha (`v0.3.0-alpha4`) – recommended for testing and feedback.
+> **Current status:** Beta (`v0.3.0-beta1`) – recommended for general use; feedback still welcome.
 
 ## Features
 
@@ -64,7 +65,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-**Current release:** `v0.3.0-alpha4`
+**Current release:** `v0.3.0-beta1`
 
 Hydro Monitor currently supports the NIWIS public hydrological data service.
 
@@ -74,7 +75,7 @@ The architecture is provider-based and designed to support additional national a
 
 | Provider | Status | Data |
 |---|---|---|
-| NIWIS | Experimental (Alpha) | Groundwater level, water level, discharge, spring discharge |
+| NIWIS | Beta | Groundwater level, water level, discharge, spring discharge |
 
 Additional providers may be added later without changing the core integration architecture.
 
@@ -176,3 +177,8 @@ The provider abstraction allows adding additional hydrological services without 
 Contributions, ideas, bug reports and pull requests are welcome.
 
 Please open a GitHub Issue before submitting larger feature changes or architectural modifications.
+
+## Support
+
+If Hydro Monitor is useful to you, consider supporting its development:
+[buymeacoffee.com/JJack640](https://buymeacoffee.com/JJack640).

@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## v0.3.0-beta1 (2026-08-07)
+
+First beta release: Phase 2-6 of the technical roadmap are complete
+(implemented or explicitly deferred/blocked with documented reasoning), the
+project is moving from active feature development into stabilization, and
+this release adds the metadata required for official HACS listing.
+
+### Added
+
+- Four new `%`-of-mean comparison sensors: `percent_of_mq`/`mnq` (discharge),
+  `percent_of_mw`/`mnw` (water level), disabled by default
+- Example Lovelace dashboards (`docs/examples/`): one view per measurement
+  type plus a multi-station comparison view, in English and German
+- `codeowners` in `manifest.json` (was empty)
+
+### Changed
+
+- Device name/model text and the config entry title (e.g. "Inkofen –
+  Abfluss") now follow Home Assistant's configured instance language
+  instead of always being English, via a new shared
+  `custom_components/hydro_monitor/localization.py` module
+- Corrected documentation: NIWIS is a nationwide German service, not
+  Bavaria-only as earlier revisions of `docs/niwis_reference.md` stated
+
 ## v0.3.0-alpha4 (2026-08-07)
 
 ### Added

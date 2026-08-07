@@ -1,11 +1,11 @@
 {
   "domain": "hydro_monitor",
   "name": "Hydro Monitor",
-  "codeowners": [],
+  "codeowners": ["@JJack640"],
   "config_flow": true,
   "documentation": "https://github.com/JJack640/ha-hydro-monitor",
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/JJack640/ha-hydro-monitor/issues",
-  "version": "0.3.0-alpha4"
+  "version": "0.3.0-beta1"
 }
