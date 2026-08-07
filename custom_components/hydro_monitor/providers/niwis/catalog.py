@@ -162,9 +162,12 @@ class NiwisCatalog:
         *,
         latitude: float,
         longitude: float,
-        limit: int,
+        limit: int | None = None,
     ) -> list[HydroStation]:
-        """Return nearest stations for a measurement type."""
+        """Return nearest stations for a measurement type.
+
+        limit=None returns every station, sorted by distance.
+        """
         stations = await self.async_get_stations(measurement_type)
         nearby: list[HydroStation] = []
 
@@ -195,4 +198,4 @@ class NiwisCatalog:
             )
         )
 
-        return nearby[:limit]
+        return nearby if limit is None else nearby[:limit]

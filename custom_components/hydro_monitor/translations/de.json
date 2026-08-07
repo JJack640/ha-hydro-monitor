@@ -15,7 +15,18 @@
         "data": {
           "station_id": "Messstelle"
         }
+      },
+      "search": {
+        "title": "Nach einer Messstelle suchen",
+        "description": "Durchsuche alle Messstellen für {measurement_type} nach Namen. Die Ergebnisse sind nach Entfernung zu deinem Home-Assistant-Standort sortiert.",
+        "data": {
+          "query": "Suchbegriff"
+        }
       }
+    },
+    "error": {
+      "empty_search_query": "Gib einen Suchbegriff ein.",
+      "no_search_results": "Keine Messstelle passt zu deiner Suche. Versuche einen anderen Namen."
     },
     "abort": {
       "already_configured": "Diese Messstelle und Messgröße sind bereits eingerichtet.",

@@ -32,3 +32,27 @@ class StationDiscoveryService:
             longitude=location.longitude,
             limit=limit,
         )
+
+    async def async_search(
+        self,
+        measurement_type: HydroMeasurementType,
+        query: str,
+        *,
+        limit: int = 10,
+    ) -> list[HydroStation]:
+        """Return stations whose name matches the query, sorted by distance."""
+        location = await async_get_home_location(self._hass)
+
+        all_stations = await self._niwis.async_nearby_stations(
+            measurement_type,
+            latitude=location.latitude,
+            longitude=location.longitude,
+            limit=None,
+        )
+
+        needle = query.strip().casefold()
+        matches = [
+            station for station in all_stations if needle in station.name.casefold()
+        ]
+
+        return matches[:limit]

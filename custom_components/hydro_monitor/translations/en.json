@@ -15,7 +15,18 @@
         "data": {
           "station_id": "Station"
         }
+      },
+      "search": {
+        "title": "Search for a station",
+        "description": "Search all monitoring stations for {measurement_type} by name. Results are sorted by distance from your Home Assistant location.",
+        "data": {
+          "query": "Search query"
+        }
       }
+    },
+    "error": {
+      "empty_search_query": "Enter a search term.",
+      "no_search_results": "No stations matched your search. Try a different name."
     },
     "abort": {
       "already_configured": "This station and measurement type are already configured.",
