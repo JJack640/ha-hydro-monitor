@@ -6,6 +6,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## v0.3.0-alpha4 (2026-08-07)
+
+### Added
+
+- Official NIWIS low-water classification sensor (`Niedrigwasserklasse`) for all four measurement types, failing independently of the primary observation
+- Official static and dynamic low-water classification boundary sensors (disabled by default), with dynamic boundaries cached per calendar day
+- Official NIWIS 7-day development sensor for discharge and water level, distinct from the existing locally-calculated 7-day trend
+- Official historical statistics MQ, MNQ, NM7Q, NM30Q (discharge) and MW, MNW (water level), as disabled-by-default sensors
+- Manual station search in the config flow: search all stations nationwide by name, not just the nearest 25
+- 11 official NIWIS decile boundary sensors (P0-P100) for discharge and water level, disabled by default
+
+### Changed
+
+- Low-water classification sensor upgraded to a proper `SensorDeviceClass.ENUM`, now that the full 4-value label domain is confirmed
+- Static and dynamic low-water boundary sensors now display 2 decimal places instead of raw floating-point precision
+- `as_float()` now rejects the literal string `"NaN"` returned by NIWIS for poor-quality results
+
+### Fixed
+
+- Corrected the NM7Q/NM30Q historical-statistics interval: both need a flat 30-day window rather than a window matching each quantity's own name, live-verified against the real API
+
+### Documented
+
+- LFI (Low Flow Index) is blocked and deferred: live-tested against 5 discharge stations, all failed with NIWIS's own "cannot be calculated for this station" error
+- Both NIWIS climate-indicator endpoints (low-water days, monthly mean deviations) are blocked and deferred: live-tested and confirmed to return nationwide, non-station-specific data with no reliable way to attribute a configured station to a river basin
+
+## v0.3.0-alpha3 (2026-07-24)
+
+### Added
+
+- Extended NIWIS station metadata: waterbody and waterbody code (GKZ), river kilometre, catchment area, gauge zero elevation, ground elevation, elevation reference system, locality, station type, hydrogeological region and region code, operator, institution, source and licence information, historical NQ/NW values and dates
+- Reproducible NIWIS discovery and inventory tooling (station catalogue inventory, field/schema analysis, sampled time-series data, data-quality statistics, derived-quantity discovery and endpoint probing)
+- Comprehensive NIWIS provider technical reference (`docs/niwis_reference.md`)
+
+### Changed
+
+- Station metadata and changing observations now use separate entity classes (`HydroObservationSensor`, `HydroStationSensor`) for cleaner device pages
+- Readable licence names, correct river-kilometre unit, improved numerical precision, stable entity unique IDs
+- Only metadata actually available for a station is exposed as an entity
+
 ## v0.3.0-alpha2 (2026-07-21)
 
 ### Added
