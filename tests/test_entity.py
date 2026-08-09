@@ -7,6 +7,7 @@ import pytest
 
 from custom_components.hydro_monitor.coordinator import HydroMonitorCoordinator
 from custom_components.hydro_monitor.models import (
+    HydroDatedExtreme,
     HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
@@ -18,6 +19,7 @@ from custom_components.hydro_monitor.sensor import (
     SENSOR_DESCRIPTIONS,
     HydroObservationSensor,
 )
+from custom_components.hydro_monitor.sensor_glossary import sensor_description
 
 
 def _description(key: str):
@@ -25,6 +27,19 @@ def _description(key: str):
     return next(
         description for description in SENSOR_DESCRIPTIONS if description.key == key
     )
+
+
+def _attrs(sensor: HydroObservationSensor) -> dict:
+    """Return a sensor's extra_state_attributes with the glossary 'description' stripped.
+
+    The glossary description is covered by its own dedicated test
+    (test_extra_state_attributes_carry_glossary_description); stripping it
+    here keeps the other attribute-shape tests focused on their own
+    concerns and independent of the exact glossary wording.
+    """
+    attrs = sensor.extra_state_attributes
+    assert attrs is not None
+    return {key: value for key, value in attrs.items() if key != "description"}
 
 
 def _observation() -> HydroObservation:
@@ -116,7 +131,7 @@ def test_low_water_class_sensor_exposes_official_error_message() -> None:
     )
 
     assert sensor.native_value is None
-    assert sensor.extra_state_attributes == {
+    assert _attrs(sensor) == {
         "raw_value": None,
         "error": "Zu viele Fehlwerte im Referenzzeitraum",
     }
@@ -144,7 +159,7 @@ def test_low_water_class_sensor_exposes_raw_value_for_unmapped_label() -> None:
     )
 
     assert sensor.native_value is None
-    assert sensor.extra_state_attributes == {
+    assert _attrs(sensor) == {
         "raw_value": "irgendwas",
         "error": None,
     }
@@ -172,7 +187,7 @@ def test_official_development_7d_sensor_exposes_official_error_message() -> None
     )
 
     assert sensor.native_value is None
-    assert sensor.extra_state_attributes == {
+    assert _attrs(sensor) == {
         "raw_value": None,
         "error": "Zu viele Fehlwerte im Referenzzeitraum",
     }
@@ -225,7 +240,7 @@ def test_static_boundary_sensor_exposes_error() -> None:
     )
 
     assert sensor.native_value is None
-    assert sensor.extra_state_attributes == {"error": "static down"}
+    assert _attrs(sensor) == {"error": "static down"}
 
 
 def test_dynamic_boundary_sensor_exposes_error_and_reference_date() -> None:
@@ -252,7 +267,7 @@ def test_dynamic_boundary_sensor_exposes_error_and_reference_date() -> None:
     )
 
     assert sensor.native_value == pytest.approx(24.3)
-    assert sensor.extra_state_attributes == {
+    assert _attrs(sensor) == {
         "error": None,
         "reference_date": "2026-07-15",
     }
@@ -294,15 +309,39 @@ def test_decile_sensor_exposes_error_and_reference_date() -> None:
     )
 
     assert sensor.native_value == pytest.approx(20.0)
-    assert sensor.extra_state_attributes == {
+    assert _attrs(sensor) == {
         "error": None,
         "reference_date": "2026-07-15",
     }
 
 
-@pytest.mark.parametrize("key", ["mq", "mnq", "nm7q", "nm30q", "mw", "mnw"])
+_HISTORICAL_STATISTIC_SHAPED_KEYS = [
+    "mq",
+    "mnq",
+    "mw",
+    "mnw",
+    "nq",
+    "median_q",
+    "nw",
+    "median_w",
+    "min_q_calendar_day",
+    "median_q_calendar_day",
+    "max_q_calendar_day",
+    "median_w_calendar_day",
+    "sum_d",
+    "sum_v",
+    "days_below_glw",
+    "depth_below_ground",
+]
+# nm7q/nm30q are deliberately excluded: since Sprint 7 they also carry
+# occurred_from/occurred_to attributes (see
+# test_dated_extreme_sensor_exposes_error/_reports_value below), so they no
+# longer share this simple {"error": ...}-only shape.
+
+
+@pytest.mark.parametrize("key", _HISTORICAL_STATISTIC_SHAPED_KEYS)
 def test_historical_statistic_sensor_exposes_error(key: str) -> None:
-    """Test that a historical-statistic sensor surfaces its own error."""
+    """Test that a historical-statistic-shaped sensor surfaces its own error."""
     coordinator = MagicMock(spec=HydroMonitorCoordinator)
     coordinator.station = _station()
     coordinator.measurement_type = HydroMeasurementType.DISCHARGE
@@ -321,12 +360,12 @@ def test_historical_statistic_sensor_exposes_error(key: str) -> None:
     )
 
     assert sensor.native_value is None
-    assert sensor.extra_state_attributes == {"error": "mq down"}
+    assert _attrs(sensor) == {"error": "mq down"}
 
 
-@pytest.mark.parametrize("key", ["mq", "mnq", "nm7q", "nm30q", "mw", "mnw"])
+@pytest.mark.parametrize("key", _HISTORICAL_STATISTIC_SHAPED_KEYS)
 def test_historical_statistic_sensor_reports_value(key: str) -> None:
-    """Test that a historical-statistic sensor reports its numeric value."""
+    """Test that a historical-statistic-shaped sensor reports its numeric value."""
     coordinator = MagicMock(spec=HydroMonitorCoordinator)
     coordinator.station = _station()
     coordinator.measurement_type = HydroMeasurementType.DISCHARGE
@@ -345,7 +384,72 @@ def test_historical_statistic_sensor_reports_value(key: str) -> None:
     )
 
     assert sensor.native_value == pytest.approx(46.41388)
-    assert sensor.extra_state_attributes == {"error": None}
+    assert _attrs(sensor) == {"error": None}
+
+
+@pytest.mark.parametrize("key", ["nm7q", "nm30q"])
+def test_dated_extreme_sensor_exposes_error(key: str) -> None:
+    """Test that nm7q/nm30q surface their own error, plus null occurrence dates."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+        **{key: HydroDerivedValue(error="nm7q down")},
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    assert sensor.native_value is None
+    assert _attrs(sensor) == {
+        "error": "nm7q down",
+        "occurred_from": None,
+        "occurred_to": None,
+    }
+
+
+@pytest.mark.parametrize("key", ["nm7q", "nm30q"])
+def test_dated_extreme_sensor_reports_value_and_occurrence(key: str) -> None:
+    """Test that nm7q/nm30q report their value plus the date range it occurred in."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+        **{
+            key: HydroDerivedValue(value=15.26, unit="m³/s", error=None),
+            f"{key}_dated": HydroDatedExtreme(
+                value=15.26,
+                unit="m³/s",
+                occurred_from=date(2026, 7, 15),
+                occurred_to=date(2026, 7, 21),
+                raw_label="15.26 (15.07.2026-21.07.2026)",
+            ),
+        },
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    assert sensor.native_value == pytest.approx(15.26)
+    assert _attrs(sensor) == {
+        "error": None,
+        "occurred_from": "2026-07-15",
+        "occurred_to": "2026-07-21",
+    }
 
 
 @pytest.mark.parametrize(
@@ -377,7 +481,58 @@ def test_percent_of_statistic_sensor_exposes_error(key: str, stat_key: str) -> N
     )
 
     assert sensor.native_value is None
-    assert sensor.extra_state_attributes == {"error": "stat down"}
+    assert _attrs(sensor) == {"error": "stat down"}
+
+
+@pytest.mark.parametrize(
+    "key",
+    [
+        "low_water_class",
+        "official_development_7d",
+        "below_glw",
+        "boundary_static_extremely_low",
+        "boundary_dynamic_extremely_low",
+        "nm7q",
+        "mq",
+        "nq",
+        "min_q_calendar_day",
+        "sum_d",
+        "days_below_glw",
+        "depth_below_ground",
+        "percent_of_mq",
+        "decile_p50",
+    ],
+)
+def test_extra_state_attributes_carry_glossary_description(key: str) -> None:
+    """Test that official NIWIS derived-quantity sensors explain themselves.
+
+    Their names mirror NIWIS's own abbreviations (MQ, GlW, ...), which
+    aren't self-explanatory, and Home Assistant has no per-entity tooltip
+    mechanism -- so every such sensor's "more info" attributes carry a
+    plain-language `description` in the configured language.
+    """
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.DISCHARGE,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+    )
+    coordinator.last_update_success = True
+    coordinator.hass = MagicMock()
+    coordinator.hass.config.language = "de"
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    attrs = sensor.extra_state_attributes
+    assert attrs is not None
+    assert attrs["description"] == sensor_description(key, "de")
+    assert attrs["description"]
 
 
 @pytest.mark.parametrize(

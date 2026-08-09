@@ -8,11 +8,16 @@ import pytest
 
 from custom_components.hydro_monitor.models import HydroMeasurementType
 from custom_components.hydro_monitor.providers.niwis.mapper import (
+    _parse_german_date,
     as_float,
+    below_glw_from_niwis,
+    calendar_day_value_from_niwis,
+    dated_extreme_from_niwis,
     day_of_year_index,
     deciles_from_niwis,
     dynamic_low_water_boundaries_from_niwis,
     historical_statistic_from_niwis,
+    latest_interval_value_from_niwis,
     low_water_class_from_niwis,
     observation_from_niwis,
     official_development_7d_from_niwis,
@@ -1028,3 +1033,268 @@ def test_deciles_rejects_non_dict_input(payload: object) -> None:
     assert deciles.classification_labels is None
     assert deciles.thresholds is None
     assert deciles.error is None
+
+
+# --- Group A: calendar_day_value_from_niwis -------------------------------
+
+
+def test_calendar_day_value_maps_real_fixture() -> None:
+    """Test mapping of a real captured 'Median Q pro Kalendertag' response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneZeitreihenErgebnisNummer"
+            / "abfluss__median_q_pro_kalendertag.json"
+        ).read_text(encoding="utf-8")
+    )
+    reference_date = date(2026, 1, 15)
+    expected_value = data["werte"][day_of_year_index(reference_date) - 1]
+
+    result = calendar_day_value_from_niwis(data, reference_date)
+
+    assert result.value == pytest.approx(expected_value)
+    assert result.unit == "m³/s"
+    assert result.reference_date == reference_date
+    assert result.error is None
+
+
+def test_calendar_day_value_malformed_werte_array() -> None:
+    """Test that a wrong-length werte array is rejected."""
+    result = calendar_day_value_from_niwis(
+        {"werte": [1.0, 2.0], "einheit": "m³/s", "hatZuvieleFehlwerte": False, "fehlermeldung": None},
+        date(2026, 1, 15),
+    )
+
+    assert result.value is None
+    assert result.error == "malformed werte array"
+
+
+def test_calendar_day_value_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses the value."""
+    result = calendar_day_value_from_niwis(
+        {"werte": [1.0] * 366, "einheit": "m³/s", "hatZuvieleFehlwerte": True, "fehlermeldung": None},
+        date(2026, 1, 15),
+    )
+
+    assert result.value is None
+    assert result.unit == "m³/s"
+    assert result.error is None
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_calendar_day_value_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    result = calendar_day_value_from_niwis(payload, date(2026, 1, 15))
+    assert result.value is None
+    assert result.error is None
+
+
+# --- Group C: dated_extreme_from_niwis ------------------------------------
+
+
+def test_dated_extreme_maps_real_fixture() -> None:
+    """Test mapping of a real captured 'NM7Q mit Datum' response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneEinzelwertKategorie"
+            / "abfluss__nm7q_mit_datum.json"
+        ).read_text(encoding="utf-8")
+    )
+
+    result = dated_extreme_from_niwis(data, "m³/s")
+
+    assert result.value == pytest.approx(15.26)
+    assert result.occurred_from == date(2026, 7, 15)
+    assert result.occurred_to == date(2026, 7, 21)
+    assert result.unit == "m³/s"
+    assert result.raw_label == "15.26 (15.07.2026-21.07.2026)"
+    assert result.error is None
+
+
+def test_dated_extreme_unrecognized_format() -> None:
+    """Test that a response not matching the 'value (from-to)' shape is rejected.
+
+    The raw label is preserved even on parse failure (ADR-005 in
+    docs/niwis_reference.md), rather than silently discarded.
+    """
+    result = dated_extreme_from_niwis(
+        {
+            "einzelwert": "15.26",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        },
+        "m³/s",
+    )
+
+    assert result.value is None
+    assert result.raw_label == "15.26"
+    assert result.error == "unrecognized format"
+
+
+def test_dated_extreme_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses the value."""
+    result = dated_extreme_from_niwis(
+        {
+            "einzelwert": "15.26 (15.07.2026-21.07.2026)",
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        },
+        "m³/s",
+    )
+
+    assert result.value is None
+    assert result.error is None
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_dated_extreme_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    result = dated_extreme_from_niwis(payload, "m³/s")
+    assert result.value is None
+    assert result.error is None
+
+
+def test_parse_german_date() -> None:
+    """Test the DD.MM.YYYY date parser used only by dated_extreme_from_niwis."""
+    assert _parse_german_date("15.07.2026") == date(2026, 7, 15)
+
+
+@pytest.mark.parametrize("value", ["", "not-a-date", "2026-07-15", "32.13.2026"])
+def test_parse_german_date_rejects_invalid_input(value: str) -> None:
+    """Test that malformed dates return None instead of raising."""
+    assert _parse_german_date(value) is None
+
+
+# --- Group F: latest_interval_value_from_niwis ----------------------------
+
+
+def test_latest_interval_value_maps_real_fixture() -> None:
+    """Test mapping of a real captured 'm unter Geländeoberkante' response."""
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneZeitreihenErgebnisNummer"
+            / "grundwasser__m_unter_geländeoberkante.json"
+        ).read_text(encoding="utf-8")
+    )
+    expected_value = next(v for v in reversed(data["werte"]) if as_float(v) is not None)
+
+    result = latest_interval_value_from_niwis(data)
+
+    assert result.value == pytest.approx(expected_value)
+    assert result.unit == "m"
+    assert result.error is None
+
+
+def test_latest_interval_value_skips_trailing_nan() -> None:
+    """Test that a not-yet-published trailing 'NaN' is skipped for the newest real value."""
+    result = latest_interval_value_from_niwis(
+        {
+            "werte": [12.3, 12.4, 12.5, "NaN"],
+            "einheit": "m",
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert result.value == pytest.approx(12.5)
+    assert result.unit == "m"
+
+
+def test_latest_interval_value_no_valid_value_in_window() -> None:
+    """Test the all-NaN edge case."""
+    result = latest_interval_value_from_niwis(
+        {"werte": ["NaN", "NaN"], "einheit": "m", "hatZuvieleFehlwerte": False, "fehlermeldung": None}
+    )
+
+    assert result.value is None
+    assert result.error == "no valid value in window"
+
+
+def test_latest_interval_value_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses the value."""
+    result = latest_interval_value_from_niwis(
+        {"werte": [12.3], "einheit": "m", "hatZuvieleFehlwerte": True, "fehlermeldung": None}
+    )
+
+    assert result.value is None
+    assert result.error is None
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_latest_interval_value_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    result = latest_interval_value_from_niwis(payload)
+    assert result.value is None
+    assert result.error is None
+
+
+# --- Group E: below_glw_from_niwis ----------------------------------------
+
+
+def test_below_glw_maps_real_fixture() -> None:
+    """Test mapping of a real captured 'unter GlW' response (federal-waterway gauge)."""
+    below_glw, raw_label, error = below_glw_from_niwis(
+        {
+            "einzelwert": "unterhalb",
+            "einheit": None,
+            "hatZuvieleFehlwerte": False,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert below_glw == "unterhalb"
+    assert raw_label == "unterhalb"
+    assert error is None
+
+
+def test_below_glw_empty_at_non_waterway_station() -> None:
+    """Test the real captured response at a non-federal-waterway station.
+
+    Based on niwis_inventory/derived_results/berechneEinzelwertKategorie/
+    wasserstand__unter_glw.json.
+    """
+    data = json.loads(
+        (
+            INVENTORY_DIR
+            / "derived_results"
+            / "berechneEinzelwertKategorie"
+            / "wasserstand__unter_glw.json"
+        ).read_text(encoding="utf-8")
+    )
+
+    below_glw, raw_label, error = below_glw_from_niwis(data)
+
+    assert below_glw is None
+    assert raw_label is None
+
+
+def test_below_glw_too_many_missing_values() -> None:
+    """Test that hatZuvieleFehlwerte suppresses the mapped value."""
+    below_glw, raw_label, error = below_glw_from_niwis(
+        {
+            "einzelwert": "unterhalb",
+            "einheit": None,
+            "hatZuvieleFehlwerte": True,
+            "fehlermeldung": None,
+        }
+    )
+
+    assert below_glw is None
+    assert raw_label == "unterhalb"
+    assert error is None
+
+
+@pytest.mark.parametrize("payload", [None, [], "oops", 42])
+def test_below_glw_rejects_non_dict_input(payload: object) -> None:
+    """Test that malformed non-dict responses map to an empty result."""
+    below_glw, raw_label, error = below_glw_from_niwis(payload)
+    assert below_glw is None
+    assert raw_label is None
+    assert error is None

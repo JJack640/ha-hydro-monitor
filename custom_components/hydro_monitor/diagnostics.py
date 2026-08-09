@@ -10,7 +10,7 @@ from homeassistant.util import dt as dt_util
 
 from . import HydroMonitorConfigEntry
 from .const import MEASUREMENT_STALE_AFTER
-from .models import HydroDerivedValue, HydroObservation
+from .models import HydroCalendarDayValue, HydroDatedExtreme, HydroDerivedValue, HydroObservation
 
 
 def _observation_datetime(
@@ -147,6 +147,44 @@ def _historical_statistic_diagnostics(
     return {"value": stat.value, "unit": stat.unit, "error": stat.error}
 
 
+def _calendar_day_diagnostics(
+    stat: HydroCalendarDayValue | None,
+) -> dict[str, Any] | None:
+    """Return diagnostics for one historical calendar-day quantity."""
+    if stat is None:
+        return None
+
+    return {
+        "value": stat.value,
+        "unit": stat.unit,
+        "reference_date": (
+            stat.reference_date.isoformat() if stat.reference_date is not None else None
+        ),
+        "error": stat.error,
+    }
+
+
+def _dated_extreme_diagnostics(
+    dated: HydroDatedExtreme | None,
+) -> dict[str, Any] | None:
+    """Return diagnostics for one NM7Q/NM30Q 'mit Datum' quantity."""
+    if dated is None:
+        return None
+
+    return {
+        "value": dated.value,
+        "unit": dated.unit,
+        "occurred_from": (
+            dated.occurred_from.isoformat() if dated.occurred_from is not None else None
+        ),
+        "occurred_to": (
+            dated.occurred_to.isoformat() if dated.occurred_to is not None else None
+        ),
+        "raw_label": dated.raw_label,
+        "error": dated.error,
+    }
+
+
 async def async_get_config_entry_diagnostics(
     hass: HomeAssistant,
     entry: HydroMonitorConfigEntry,
@@ -244,6 +282,9 @@ async def async_get_config_entry_diagnostics(
                 "official_development_7d_error": (
                     observation.official_development_7d_error
                 ),
+                "below_glw": observation.below_glw,
+                "below_glw_raw": observation.below_glw_raw,
+                "below_glw_error": observation.below_glw_error,
                 "boundaries": _boundaries_diagnostics(observation),
                 "deciles": _deciles_diagnostics(observation),
                 "historical_statistics": {
@@ -253,6 +294,32 @@ async def async_get_config_entry_diagnostics(
                     "nm30q": _historical_statistic_diagnostics(observation.nm30q),
                     "mw": _historical_statistic_diagnostics(observation.mw),
                     "mnw": _historical_statistic_diagnostics(observation.mnw),
+                    "nq": _historical_statistic_diagnostics(observation.nq),
+                    "median_q": _historical_statistic_diagnostics(observation.median_q),
+                    "nw": _historical_statistic_diagnostics(observation.nw),
+                    "median_w": _historical_statistic_diagnostics(observation.median_w),
+                    "sum_d": _historical_statistic_diagnostics(observation.sum_d),
+                    "sum_v": _historical_statistic_diagnostics(observation.sum_v),
+                    "days_below_glw": _historical_statistic_diagnostics(
+                        observation.days_below_glw
+                    ),
+                    "depth_below_ground": _historical_statistic_diagnostics(
+                        observation.depth_below_ground
+                    ),
+                },
+                "calendar_day_statistics": {
+                    "min_q": _calendar_day_diagnostics(observation.min_q_calendar_day),
+                    "median_q": _calendar_day_diagnostics(
+                        observation.median_q_calendar_day
+                    ),
+                    "max_q": _calendar_day_diagnostics(observation.max_q_calendar_day),
+                    "median_w": _calendar_day_diagnostics(
+                        observation.median_w_calendar_day
+                    ),
+                },
+                "dated_extremes": {
+                    "nm7q": _dated_extreme_diagnostics(observation.nm7q_dated),
+                    "nm30q": _dated_extreme_diagnostics(observation.nm30q_dated),
                 },
             }
             if observation is not None

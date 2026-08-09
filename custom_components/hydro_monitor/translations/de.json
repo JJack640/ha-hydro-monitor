@@ -163,6 +163,45 @@
       "percent_of_mnw": {
         "name": "% des mittleren Niedrigwasserstands (MNW)"
       },
+      "nq": {
+        "name": "Niedrigabfluss (NQ, Referenzzeitraum)"
+      },
+      "median_q": {
+        "name": "Medianabfluss (Referenzzeitraum)"
+      },
+      "nw": {
+        "name": "Niedrigwasserstand (NW, Referenzzeitraum)"
+      },
+      "median_w": {
+        "name": "Medianwasserstand (Referenzzeitraum)"
+      },
+      "min_q_calendar_day": {
+        "name": "Historisches Minimum für heute (Min Q)"
+      },
+      "median_q_calendar_day": {
+        "name": "Historischer Median für heute (Median Q)"
+      },
+      "max_q_calendar_day": {
+        "name": "Historisches Maximum für heute (Max Q)"
+      },
+      "median_w_calendar_day": {
+        "name": "Historischer Medianwasserstand für heute (Median W)"
+      },
+      "sum_d": {
+        "name": "Niedrigwassertage (letzte 30 Tage)"
+      },
+      "sum_v": {
+        "name": "Kumuliertes Abflussdefizit-Volumen (letzte 30 Tage)"
+      },
+      "below_glw": {
+        "name": "Unter GlW (Schifffahrts-Bezugswasserstand)"
+      },
+      "days_below_glw": {
+        "name": "Tage unter GlW/RWN/BWu"
+      },
+      "depth_below_ground": {
+        "name": "Flurabstand"
+      },
       "last_measurement": {
         "name": "Letzte Messung"
       },

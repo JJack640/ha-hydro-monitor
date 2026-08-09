@@ -9,6 +9,8 @@ from homeassistant.helpers.entity import EntityCategory
 
 from custom_components.hydro_monitor import sensor as sensor_module
 from custom_components.hydro_monitor.models import (
+    HydroCalendarDayValue,
+    HydroDatedExtreme,
     HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
@@ -49,6 +51,23 @@ def _observation(
     nm30q: HydroDerivedValue | None = None,
     mw: HydroDerivedValue | None = None,
     mnw: HydroDerivedValue | None = None,
+    nq: HydroDerivedValue | None = None,
+    median_q: HydroDerivedValue | None = None,
+    nw: HydroDerivedValue | None = None,
+    median_w: HydroDerivedValue | None = None,
+    nm7q_dated: HydroDatedExtreme | None = None,
+    nm30q_dated: HydroDatedExtreme | None = None,
+    min_q_calendar_day: HydroCalendarDayValue | None = None,
+    median_q_calendar_day: HydroCalendarDayValue | None = None,
+    max_q_calendar_day: HydroCalendarDayValue | None = None,
+    median_w_calendar_day: HydroCalendarDayValue | None = None,
+    sum_d: HydroDerivedValue | None = None,
+    sum_v: HydroDerivedValue | None = None,
+    below_glw: str | None = None,
+    below_glw_raw: str | None = None,
+    below_glw_error: str | None = None,
+    days_below_glw: HydroDerivedValue | None = None,
+    depth_below_ground: HydroDerivedValue | None = None,
 ) -> HydroObservation:
     """Create a Hydro Monitor observation for sensor tests."""
     return HydroObservation(
@@ -74,6 +93,23 @@ def _observation(
         nm30q=nm30q,
         mw=mw,
         mnw=mnw,
+        nq=nq,
+        median_q=median_q,
+        nw=nw,
+        median_w=median_w,
+        nm7q_dated=nm7q_dated,
+        nm30q_dated=nm30q_dated,
+        min_q_calendar_day=min_q_calendar_day,
+        median_q_calendar_day=median_q_calendar_day,
+        max_q_calendar_day=max_q_calendar_day,
+        median_w_calendar_day=median_w_calendar_day,
+        sum_d=sum_d,
+        sum_v=sum_v,
+        below_glw=below_glw,
+        below_glw_raw=below_glw_raw,
+        below_glw_error=below_glw_error,
+        days_below_glw=days_below_glw,
+        depth_below_ground=depth_below_ground,
     )
 
 
@@ -349,17 +385,47 @@ def test_decile_descriptions(key: str, index: int) -> None:
     assert description.unit_fn(_observation()) is None
 
 
-@pytest.mark.parametrize("key", ["mq", "mnq", "nm7q", "nm30q", "mw", "mnw"])
+@pytest.mark.parametrize(
+    "key",
+    [
+        "mq",
+        "mnq",
+        "nm7q",
+        "nm30q",
+        "mw",
+        "mnw",
+        "nq",
+        "median_q",
+        "nw",
+        "median_w",
+        "min_q_calendar_day",
+        "median_q_calendar_day",
+        "max_q_calendar_day",
+        "median_w_calendar_day",
+        "sum_d",
+        "sum_v",
+        "days_below_glw",
+        "depth_below_ground",
+    ],
+)
 def test_historical_statistic_descriptions(key: str) -> None:
-    """Test the official historical-statistic sensor descriptions."""
+    """Test the official historical-statistic(-shaped) sensor descriptions.
+
+    Covers both berechneEinzelwertNummer quantities (HydroDerivedValue) and
+    the calendar-day envelope (HydroCalendarDayValue): both models expose
+    the same value/unit attribute names, so _historical_statistic/
+    _historical_statistic_unit work identically for either.
+    """
     description = _description(key)
+    is_calendar_day = key.endswith("_calendar_day")
+    model = HydroCalendarDayValue if is_calendar_day else HydroDerivedValue
 
     assert description.translation_key == key
     assert description.entity_registry_enabled_default is False
     assert description.entity_category is None
     assert description.state_class == SensorStateClass.MEASUREMENT
 
-    stat = HydroDerivedValue(value=46.41388, unit="m³/s", error=None)
+    stat = model(value=46.41388, unit="m³/s", error=None)
     observation = _observation(**{key: stat})
     assert description.value_fn(observation) == pytest.approx(46.41388)
     assert description.unit_fn(observation) == "m³/s"
@@ -367,6 +433,41 @@ def test_historical_statistic_descriptions(key: str) -> None:
     # None-safe when the quantity is absent (e.g. unsupported measurement type).
     assert description.value_fn(_observation()) is None
     assert description.unit_fn(_observation()) is None
+
+
+def test_below_glw_description() -> None:
+    """Test the 'unter GlW' waterway-navigation sensor description.
+
+    Plain string sensor, same reasoning as official_development_7d:
+    NIWIS's vocabulary beyond the one observed sample ("unterhalb") is
+    unconfirmed, so no device_class/options are declared yet.
+    """
+    description = _description("below_glw")
+
+    assert description.translation_key == "below_glw"
+    assert description.device_class is None
+    assert description.options is None
+    assert description.entity_registry_enabled_default is False
+
+    observation = _observation(below_glw="unterhalb")
+    assert description.value_fn(observation) == "unterhalb"
+    assert description.unit_fn(observation) is None
+    assert description.value_fn(_observation()) is None
+
+
+@pytest.mark.parametrize("key", ["nm7q", "nm30q"])
+def test_dated_extreme_descriptions_still_report_plain_value(key: str) -> None:
+    """Test that nm7q/nm30q's value_fn/unit_fn are unaffected by the new *_dated fields.
+
+    The occurred_from/occurred_to context lives entirely in
+    extra_state_attributes (see tests/test_entity.py); the description's
+    value_fn/unit_fn keep reading the plain HydroDerivedValue as before.
+    """
+    description = _description(key)
+    stat = HydroDerivedValue(value=15.26, unit="m³/s", error=None)
+
+    assert description.value_fn(_observation(**{key: stat})) == pytest.approx(15.26)
+    assert description.unit_fn(_observation(**{key: stat})) == "m³/s"
 
 
 @pytest.mark.parametrize(

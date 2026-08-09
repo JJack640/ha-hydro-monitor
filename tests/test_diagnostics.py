@@ -9,6 +9,8 @@ from custom_components.hydro_monitor.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from custom_components.hydro_monitor.models import (
+    HydroCalendarDayValue,
+    HydroDatedExtreme,
     HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
@@ -101,6 +103,32 @@ async def test_config_entry_diagnostics():
         nm30q=HydroDerivedValue(value=17.503448, unit="m³/s", error=None),
         mw=HydroDerivedValue(value=88.48911, unit="cm", error=None),
         mnw=HydroDerivedValue(value=49.866665, unit="cm", error=None),
+        nq=HydroDerivedValue(value=15.8, unit="m³/s", error=None),
+        median_q=HydroDerivedValue(value=41.05, unit="m³/s", error=None),
+        sum_d=HydroDerivedValue(value=30.0, unit="d", error=None),
+        sum_v=HydroDerivedValue(value=19094400.0, unit="m³", error=None),
+        days_below_glw=HydroDerivedValue(value=18.0, unit="d", error=None),
+        depth_below_ground=HydroDerivedValue(value=38.9, unit="m", error=None),
+        min_q_calendar_day=HydroCalendarDayValue(
+            value=25.43, unit="m³/s", reference_date=date(2026, 7, 15), error=None
+        ),
+        median_q_calendar_day=HydroCalendarDayValue(
+            value=41.05, unit="m³/s", reference_date=date(2026, 7, 15), error=None
+        ),
+        max_q_calendar_day=HydroCalendarDayValue(
+            value=84.18, unit="m³/s", reference_date=date(2026, 7, 15), error=None
+        ),
+        nm7q_dated=HydroDatedExtreme(
+            value=15.26,
+            unit="m³/s",
+            occurred_from=date(2026, 7, 15),
+            occurred_to=date(2026, 7, 21),
+            raw_label="15.26 (15.07.2026-21.07.2026)",
+            error=None,
+        ),
+        below_glw="unterhalb",
+        below_glw_raw="unterhalb",
+        below_glw_error=None,
     )
 
     coordinator = SimpleNamespace(
@@ -219,6 +247,74 @@ async def test_config_entry_diagnostics():
         "unit": "cm",
         "error": None,
     }
+    assert historical_statistics["nq"] == {
+        "value": pytest.approx(15.8),
+        "unit": "m³/s",
+        "error": None,
+    }
+    assert historical_statistics["median_q"] == {
+        "value": pytest.approx(41.05),
+        "unit": "m³/s",
+        "error": None,
+    }
+    assert historical_statistics["nw"] is None
+    assert historical_statistics["median_w"] is None
+    assert historical_statistics["sum_d"] == {
+        "value": pytest.approx(30.0),
+        "unit": "d",
+        "error": None,
+    }
+    assert historical_statistics["sum_v"] == {
+        "value": pytest.approx(19094400.0),
+        "unit": "m³",
+        "error": None,
+    }
+    assert historical_statistics["days_below_glw"] == {
+        "value": pytest.approx(18.0),
+        "unit": "d",
+        "error": None,
+    }
+    assert historical_statistics["depth_below_ground"] == {
+        "value": pytest.approx(38.9),
+        "unit": "m",
+        "error": None,
+    }
+
+    calendar_day_statistics = diagnostics["observation"]["calendar_day_statistics"]
+    assert calendar_day_statistics["min_q"] == {
+        "value": pytest.approx(25.43),
+        "unit": "m³/s",
+        "reference_date": "2026-07-15",
+        "error": None,
+    }
+    assert calendar_day_statistics["median_q"] == {
+        "value": pytest.approx(41.05),
+        "unit": "m³/s",
+        "reference_date": "2026-07-15",
+        "error": None,
+    }
+    assert calendar_day_statistics["max_q"] == {
+        "value": pytest.approx(84.18),
+        "unit": "m³/s",
+        "reference_date": "2026-07-15",
+        "error": None,
+    }
+    assert calendar_day_statistics["median_w"] is None
+
+    dated_extremes = diagnostics["observation"]["dated_extremes"]
+    assert dated_extremes["nm7q"] == {
+        "value": pytest.approx(15.26),
+        "unit": "m³/s",
+        "occurred_from": "2026-07-15",
+        "occurred_to": "2026-07-21",
+        "raw_label": "15.26 (15.07.2026-21.07.2026)",
+        "error": None,
+    }
+    assert dated_extremes["nm30q"] is None
+
+    assert diagnostics["observation"]["below_glw"] == "unterhalb"
+    assert diagnostics["observation"]["below_glw_raw"] == "unterhalb"
+    assert diagnostics["observation"]["below_glw_error"] is None
 
     # Station metadata
     assert diagnostics["station"]["latitude"] == 48.1

@@ -27,6 +27,7 @@ from .coordinator import HydroMonitorCoordinator
 from .localization import device_model, measurement_type_name, resolve_language
 from .models import HydroMeasurementType, HydroObservation
 from .providers.niwis.const import HISTORICAL_STATISTIC_NIWIS_NAMES, LOW_WATER_CLASS_KEYS
+from .sensor_glossary import sensor_description
 
 PARALLEL_UPDATES = 0
 
@@ -198,7 +199,18 @@ def _historical_statistic_unit(key: str) -> Callable[[HydroObservation], str | N
     return _unit
 
 
-HISTORICAL_STATISTIC_KEYS: Final = frozenset(HISTORICAL_STATISTIC_NIWIS_NAMES)
+HISTORICAL_STATISTIC_KEYS: Final = frozenset(HISTORICAL_STATISTIC_NIWIS_NAMES) | frozenset(
+    {
+        "min_q_calendar_day",
+        "median_q_calendar_day",
+        "max_q_calendar_day",
+        "median_w_calendar_day",
+        "sum_d",
+        "sum_v",
+        "days_below_glw",
+        "depth_below_ground",
+    }
+)
 
 
 def _percent_of_statistic(key: str) -> Callable[[HydroObservation], float | None]:
@@ -525,6 +537,147 @@ SENSOR_DESCRIPTIONS = (
         entity_registry_enabled_default=False,
         value_fn=_percent_of_statistic("mnw"),
         unit_fn=lambda observation: PERCENTAGE,
+    ),
+    HydroSensorEntityDescription(
+        key="nq",
+        translation_key="nq",
+        name=None,
+        icon="mdi:arrow-down-bold-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("nq"),
+        unit_fn=_historical_statistic_unit("nq"),
+    ),
+    HydroSensorEntityDescription(
+        key="median_q",
+        translation_key="median_q",
+        name=None,
+        icon="mdi:chart-bell-curve",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("median_q"),
+        unit_fn=_historical_statistic_unit("median_q"),
+    ),
+    HydroSensorEntityDescription(
+        key="nw",
+        translation_key="nw",
+        name=None,
+        icon="mdi:arrow-down-bold-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("nw"),
+        unit_fn=_historical_statistic_unit("nw"),
+    ),
+    HydroSensorEntityDescription(
+        key="median_w",
+        translation_key="median_w",
+        name=None,
+        icon="mdi:chart-bell-curve",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("median_w"),
+        unit_fn=_historical_statistic_unit("median_w"),
+    ),
+    HydroSensorEntityDescription(
+        key="min_q_calendar_day",
+        translation_key="min_q_calendar_day",
+        name=None,
+        icon="mdi:calendar-arrow-down",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("min_q_calendar_day"),
+        unit_fn=_historical_statistic_unit("min_q_calendar_day"),
+    ),
+    HydroSensorEntityDescription(
+        key="median_q_calendar_day",
+        translation_key="median_q_calendar_day",
+        name=None,
+        icon="mdi:calendar-blank",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("median_q_calendar_day"),
+        unit_fn=_historical_statistic_unit("median_q_calendar_day"),
+    ),
+    HydroSensorEntityDescription(
+        key="max_q_calendar_day",
+        translation_key="max_q_calendar_day",
+        name=None,
+        icon="mdi:calendar-arrow-up",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("max_q_calendar_day"),
+        unit_fn=_historical_statistic_unit("max_q_calendar_day"),
+    ),
+    HydroSensorEntityDescription(
+        key="median_w_calendar_day",
+        translation_key="median_w_calendar_day",
+        name=None,
+        icon="mdi:calendar-blank",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("median_w_calendar_day"),
+        unit_fn=_historical_statistic_unit("median_w_calendar_day"),
+    ),
+    HydroSensorEntityDescription(
+        key="sum_d",
+        translation_key="sum_d",
+        name=None,
+        icon="mdi:water-alert-outline",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("sum_d"),
+        unit_fn=_historical_statistic_unit("sum_d"),
+    ),
+    HydroSensorEntityDescription(
+        key="sum_v",
+        translation_key="sum_v",
+        name=None,
+        icon="mdi:waves",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("sum_v"),
+        unit_fn=_historical_statistic_unit("sum_v"),
+    ),
+    HydroSensorEntityDescription(
+        key="below_glw",
+        translation_key="below_glw",
+        name=None,
+        icon="mdi:ferry",
+        entity_registry_enabled_default=False,
+        value_fn=lambda observation: observation.below_glw,
+        unit_fn=lambda observation: None,
+    ),
+    HydroSensorEntityDescription(
+        key="days_below_glw",
+        translation_key="days_below_glw",
+        name=None,
+        icon="mdi:calendar-alert",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("days_below_glw"),
+        unit_fn=_historical_statistic_unit("days_below_glw"),
+    ),
+    HydroSensorEntityDescription(
+        key="depth_below_ground",
+        translation_key="depth_below_ground",
+        name=None,
+        icon="mdi:arrow-collapse-down",
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=False,
+        value_fn=_historical_statistic("depth_below_ground"),
+        unit_fn=_historical_statistic_unit("depth_below_ground"),
     ),
     HydroSensorEntityDescription(
         key="last_measurement",
@@ -897,8 +1050,9 @@ class HydroObservationSensor(HydroBaseSensor):
     ) -> dict[str, Any] | None:
         """Return additional sensor attributes."""
         observation = self.coordinator.data
+        key = self.entity_description.key
 
-        if self.entity_description.key == "measurement_age":
+        if key == "measurement_age":
             age_hours = _measurement_age_hours(observation)
             stale_after_hours = MEASUREMENT_STALE_AFTER.total_seconds() / 3600
 
@@ -907,27 +1061,36 @@ class HydroObservationSensor(HydroBaseSensor):
                 "stale_after_hours": stale_after_hours,
             }
 
-        if self.entity_description.key == "low_water_class":
-            return {
+        # Every "official NIWIS derived quantity" sensor below gets a
+        # localized `description` attribute, since their names mirror
+        # NIWIS's own hydrological abbreviations (MQ, GlW, ...) and Home
+        # Assistant has no per-entity tooltip mechanism to explain them
+        # beyond this "more info" attribute. See sensor_glossary.py.
+        attrs: dict[str, Any] | None = None
+
+        if key == "low_water_class":
+            attrs = {
                 "raw_value": observation.low_water_class_raw,
                 "error": observation.low_water_class_error,
             }
-
-        if self.entity_description.key == "official_development_7d":
-            return {
+        elif key == "official_development_7d":
+            attrs = {
                 "raw_value": observation.official_development_7d_raw,
                 "error": observation.official_development_7d_error,
             }
-
-        if self.entity_description.key.startswith("boundary_static_"):
+        elif key == "below_glw":
+            attrs = {
+                "raw_value": observation.below_glw_raw,
+                "error": observation.below_glw_error,
+            }
+        elif key.startswith("boundary_static_"):
             boundaries = observation.boundaries
-            return {
+            attrs = {
                 "error": boundaries.static_error if boundaries else None,
             }
-
-        if self.entity_description.key.startswith("boundary_dynamic_"):
+        elif key.startswith("boundary_dynamic_"):
             boundaries = observation.boundaries
-            return {
+            attrs = {
                 "error": boundaries.dynamic_error if boundaries else None,
                 "reference_date": (
                     boundaries.dynamic_reference_date.isoformat()
@@ -935,20 +1098,31 @@ class HydroObservationSensor(HydroBaseSensor):
                     else None
                 ),
             }
-
-        if self.entity_description.key in HISTORICAL_STATISTIC_KEYS:
-            stat = getattr(observation, self.entity_description.key)
-            return {"error": stat.error if stat is not None else None}
-
-        if self.entity_description.key.startswith("percent_of_"):
-            stat = getattr(
-                observation, self.entity_description.key.removeprefix("percent_of_")
-            )
-            return {"error": stat.error if stat is not None else None}
-
-        if self.entity_description.key.startswith("decile_p"):
+        elif key in ("nm7q", "nm30q"):
+            stat = getattr(observation, key)
+            dated = getattr(observation, f"{key}_dated")
+            attrs = {
+                "error": stat.error if stat is not None else None,
+                "occurred_from": (
+                    dated.occurred_from.isoformat()
+                    if dated and dated.occurred_from
+                    else None
+                ),
+                "occurred_to": (
+                    dated.occurred_to.isoformat()
+                    if dated and dated.occurred_to
+                    else None
+                ),
+            }
+        elif key in HISTORICAL_STATISTIC_KEYS:
+            stat = getattr(observation, key)
+            attrs = {"error": stat.error if stat is not None else None}
+        elif key.startswith("percent_of_"):
+            stat = getattr(observation, key.removeprefix("percent_of_"))
+            attrs = {"error": stat.error if stat is not None else None}
+        elif key.startswith("decile_p"):
             deciles = observation.deciles
-            return {
+            attrs = {
                 "error": deciles.error if deciles else None,
                 "reference_date": (
                     deciles.reference_date.isoformat()
@@ -956,6 +1130,14 @@ class HydroObservationSensor(HydroBaseSensor):
                     else None
                 ),
             }
+
+        if attrs is not None:
+            description = sensor_description(
+                key, resolve_language(getattr(self.coordinator, "hass", None))
+            )
+            if description is not None:
+                attrs["description"] = description
+            return attrs
 
         if not self.entity_description.is_primary:
             return None

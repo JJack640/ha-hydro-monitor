@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import calendar
 import math
+import re
 from datetime import date, timedelta
 from typing import Any
 
 from ...models import (
+    HydroCalendarDayValue,
+    HydroDatedExtreme,
     HydroDeciles,
     HydroDerivedValue,
     HydroLowWaterBoundaries,
@@ -46,6 +49,19 @@ def _parse_date(value: Any) -> date | None:
 
     try:
         return date.fromisoformat(str(value)[:10])
+    except (TypeError, ValueError):
+        return None
+
+
+def _parse_german_date(value: str) -> date | None:
+    """Parse a NIWIS DD.MM.YYYY date, used only by the 'mit Datum' quantities.
+
+    Kept separate from _parse_date, which handles the ISO-formatted dates
+    used everywhere else in the NIWIS API.
+    """
+    try:
+        day, month, year = value.split(".")
+        return date(int(year), int(month), int(day))
     except (TypeError, ValueError):
         return None
 
@@ -423,6 +439,126 @@ def deciles_from_niwis(data: Any, reference_date: date) -> HydroDeciles:
         unit=unit,
         reference_date=reference_date,
     )
+
+
+def calendar_day_value_from_niwis(
+    data: Any,
+    reference_date: date,
+) -> HydroCalendarDayValue:
+    """Map one berechneZeitreihenErgebnisNummer per-calendar-day result's 'today' row.
+
+    Same day-of-year alignment as the boundary/decile tables (via
+    day_of_year_index), but "werte" is a flat 366-element array where each
+    element IS the day's value -- not a sub-array of thresholds like
+    "schwellenwerteProTag" -- so _boundary_row isn't reusable here.
+    """
+    if not isinstance(data, dict):
+        return HydroCalendarDayValue()
+
+    error = _boundary_error(data)
+    unit = data.get("einheit") if isinstance(data.get("einheit"), str) else None
+
+    if error is not None or data.get("hatZuvieleFehlwerte"):
+        return HydroCalendarDayValue(unit=unit, error=error)
+
+    row = data.get("werte")
+    if not isinstance(row, list) or len(row) != 366:
+        return HydroCalendarDayValue(unit=unit, error="malformed werte array")
+
+    index = day_of_year_index(reference_date) - 1
+    value = as_float(row[index]) if 0 <= index < len(row) else None
+    if value is None:
+        return HydroCalendarDayValue(unit=unit, error="missing per-day value")
+
+    return HydroCalendarDayValue(value=value, unit=unit, reference_date=reference_date)
+
+
+_DATED_EXTREME_PATTERN = re.compile(
+    r"^([\d.,]+)\s*\((\d{2}\.\d{2}\.\d{4})-(\d{2}\.\d{2}\.\d{4})\)$"
+)
+
+
+def dated_extreme_from_niwis(data: Any, unit: str | None) -> HydroDatedExtreme:
+    """Map a berechneEinzelwertKategorie 'mit Datum' result (NM7Q/NM30Q mit Datum).
+
+    The composite string ("15.26 (15.07.2026-21.07.2026)") is parsed into
+    a value and the date range it occurred in. unit isn't present in this
+    endpoint's own envelope (unlike berechneEinzelwertNummer) -- the
+    caller passes the sibling plain-NM7Q/NM30Q fetch's unit, which shares
+    the same underlying quantity. The raw label is preserved even on parse
+    failure (ADR-005 in docs/niwis_reference.md), instead of silently
+    discarding an unrecognized response shape.
+    """
+    raw_label, error, suppressed = _single_category_result_from_niwis(data)
+
+    if suppressed or raw_label is None:
+        return HydroDatedExtreme(error=error, raw_label=raw_label)
+
+    match = _DATED_EXTREME_PATTERN.match(raw_label.strip())
+    if match is None:
+        return HydroDatedExtreme(raw_label=raw_label, error="unrecognized format")
+
+    value = as_float(match.group(1))
+    occurred_from = _parse_german_date(match.group(2))
+    occurred_to = _parse_german_date(match.group(3))
+
+    return HydroDatedExtreme(
+        value=value,
+        unit=unit,
+        occurred_from=occurred_from,
+        occurred_to=occurred_to,
+        raw_label=raw_label,
+    )
+
+
+def latest_interval_value_from_niwis(data: Any) -> HydroDerivedValue:
+    """Map the newest valid value from a berechneZeitreihenErgebnisNummer interval result.
+
+    Used for quantities requested over a date interval (not a reference
+    period) where only the latest value in the window is wanted, e.g.
+    groundwater depth below ground surface. Mirrors
+    observation_from_niwis's "pick the newest valid value" spirit, adapted
+    to a dateless array of sequential daily values starting at startDatum
+    -- the trailing entry may be "NaN" if today hasn't been published yet.
+    """
+    if not isinstance(data, dict):
+        return HydroDerivedValue()
+
+    error = _boundary_error(data)
+    unit = data.get("einheit") if isinstance(data.get("einheit"), str) else None
+
+    if error is not None or data.get("hatZuvieleFehlwerte"):
+        return HydroDerivedValue(unit=unit, error=error)
+
+    values = data.get("werte")
+    if not isinstance(values, list):
+        return HydroDerivedValue(unit=unit, error="malformed werte array")
+
+    for raw in reversed(values):
+        value = as_float(raw)
+        if value is not None:
+            return HydroDerivedValue(value=value, unit=unit)
+
+    return HydroDerivedValue(unit=unit, error="no valid value in window")
+
+
+def below_glw_from_niwis(data: Any) -> tuple[str | None, str | None, str | None]:
+    """Map a berechneEinzelwertKategorie 'unter GlW' result.
+
+    Same envelope and raw-label-passthrough shape as
+    official_development_7d_from_niwis: NIWIS's vocabulary beyond the one
+    observed sample ("unterhalb") is unconfirmed, so no key mapping is
+    applied yet.
+    """
+    raw_label, error, suppressed = _single_category_result_from_niwis(data)
+
+    if suppressed:
+        return None, raw_label, error
+
+    if raw_label is None:
+        return None, None, error
+
+    return raw_label, raw_label, error
 
 
 def observation_from_niwis(

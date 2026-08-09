@@ -10,6 +10,8 @@ from custom_components.hydro_monitor.coordinator import HydroMonitorCoordinator
 from custom_components.hydro_monitor.models import HydroMeasurementType, HydroStation
 from custom_components.hydro_monitor.providers.niwis.api import NiwisConnectionError
 from custom_components.hydro_monitor.providers.niwis.const import (
+    CALENDAR_DAY_STATISTIC_NIWIS_NAMES,
+    DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
     DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC,
@@ -123,6 +125,55 @@ def _historical_statistic_response(**overrides: object) -> dict[str, object]:
     return response
 
 
+def _dated_extreme_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS 'mit Datum' response (NM7Q/NM30Q mit Datum)."""
+    response: dict[str, object] = {
+        "einzelwert": "15.26 (15.07.2026-21.07.2026)",
+        "einheit": None,
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
+def _below_glw_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS 'unter GlW' response."""
+    response: dict[str, object] = {
+        "einzelwert": "unterhalb",
+        "einheit": None,
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
+def _calendar_day_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS berechneZeitreihenErgebnisNummer 366-row response."""
+    response: dict[str, object] = {
+        "werte": [42.0] * 366,
+        "einheit": "m³/s",
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
+def _depth_below_ground_response(**overrides: object) -> dict[str, object]:
+    """Create a representative NIWIS interval berechneZeitreihenErgebnisNummer response."""
+    response: dict[str, object] = {
+        "startDatum": "2026-07-08",
+        "werte": [12.3, 12.4, 12.5],
+        "einheit": "m",
+        "hatZuvieleFehlwerte": False,
+        "fehlermeldung": None,
+    }
+    response.update(overrides)
+    return response
+
+
 def _routed_client(
     *,
     classification: object = None,
@@ -131,35 +182,52 @@ def _routed_client(
     dynamic: object = None,
     deciles: object = None,
     historical_statistics: dict[str, object] | None = None,
+    dated_extremes: dict[str, object] | None = None,
+    below_glw: object = None,
+    calendar_day_results: dict[str, object] | None = None,
 ) -> AsyncMock:
     """Build a client whose async_get_derived_result routes by quantity.
 
-    DERIVED_ENDPOINT_LOW_WATER_CLASS is shared by two different quantities
-    (low-water classification and, since Sprint 3, the official 7-day
-    development) — routed by whether "Entwicklung" appears in the
-    requested abgeleiteteGroesse, which holds regardless of measurement
-    type. DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC is likewise shared
-    by the low-water dynamic boundaries and, since Sprint 5, deciles —
+    DERIVED_ENDPOINT_LOW_WATER_CLASS is shared by four different
+    quantities — low-water classification, the official 7-day
+    development (Sprint 3), NM7Q/NM30Q "mit Datum" and "unter GlW"
+    (Sprint 7) — routed by checking the requested abgeleiteteGroesse for
+    "mit Datum", an exact "unter GlW" match, then "Entwicklung", falling
+    back to plain classification. DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
+    is likewise shared by the low-water dynamic boundaries and deciles —
     routed by whether "Dezile" appears in the requested abgeleiteteGroesse.
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC still only ever serves one
     quantity family, so it's routed by endpoint alone.
-    DERIVED_ENDPOINT_HISTORICAL_STATISTICS (Sprint 4) is routed by the
-    exact abgeleiteteGroesse value (e.g. "MQ", "MW") via the
-    historical_statistics override dict, keyed the same way.
+    DERIVED_ENDPOINT_HISTORICAL_STATISTICS is routed by the exact
+    abgeleiteteGroesse value (e.g. "MQ", "NQ", "SumD Zeitfenster", "Tage
+    unter GlWRNW/BWu aktueller Tag") via the historical_statistics
+    override dict, keyed the same way — this single dict already covers
+    every quantity sharing that endpoint, old and new.
+    DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS (Sprint 7) is likewise routed
+    by exact abgeleiteteGroesse via calendar_day_results, covering both
+    the calendar-day envelope quantities and depth-below-ground.
     """
     client = AsyncMock()
     client.async_get_series.return_value = _series()
 
     historical_statistics = historical_statistics or {}
+    dated_extremes = dated_extremes or {}
+    calendar_day_results = calendar_day_results or {}
 
     async def _async_get_derived_result(endpoint: str, params: dict[str, str]) -> object:
+        quantity = params["abgeleiteteGroesse"]
+
         if endpoint == DERIVED_ENDPOINT_LOW_WATER_CLASS:
-            if "Entwicklung" in params["abgeleiteteGroesse"]:
+            if "mit Datum" in quantity:
+                result = dated_extremes.get(quantity, _dated_extreme_response())
+            elif quantity == "unter GlW":
+                result = below_glw or _below_glw_response()
+            elif "Entwicklung" in quantity:
                 result = official_development or _official_development_response()
             else:
                 result = classification or _classification_response()
         elif endpoint == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC:
-            if "Dezile" in params["abgeleiteteGroesse"]:
+            if "Dezile" in quantity:
                 result = deciles or _decile_response()
             else:
                 result = dynamic or _dynamic_boundaries_response()
@@ -167,8 +235,15 @@ def _routed_client(
             result = static or _static_boundaries_response()
         elif endpoint == DERIVED_ENDPOINT_HISTORICAL_STATISTICS:
             result = historical_statistics.get(
-                params["abgeleiteteGroesse"], _historical_statistic_response()
+                quantity, _historical_statistic_response()
             )
+        elif endpoint == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS:
+            if quantity == "m unter Geländeoberkante":
+                result = calendar_day_results.get(
+                    quantity, _depth_below_ground_response()
+                )
+            else:
+                result = calendar_day_results.get(quantity, _calendar_day_response())
         else:
             raise AssertionError(f"unrouted endpoint: {endpoint}")
 
@@ -193,6 +268,8 @@ def _coordinator(
     coordinator._dynamic_boundaries_date = None
     coordinator._deciles = None
     coordinator._deciles_date = None
+    coordinator._calendar_day_statistics = None
+    coordinator._calendar_day_statistics_date = None
     return coordinator
 
 
@@ -523,15 +600,18 @@ async def test_update_survives_historical_statistic_failure() -> None:
     assert observation.mnq.value == pytest.approx(42.0)
 
 
-@pytest.mark.parametrize("quantity", ["MQ", "MNQ", "MW", "MNW"])
+@pytest.mark.parametrize(
+    "quantity",
+    ["MQ", "MNQ", "MW", "MNW", "NQ", "Median Q Statisch", "NW", "Median W bezogen auf Referenzzeitraum"],
+)
 @pytest.mark.asyncio
 async def test_update_requests_expected_reference_period_statistic_parameters(
     quantity: str,
 ) -> None:
-    """Test that MQ/MNQ/MW/MNW reuse the reference-period params, no interval."""
+    """Test that every berechneEinzelwertNummer reference-period quantity uses the same params, no interval."""
     measurement_type = (
         HydroMeasurementType.DISCHARGE
-        if quantity in ("MQ", "MNQ")
+        if quantity in ("MQ", "MNQ", "NQ", "Median Q Statisch")
         else HydroMeasurementType.WATER_LEVEL
     )
     client = _routed_client()
@@ -620,6 +700,25 @@ async def test_historical_statistics_not_fetched_for_unsupported_types(
 
     for call in client.async_get_derived_result.await_args_list:
         assert call.args[0] != DERIVED_ENDPOINT_HISTORICAL_STATISTICS
+
+
+@pytest.mark.asyncio
+async def test_update_merges_group_b_statistics_on_success() -> None:
+    """Test that NQ/Median Q Statisch (discharge) and NW/Median W (water_level) populate correctly."""
+    discharge_observation = await _coordinator(_routed_client())._async_update_data()
+    assert discharge_observation.nq is not None
+    assert discharge_observation.nq.value == pytest.approx(42.0)
+    assert discharge_observation.median_q is not None
+    assert discharge_observation.nw is None
+    assert discharge_observation.median_w is None
+
+    water_level_observation = await _coordinator(
+        _routed_client(), HydroMeasurementType.WATER_LEVEL
+    )._async_update_data()
+    assert water_level_observation.nw is not None
+    assert water_level_observation.median_w is not None
+    assert water_level_observation.nq is None
+    assert water_level_observation.median_q is None
 
 
 @pytest.mark.asyncio
@@ -750,3 +849,448 @@ async def test_deciles_not_fetched_for_unsupported_types(
     for call in client.async_get_derived_result.await_args_list:
         if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC:
             assert "Dezile" not in call.args[1]["abgeleiteteGroesse"]
+
+
+# --- Group A: historical calendar-day envelope ---------------------------
+
+
+@pytest.mark.asyncio
+async def test_update_merges_calendar_day_statistics_on_success() -> None:
+    """Test that min/median/max_q populate for discharge, median_w stays None."""
+    observation = await _coordinator(_routed_client())._async_update_data()
+
+    assert observation.min_q_calendar_day is not None
+    assert observation.min_q_calendar_day.value == pytest.approx(42.0)
+    assert observation.median_q_calendar_day is not None
+    assert observation.max_q_calendar_day is not None
+    assert observation.median_w_calendar_day is None
+
+
+@pytest.mark.asyncio
+async def test_update_merges_calendar_day_statistics_on_success_for_water_level() -> None:
+    """Test that median_w populates for water_level, the Q-quantities stay None."""
+    observation = await _coordinator(
+        _routed_client(), HydroMeasurementType.WATER_LEVEL
+    )._async_update_data()
+
+    assert observation.median_w_calendar_day is not None
+    assert observation.median_w_calendar_day.value == pytest.approx(42.0)
+    assert observation.min_q_calendar_day is None
+    assert observation.median_q_calendar_day is None
+    assert observation.max_q_calendar_day is None
+
+
+@pytest.mark.asyncio
+async def test_update_survives_calendar_day_statistic_failure() -> None:
+    """Test that a failed calendar-day fetch does not fail the whole update."""
+    client = _routed_client(
+        calendar_day_results={
+            "Min Q pro Kalendartag": NiwisConnectionError("min_q down")
+        }
+    )
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.min_q_calendar_day is not None
+    assert observation.min_q_calendar_day.value is None
+    assert observation.min_q_calendar_day.error == "min_q down"
+    # Other calendar-day quantities are unaffected by the min_q failure.
+    assert observation.median_q_calendar_day is not None
+    assert observation.median_q_calendar_day.value == pytest.approx(42.0)
+
+
+@pytest.mark.asyncio
+async def test_calendar_day_statistics_are_cached_within_the_same_day() -> None:
+    """Test that a second same-day update reuses the cached calendar-day dict."""
+    client = _routed_client()
+    coordinator = _coordinator(client)
+
+    await coordinator._async_update_data()
+    await coordinator._async_update_data()
+
+    calendar_day_calls = [
+        call
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[0] == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS
+        and call.args[1]["abgeleiteteGroesse"] == "Min Q pro Kalendartag"
+    ]
+    assert len(calendar_day_calls) == 1
+
+
+@pytest.mark.asyncio
+async def test_calendar_day_statistics_refetch_after_day_rollover() -> None:
+    """Test that a calendar-day rollover triggers a refetch."""
+    client = _routed_client()
+    coordinator = _coordinator(client)
+
+    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
+        mock_date.today.return_value = date(2026, 1, 1)
+        await coordinator._async_update_data()
+
+        mock_date.today.return_value = date(2026, 1, 2)
+        await coordinator._async_update_data()
+
+    calendar_day_calls = [
+        call
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[0] == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS
+        and call.args[1]["abgeleiteteGroesse"] == "Min Q pro Kalendartag"
+    ]
+    assert len(calendar_day_calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_calendar_day_statistic_failure_is_still_cached_within_the_day() -> None:
+    """Test that, unlike deciles, a failed quantity is cached with the rest of the dict.
+
+    Deliberately different from _async_fetch_dynamic_boundaries_cached's
+    "don't cache on failure" behaviour: the whole 4-quantity dict is
+    cached together once fetched, since each quantity's own error is
+    already recorded on its own HydroCalendarDayValue.
+    """
+    client = _routed_client(
+        calendar_day_results={
+            "Min Q pro Kalendartag": NiwisConnectionError("min_q down")
+        }
+    )
+    coordinator = _coordinator(client)
+
+    await coordinator._async_update_data()
+    await coordinator._async_update_data()
+
+    calendar_day_calls = [
+        call
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[0] == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS
+        and call.args[1]["abgeleiteteGroesse"] == "Min Q pro Kalendartag"
+    ]
+    assert len(calendar_day_calls) == 1
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_calendar_day_parameters() -> None:
+    """Test the exact endpoint and params sent for a calendar-day request."""
+    client = _routed_client()
+
+    await _coordinator(client)._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
+        {
+            "abgeleiteteGroesse": "Median Q pro Kalendertag",
+            "messstelleNr": "DESM_DEBY16607001",
+            "jahresdefinition": "KALENDERJAHR",
+            "startJahr": "1991",
+            "endJahr": "2020",
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    "measurement_type",
+    [HydroMeasurementType.GROUNDWATER_LEVEL, HydroMeasurementType.SPRING_DISCHARGE],
+)
+@pytest.mark.asyncio
+async def test_calendar_day_statistics_not_fetched_for_unsupported_types(
+    measurement_type: HydroMeasurementType,
+) -> None:
+    """Test that groundwater/spring-discharge coordinators skip the calendar-day quantities.
+
+    berechneZeitreihenErgebnisNummer itself may still be called for
+    groundwater_level (depth-below-ground, Group F, a different
+    abgeleiteteGroesse on the same shared/overloaded endpoint), so this
+    checks the specific quantity names rather than the endpoint broadly.
+    """
+    client = _routed_client()
+
+    observation = await _coordinator(client, measurement_type)._async_update_data()
+
+    assert observation.min_q_calendar_day is None
+    assert observation.median_q_calendar_day is None
+    assert observation.max_q_calendar_day is None
+    assert observation.median_w_calendar_day is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        if call.args[0] == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS:
+            assert (
+                call.args[1]["abgeleiteteGroesse"]
+                not in CALENDAR_DAY_STATISTIC_NIWIS_NAMES.values()
+            )
+
+
+# --- Group C: NM7Q/NM30Q mit Datum ----------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_update_merges_dated_extremes_on_success() -> None:
+    """Test that nm7q_dated/nm30q_dated are parsed and merged for discharge."""
+    observation = await _coordinator(_routed_client())._async_update_data()
+
+    assert observation.nm7q_dated is not None
+    assert observation.nm7q_dated.value == pytest.approx(15.26)
+    assert observation.nm7q_dated.occurred_from == date(2026, 7, 15)
+    assert observation.nm7q_dated.occurred_to == date(2026, 7, 21)
+    assert observation.nm7q_dated.unit == "m³/s"
+    assert observation.nm30q_dated is not None
+
+
+@pytest.mark.asyncio
+async def test_dated_extremes_not_fetched_for_unsupported_types() -> None:
+    """Test that non-discharge coordinators skip NM7Q/NM30Q mit Datum."""
+    client = _routed_client()
+
+    observation = await _coordinator(
+        client, HydroMeasurementType.WATER_LEVEL
+    )._async_update_data()
+
+    assert observation.nm7q_dated is None
+    assert observation.nm30q_dated is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        assert "mit Datum" not in call.args[1]["abgeleiteteGroesse"]
+
+
+@pytest.mark.asyncio
+async def test_update_survives_dated_extreme_failure() -> None:
+    """Test that a failed NM7Q mit Datum fetch does not fail the whole update."""
+    client = _routed_client(
+        dated_extremes={"NM7Q mit Datum": NiwisConnectionError("nm7q dated down")}
+    )
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.nm7q_dated is not None
+    assert observation.nm7q_dated.error == "nm7q dated down"
+    assert observation.nm30q_dated is not None
+    assert observation.nm30q_dated.value == pytest.approx(15.26)
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_dated_extreme_parameters() -> None:
+    """Test that NM7Q mit Datum reuses the same 30-day interval as plain NM7Q."""
+    client = _routed_client()
+
+    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
+        mock_date.today.return_value = date(2026, 7, 22)
+        await _coordinator(client)._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_LOW_WATER_CLASS,
+        {
+            "abgeleiteteGroesse": "NM7Q mit Datum",
+            "messstelleNr": "DESM_DEBY16607001",
+            "von": "2026-06-22",
+            "bis": "2026-07-22",
+        },
+    )
+
+
+# --- Group D: SumD/SumV Zeitfenster ---------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_update_merges_sum_statistics_on_success() -> None:
+    """Test that sum_d/sum_v populate for discharge."""
+    observation = await _coordinator(_routed_client())._async_update_data()
+
+    assert observation.sum_d is not None
+    assert observation.sum_d.value == pytest.approx(42.0)
+    assert observation.sum_v is not None
+
+
+@pytest.mark.asyncio
+async def test_sum_statistics_not_fetched_for_unsupported_types() -> None:
+    """Test that non-discharge coordinators skip SumD/SumV Zeitfenster."""
+    client = _routed_client()
+
+    observation = await _coordinator(
+        client, HydroMeasurementType.WATER_LEVEL
+    )._async_update_data()
+
+    assert observation.sum_d is None
+    assert observation.sum_v is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        assert call.args[1]["abgeleiteteGroesse"] not in (
+            "SumD Zeitfenster",
+            "SumV Zeitfenster",
+        )
+
+
+@pytest.mark.asyncio
+async def test_update_survives_sum_statistic_failure() -> None:
+    """Test that a failed SumD fetch does not fail the whole update."""
+    client = _routed_client(
+        historical_statistics={"SumD Zeitfenster": NiwisConnectionError("sumd down")}
+    )
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.sum_d is not None
+    assert observation.sum_d.error == "sumd down"
+    assert observation.sum_v is not None
+    assert observation.sum_v.value == pytest.approx(42.0)
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_sum_parameters() -> None:
+    """Test that SumD Zeitfenster combines a reference period AND an interval."""
+    client = _routed_client()
+
+    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
+        mock_date.today.return_value = date(2026, 7, 22)
+        await _coordinator(client)._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
+        {
+            "abgeleiteteGroesse": "SumD Zeitfenster",
+            "messstelleNr": "DESM_DEBY16607001",
+            "jahresdefinition": "KALENDERJAHR",
+            "startJahr": "1991",
+            "endJahr": "2020",
+            "von": "2026-06-22",
+            "bis": "2026-07-22",
+        },
+    )
+
+
+# --- Group E: waterway navigation indicators ------------------------------
+
+
+@pytest.mark.asyncio
+async def test_update_merges_waterway_indicators_on_success() -> None:
+    """Test that below_glw/days_below_glw populate for water_level."""
+    observation = await _coordinator(
+        _routed_client(), HydroMeasurementType.WATER_LEVEL
+    )._async_update_data()
+
+    assert observation.below_glw == "unterhalb"
+    assert observation.below_glw_raw == "unterhalb"
+    assert observation.below_glw_error is None
+    assert observation.days_below_glw is not None
+    assert observation.days_below_glw.value == pytest.approx(42.0)
+
+
+@pytest.mark.asyncio
+async def test_waterway_indicators_not_fetched_for_unsupported_types() -> None:
+    """Test that discharge coordinators skip the waterway indicators (water_level only)."""
+    client = _routed_client()
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.below_glw is None
+    assert observation.days_below_glw is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        assert call.args[1]["abgeleiteteGroesse"] not in (
+            "unter GlW",
+            "Tage unter GlWRNW/BWu aktueller Tag",
+        )
+
+
+@pytest.mark.asyncio
+async def test_update_survives_waterway_indicator_failure() -> None:
+    """Test that a failed 'unter GlW' fetch does not fail the whole update."""
+    client = _routed_client(below_glw=NiwisConnectionError("glw down"))
+
+    observation = await _coordinator(
+        client, HydroMeasurementType.WATER_LEVEL
+    )._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.below_glw is None
+    assert observation.below_glw_error == "glw down"
+    # days_below_glw is unaffected by the below_glw failure.
+    assert observation.days_below_glw is not None
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_waterway_indicator_parameters() -> None:
+    """Test that the waterway indicators need neither a reference period nor an interval."""
+    client = _routed_client()
+
+    await _coordinator(client, HydroMeasurementType.WATER_LEVEL)._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_LOW_WATER_CLASS,
+        {"abgeleiteteGroesse": "unter GlW", "messstelleNr": "DESM_DEBY16607001"},
+    )
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
+        {
+            "abgeleiteteGroesse": "Tage unter GlWRNW/BWu aktueller Tag",
+            "messstelleNr": "DESM_DEBY16607001",
+        },
+    )
+
+
+# --- Group F: groundwater depth below ground ------------------------------
+
+
+@pytest.mark.asyncio
+async def test_update_merges_depth_below_ground_on_success() -> None:
+    """Test that depth_below_ground picks the newest value in the interval."""
+    observation = await _coordinator(
+        _routed_client(), HydroMeasurementType.GROUNDWATER_LEVEL
+    )._async_update_data()
+
+    assert observation.depth_below_ground is not None
+    assert observation.depth_below_ground.value == pytest.approx(12.5)
+    assert observation.depth_below_ground.unit == "m"
+
+
+@pytest.mark.asyncio
+async def test_depth_below_ground_not_fetched_for_unsupported_types() -> None:
+    """Test that non-groundwater coordinators skip depth-below-ground."""
+    client = _routed_client()
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.depth_below_ground is None
+
+    for call in client.async_get_derived_result.await_args_list:
+        assert call.args[1]["abgeleiteteGroesse"] != "m unter Geländeoberkante"
+
+
+@pytest.mark.asyncio
+async def test_update_survives_depth_below_ground_failure() -> None:
+    """Test that a failed depth-below-ground fetch does not fail the whole update."""
+    client = _routed_client(
+        calendar_day_results={
+            "m unter Geländeoberkante": NiwisConnectionError("depth down")
+        }
+    )
+
+    observation = await _coordinator(
+        client, HydroMeasurementType.GROUNDWATER_LEVEL
+    )._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.depth_below_ground is not None
+    assert observation.depth_below_ground.error == "depth down"
+
+
+@pytest.mark.asyncio
+async def test_update_requests_expected_depth_below_ground_parameters() -> None:
+    """Test that depth-below-ground uses a 30-day interval, no reference period."""
+    client = _routed_client()
+
+    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
+        mock_date.today.return_value = date(2026, 7, 22)
+        await _coordinator(
+            client, HydroMeasurementType.GROUNDWATER_LEVEL
+        )._async_update_data()
+
+    client.async_get_derived_result.assert_any_await(
+        DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
+        {
+            "abgeleiteteGroesse": "m unter Geländeoberkante",
+            "messstelleNr": "DESM_DEBY16607001",
+            "von": "2026-06-22",
+            "bis": "2026-07-22",
+        },
+    )

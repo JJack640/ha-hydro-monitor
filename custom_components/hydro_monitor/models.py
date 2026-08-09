@@ -123,6 +123,39 @@ class HydroDeciles:
 
 
 @dataclass(frozen=True, slots=True)
+class HydroCalendarDayValue:
+    """One value from a NIWIS per-calendar-day table (berechneZeitreihenErgebnisNummer).
+
+    E.g. the historical median/min/max discharge recorded on this exact
+    calendar day across the reference period. Day-of-year indexed and
+    cached once per day, like HydroDeciles/dynamic HydroLowWaterBoundaries
+    -- but each row is a single plain number, not a set of thresholds.
+    """
+
+    value: float | None = None
+    unit: str | None = None
+    reference_date: date | None = None
+    error: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class HydroDatedExtreme:
+    """A derived value bundled with the date range it occurred in.
+
+    NIWIS's "mit Datum" quantities (e.g. NM7Q mit Datum) return a single
+    composite string ("15.26 (15.07.2026-21.07.2026)") combining the value
+    with the date range it occurred in.
+    """
+
+    value: float | None = None
+    unit: str | None = None
+    occurred_from: date | None = None
+    occurred_to: date | None = None
+    raw_label: str | None = None
+    error: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class HydroObservation:
     """Represent a processed hydrological observation."""
 
@@ -178,3 +211,62 @@ class HydroObservation:
     # "... Dezile tageweise"). Discharge/water_level only. See
     # HydroDeciles for why this has no static/dynamic split.
     deciles: HydroDeciles | None = None
+
+    # Official NIWIS historical calendar-day envelope
+    # (berechneZeitreihenErgebnisNummer, "... pro Kalendertag"/
+    # "...Kalendartag"): the historical min/median/max value recorded on
+    # this exact calendar day across the reference period. Day-of-year
+    # indexed and day-scoped cached, like the dynamic boundaries/deciles
+    # above -- but a plain number per day, not a set of thresholds.
+    # min_q/median_q/max_q are discharge-only; median_w is its water_level
+    # equivalent (no min_w/max_w entry exists in the NIWIS catalog).
+    min_q_calendar_day: HydroCalendarDayValue | None = None
+    median_q_calendar_day: HydroCalendarDayValue | None = None
+    max_q_calendar_day: HydroCalendarDayValue | None = None
+    median_w_calendar_day: HydroCalendarDayValue | None = None
+
+    # Official NIWIS reference-period single values (berechneEinzelwertNummer,
+    # same shape/endpoint as mq/mnq/mw/mnw above). NQ/median_q are
+    # discharge-only (absolute low / median across the reference period,
+    # not day-indexed -- distinct from median_q_calendar_day above despite
+    # the similar NIWIS name); NW/median_w are their water_level
+    # equivalents.
+    nq: HydroDerivedValue | None = None
+    median_q: HydroDerivedValue | None = None
+    nw: HydroDerivedValue | None = None
+    median_w: HydroDerivedValue | None = None
+
+    # Official NIWIS NM7Q/NM30Q bundled with the date range they occurred
+    # in ("... mit Datum", berechneEinzelwertKategorie). Discharge-only,
+    # same interval-based fetch as nm7q/nm30q above. Exposed as attributes
+    # on the nm7q/nm30q sensors rather than separate entities.
+    nm7q_dated: HydroDatedExtreme | None = None
+    nm30q_dated: HydroDatedExtreme | None = None
+
+    # Official NIWIS station-specific low-water day/volume accumulation
+    # over the same 30-day window as nm7q/nm30q ("SumD Zeitfenster"/"SumV
+    # Zeitfenster", berechneEinzelwertNummer). Discharge-only. The
+    # per-station analogue of the blocked nationwide climate indicator
+    # (see docs/niwis_reference.md 8.3) -- live-verified as a genuine
+    # cumulative low-water-day counter, not a trivial day index.
+    sum_d: HydroDerivedValue | None = None
+    sum_v: HydroDerivedValue | None = None
+
+    # Official NIWIS federal-waterway navigation indicators
+    # ("unter GlW"/"Tage unter GlWRNW/BWu aktueller Tag"). Water_level
+    # only, and narrowly applicable even then -- live-verified real only
+    # at federal-waterway (DEXX-landcode) gauges, empty/error elsewhere.
+    # below_glw mirrors official_development_7d's raw-label-passthrough
+    # shape (vocabulary beyond "unterhalb" is unconfirmed).
+    below_glw: str | None = None
+    below_glw_raw: str | None = None
+    below_glw_error: str | None = None
+    days_below_glw: HydroDerivedValue | None = None
+
+    # Official NIWIS groundwater depth below ground surface ("m unter
+    # Geländeoberkante", berechneZeitreihenErgebnisNummer + 30-day
+    # interval). Groundwater_level only. Uses NIWIS's own endpoint rather
+    # than computing elevation_ground - value locally: a live test station
+    # had elevation_ground=null while this endpoint still returned real
+    # values for it.
+    depth_below_ground: HydroDerivedValue | None = None

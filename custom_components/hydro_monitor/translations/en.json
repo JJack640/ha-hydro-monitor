@@ -163,6 +163,45 @@
       "percent_of_mnw": {
         "name": "% of mean low water level (MNW)"
       },
+      "nq": {
+        "name": "Low discharge (NQ, reference period)"
+      },
+      "median_q": {
+        "name": "Median discharge (reference period)"
+      },
+      "nw": {
+        "name": "Low water level (NW, reference period)"
+      },
+      "median_w": {
+        "name": "Median water level (reference period)"
+      },
+      "min_q_calendar_day": {
+        "name": "Historical minimum for today (Min Q)"
+      },
+      "median_q_calendar_day": {
+        "name": "Historical median for today (Median Q)"
+      },
+      "max_q_calendar_day": {
+        "name": "Historical maximum for today (Max Q)"
+      },
+      "median_w_calendar_day": {
+        "name": "Historical median water level for today (Median W)"
+      },
+      "sum_d": {
+        "name": "Low-water days (last 30 days)"
+      },
+      "sum_v": {
+        "name": "Accumulated discharge deficit volume (last 30 days)"
+      },
+      "below_glw": {
+        "name": "Below GlW (waterway navigation level)"
+      },
+      "days_below_glw": {
+        "name": "Days below GlW/RWN/BWu"
+      },
+      "depth_below_ground": {
+        "name": "Depth below ground surface"
+      },
       "last_measurement": {
         "name": "Last measurement"
       },
