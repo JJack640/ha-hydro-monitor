@@ -1152,6 +1152,11 @@ class HydroObservationSensor(HydroBaseSensor):
             ),
             "quality_flag": observation.quality_flag,
             "sample_count": observation.sample_count,
+            # Lets this entity be plotted on Home Assistant's map card,
+            # which displays any entity carrying latitude/longitude
+            # attributes (not just device_tracker/person).
+            "latitude": station.latitude,
+            "longitude": station.longitude,
         }
 
 

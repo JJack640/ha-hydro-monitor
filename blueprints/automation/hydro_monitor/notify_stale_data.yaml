@@ -1,0 +1,43 @@
+# Hydro Monitor -- notify when a station's data goes stale (English).
+# German version: notify_stale_data.de.yaml
+#
+# See blueprints/README.md for what this does and how to import it. This
+# is plain documentation/a community asset, not part of the integration --
+# nothing here is installed automatically.
+
+blueprint:
+  name: "Hydro Monitor: Notify when data goes stale"
+  description: >-
+    Send a notification when a Hydro Monitor station stops receiving
+    fresh measurements. Uses the "Measurement age" sensor's own `stale`
+    attribute (Hydro Monitor already flags a measurement as stale once it
+    exceeds its expected update interval), so this doesn't need a
+    separate threshold configured here.
+  domain: automation
+  source_url: https://github.com/JJack640/ha-hydro-monitor/blob/main/blueprints/automation/hydro_monitor/notify_stale_data.yaml
+  input:
+    measurement_age_sensor:
+      name: Measurement age sensor
+      description: The Hydro Monitor "Measurement age" sensor to watch.
+      selector:
+        entity:
+          filter:
+            - integration: hydro_monitor
+              domain: sensor
+    notify_action:
+      name: Notification action
+      description: >-
+        What to do when the station's data goes stale -- e.g. a mobile
+        app notify action. {{ trigger.to_state.name }} is available for
+        use in your message (the sensor's name, which includes the
+        station).
+      selector:
+        action: {}
+
+triggers:
+  - trigger: state
+    entity_id: !input measurement_age_sensor
+    attribute: stale
+    to: true
+
+actions: !input notify_action

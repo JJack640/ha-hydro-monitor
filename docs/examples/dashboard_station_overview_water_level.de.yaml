@@ -119,6 +119,19 @@ cards:
       - entity: sensor.REPLACE_MINIMUM_30D
       - entity: sensor.REPLACE_MAXIMUM_30D
 
+  # --- Schifffahrtsstatus ---------------------------------------------------
+  # below_glw/days_below_glw (Sprint 7 Gruppe E, standardmäßig
+  # deaktiviert): liefern nur an Bundeswasserstraßen-Pegeln (DEXX-
+  # Landcode) echte Werte -- z.B. am Rhein bei Kaub. An einer normalen,
+  # nicht-schifffahrtsbezogenen Wasserstandsstation zeigen sie nach dem
+  # Aktivieren "nicht verfügbar", wie jeder andere typgebundene Hydro-
+  # Monitor-Sensor auch.
+  - type: entities
+    title: Schifffahrtsstatus
+    entities:
+      - entity: sensor.REPLACE_BELOW_GLW
+      - entity: sensor.REPLACE_DAYS_BELOW_GLW
+
   # --- Klassifikation & Perzentil-Kontext ----------------------------------
   - type: entities
     title: Klassifikationsgrenzen

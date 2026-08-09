@@ -19,11 +19,25 @@
 # name already starts with its station name (Home Assistant's
 # has_entity_name convention prefixes the device name), so it identifies
 # itself without a hardcoded "Station 1/2/3/4" label.
+#
+# The map card needs Hydro Monitor v0.3.0-beta2 or later: the primary
+# value entities only started carrying latitude/longitude attributes in
+# that release (any entity with those attributes shows up on a map card,
+# not just device_tracker/person). No entity to enable -- the primary
+# value sensor is already enabled by default.
 
 title: Station Comparison
 icon: mdi:compare
 path: hydro-monitor-comparison
 cards:
+  - type: map
+    title: Stations
+    entities:
+      - entity: sensor.REPLACE_STATION_1_VALUE
+      - entity: sensor.REPLACE_STATION_2_VALUE
+      - entity: sensor.REPLACE_STATION_3_VALUE
+      - entity: sensor.REPLACE_STATION_4_VALUE
+
   - type: entities
     title: Current values
     entities:

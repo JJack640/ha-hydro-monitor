@@ -122,6 +122,18 @@ cards:
       - entity: sensor.REPLACE_MINIMUM_30D
       - entity: sensor.REPLACE_MAXIMUM_30D
 
+  # --- Low-water accumulation ---------------------------------------------
+  # SumD/SumV (Sprint 7 Group D, disabled by default, discharge only): how
+  # many of the last 30 days qualified as low-water days, and the
+  # accumulated discharge deficit volume over that window -- a running
+  # tally rather than a single reference value, so it complements the
+  # historical-statistics card above rather than duplicating it.
+  - type: entities
+    title: Low-water accumulation (last 30 days)
+    entities:
+      - entity: sensor.REPLACE_SUM_D
+      - entity: sensor.REPLACE_SUM_V
+
   # --- Classification & percentile context --------------------------------
   - type: entities
     title: Classification boundaries

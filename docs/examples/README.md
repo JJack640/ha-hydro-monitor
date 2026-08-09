@@ -63,11 +63,26 @@ what NIWIS publishes for the measurement type:
   rolling 30-day minimum/maximum only — enabled by default, no entities to
   turn on first.
 
+The discharge and water level files each carry one more card past
+"Historical statistics", for the two Sprint 7 sensor groups that don't
+have a natural home in the cards above (deciles already cover the
+percentile context): discharge gets "Low-water accumulation" (SumD/SumV —
+how many of the last 30 days qualified as low-water days, and the
+accumulated discharge deficit volume); water level gets "Waterway
+navigation status" (below GlW / days below GlW-RWN-BWu). The latter only
+populates real values at federal waterway (Bundeswasserstraße,
+`DEXX`-landcode) gauges — e.g. the Rhine at Kaub — and shows
+"unavailable" at a regular station once enabled, same as any other
+type-gated sensor in this project.
+
 - [`dashboard_multi_station_comparison.yaml`](dashboard_multi_station_comparison.yaml) /
   [`dashboard_multi_station_comparison.de.yaml`](dashboard_multi_station_comparison.de.yaml) —
   a comparison across several configured stations (any mix of measurement
   types), for users monitoring more than one. Icon `mdi:compare`, path
-  `hydro-monitor-comparison` / `hydro-monitor-vergleich`.
+  `hydro-monitor-comparison` / `hydro-monitor-vergleich`. Leads with a
+  `type: map` card plotting every configured station — Home Assistant's
+  map card displays any entity with `latitude`/`longitude` attributes, and
+  the primary value sensors have carried those since `v0.3.0-beta2`.
 
 All files are available in English and German (`.de.yaml`) — both are
 functionally identical; only the static card titles, `path`, and code

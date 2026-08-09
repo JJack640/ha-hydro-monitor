@@ -20,11 +20,25 @@
 # beginnt durch Home Assistants has_entity_name-Konvention bereits mit dem
 # eigenen, schon lokalisierten Stationsnamen -- ein hartcodiertes
 # "Station 1/2/3/4" ist damit überflüssig.
+#
+# Die Kartenkarte (map) braucht Hydro Monitor v0.3.0-beta2 oder neuer:
+# erst seit diesem Release tragen die primären Wert-Entitäten
+# Breiten-/Längengrad-Attribute (jede Entität mit diesen Attributen
+# erscheint auf einer Kartenkarte, nicht nur device_tracker/person).
+# Nichts zu aktivieren -- der primäre Wert-Sensor ist standardmäßig aktiv.
 
 title: Stationsvergleich
 icon: mdi:compare
 path: hydro-monitor-vergleich
 cards:
+  - type: map
+    title: Stationen
+    entities:
+      - entity: sensor.REPLACE_STATION_1_VALUE
+      - entity: sensor.REPLACE_STATION_2_VALUE
+      - entity: sensor.REPLACE_STATION_3_VALUE
+      - entity: sensor.REPLACE_STATION_4_VALUE
+
   - type: entities
     title: Aktuelle Werte
     entities:

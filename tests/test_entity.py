@@ -107,6 +107,8 @@ def test_primary_sensor_extra_state_attributes() -> None:
     assert attributes["quality_flag"] == "A"
     assert attributes["sample_count"] == 29
     assert attributes["observed_on"] == "2026-07-15"
+    assert attributes["latitude"] == pytest.approx(50.203686)
+    assert attributes["longitude"] == pytest.approx(9.621822)
 
 
 def test_low_water_class_sensor_exposes_official_error_message() -> None:

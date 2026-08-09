@@ -1,0 +1,43 @@
+# Hydro Monitor -- Benachrichtigung bei veralteten Messdaten (Deutsch).
+# Englische Version: notify_stale_data.yaml
+#
+# Siehe blueprints/README.md für Erklärung und Import-Anleitung. Das ist
+# reine Dokumentation/ein Community-Asset, kein Teil der Integration --
+# nichts hiervon wird automatisch installiert.
+
+blueprint:
+  name: "Hydro Monitor: Bei veralteten Messdaten benachrichtigen"
+  description: >-
+    Sendet eine Benachrichtigung, wenn eine Hydro-Monitor-Station keine
+    aktuellen Messwerte mehr liefert. Nutzt das eigene `stale`-Attribut
+    des Sensors "Messalter" (Hydro Monitor markiert eine Messung bereits
+    selbst als veraltet, sobald sie das erwartete Aktualisierungsintervall
+    überschreitet) -- hier ist also kein eigener Schwellenwert nötig.
+  domain: automation
+  source_url: https://github.com/JJack640/ha-hydro-monitor/blob/main/blueprints/automation/hydro_monitor/notify_stale_data.de.yaml
+  input:
+    measurement_age_sensor:
+      name: Messalter-Sensor
+      description: Der zu überwachende Hydro-Monitor-Sensor "Messalter".
+      selector:
+        entity:
+          filter:
+            - integration: hydro_monitor
+              domain: sensor
+    notify_action:
+      name: Benachrichtigungs-Aktion
+      description: >-
+        Was passieren soll, wenn die Daten der Station veralten -- z.B.
+        eine Mobile-App-Benachrichtigung. {{ trigger.to_state.name }}
+        steht für deine Nachricht zur Verfügung (der Sensorname, der die
+        Station enthält).
+      selector:
+        action: {}
+
+triggers:
+  - trigger: state
+    entity_id: !input measurement_age_sensor
+    attribute: stale
+    to: true
+
+actions: !input notify_action

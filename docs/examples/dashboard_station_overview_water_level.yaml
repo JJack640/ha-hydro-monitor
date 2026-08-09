@@ -118,6 +118,18 @@ cards:
       - entity: sensor.REPLACE_MINIMUM_30D
       - entity: sensor.REPLACE_MAXIMUM_30D
 
+  # --- Waterway navigation status ------------------------------------------
+  # below_glw/days_below_glw (Sprint 7 Group E, disabled by default): only
+  # populate at federal waterway (Bundeswasserstraße, DEXX-landcode)
+  # gauges -- e.g. the Rhine at Kaub. At a regular, non-waterway water
+  # level station these will show "unavailable" once enabled, same as any
+  # other type-gated Hydro Monitor sensor.
+  - type: entities
+    title: Waterway navigation status
+    entities:
+      - entity: sensor.REPLACE_BELOW_GLW
+      - entity: sensor.REPLACE_DAYS_BELOW_GLW
+
   # --- Classification & percentile context --------------------------------
   - type: entities
     title: Classification boundaries

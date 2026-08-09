@@ -122,6 +122,18 @@ cards:
       - entity: sensor.REPLACE_MINIMUM_30D
       - entity: sensor.REPLACE_MAXIMUM_30D
 
+  # --- Niedrigwasser-Bilanz -------------------------------------------------
+  # SumD/SumV (Sprint 7 Gruppe D, standardmäßig deaktiviert, nur Abfluss):
+  # wie viele der letzten 30 Tage als Niedrigwassertage galten und das
+  # kumulierte Abflussdefizit-Volumen über dieses Fenster -- eine
+  # laufende Bilanz statt eines einzelnen Referenzwerts, ergänzt also die
+  # Karte "Historische Statistiken" statt sie zu duplizieren.
+  - type: entities
+    title: Niedrigwasser-Bilanz (letzte 30 Tage)
+    entities:
+      - entity: sensor.REPLACE_SUM_D
+      - entity: sensor.REPLACE_SUM_V
+
   # --- Klassifikation & Perzentil-Kontext ----------------------------------
   - type: entities
     title: Klassifikationsgrenzen

@@ -1,0 +1,60 @@
+# Hydro Monitor -- notify on low-water class change (English).
+# German version: notify_low_water_class.de.yaml
+#
+# See blueprints/README.md for what this does and how to import it. This
+# is plain documentation/a community asset, not part of the integration --
+# nothing here is installed automatically.
+
+blueprint:
+  name: "Hydro Monitor: Notify on low-water class"
+  description: >-
+    Send a notification when a Hydro Monitor "Low-water class" sensor
+    changes to one of the severities you choose (e.g. "extremely low").
+    Works for any measurement type -- discharge, water level, groundwater
+    level, or spring discharge -- since all four expose this sensor.
+  domain: automation
+  source_url: https://github.com/JJack640/ha-hydro-monitor/blob/main/blueprints/automation/hydro_monitor/notify_low_water_class.yaml
+  input:
+    low_water_class_sensor:
+      name: Low-water class sensor
+      description: The Hydro Monitor "Low-water class" sensor to watch.
+      selector:
+        entity:
+          filter:
+            - integration: hydro_monitor
+              domain: sensor
+    trigger_states:
+      name: Trigger on
+      description: Notify when the sensor changes to one of these severities.
+      default:
+        - extremely_low
+        - very_low
+      selector:
+        select:
+          multiple: true
+          mode: list
+          options:
+            - label: Extremely low
+              value: extremely_low
+            - label: Very low
+              value: very_low
+            - label: Low
+              value: low
+            - label: No low water
+              value: no_low_water
+    notify_action:
+      name: Notification action
+      description: >-
+        What to do when triggered -- e.g. a mobile app notify action.
+        {{ trigger.to_state.name }} and {{ trigger.to_state.state }} are
+        available for use in your message (the sensor's name and its new
+        low-water class).
+      selector:
+        action: {}
+
+triggers:
+  - trigger: state
+    entity_id: !input low_water_class_sensor
+    to: !input trigger_states
+
+actions: !input notify_action

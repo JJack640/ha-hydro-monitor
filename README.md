@@ -93,9 +93,16 @@ Additional providers may be added later without changing the core integration ar
 ## Dashboard examples
 
 Copy-paste Lovelace dashboard examples (single-station overview,
-multi-station comparison) are available in
+multi-station comparison with a map view) are available in
 [`docs/examples`](docs/examples). These are documentation only, not part of
 the integration.
+
+## Automation blueprints
+
+Copy-paste Home Assistant automation blueprints (notify on a low-water
+class change, notify when a station's data goes stale) are available in
+[`blueprints`](blueprints). These are documentation only, not part of the
+integration.
 
 ## Installation
 

@@ -1,0 +1,62 @@
+# Hydro Monitor -- Benachrichtigung bei Niedrigwasserklassen-Änderung
+# (Deutsch).
+# Englische Version: notify_low_water_class.yaml
+#
+# Siehe blueprints/README.md für Erklärung und Import-Anleitung. Das ist
+# reine Dokumentation/ein Community-Asset, kein Teil der Integration --
+# nichts hiervon wird automatisch installiert.
+
+blueprint:
+  name: "Hydro Monitor: Bei Niedrigwasserklassen-Änderung benachrichtigen"
+  description: >-
+    Sendet eine Benachrichtigung, wenn ein Hydro-Monitor-Sensor
+    "Niedrigwasserklasse" auf eine von dir gewählte Schwere wechselt (z.B.
+    "extrem niedrig"). Funktioniert für jeden Messgrößentyp -- Abfluss,
+    Wasserstand, Grundwasserstand oder Quellschüttung -- da alle vier
+    diesen Sensor besitzen.
+  domain: automation
+  source_url: https://github.com/JJack640/ha-hydro-monitor/blob/main/blueprints/automation/hydro_monitor/notify_low_water_class.de.yaml
+  input:
+    low_water_class_sensor:
+      name: Niedrigwasserklasse-Sensor
+      description: Der zu überwachende Hydro-Monitor-Sensor "Niedrigwasserklasse".
+      selector:
+        entity:
+          filter:
+            - integration: hydro_monitor
+              domain: sensor
+    trigger_states:
+      name: Auslösen bei
+      description: Benachrichtigt, wenn der Sensor auf eine dieser Schweregrade wechselt.
+      default:
+        - extremely_low
+        - very_low
+      selector:
+        select:
+          multiple: true
+          mode: list
+          options:
+            - label: Extrem niedrig
+              value: extremely_low
+            - label: Sehr niedrig
+              value: very_low
+            - label: Niedrig
+              value: low
+            - label: Kein Niedrigwasser
+              value: no_low_water
+    notify_action:
+      name: Benachrichtigungs-Aktion
+      description: >-
+        Was beim Auslösen passieren soll -- z.B. eine Mobile-App-
+        Benachrichtigung. {{ trigger.to_state.name }} und
+        {{ trigger.to_state.state }} stehen für deine Nachricht zur
+        Verfügung (Sensorname und neue Niedrigwasserklasse).
+      selector:
+        action: {}
+
+triggers:
+  - trigger: state
+    entity_id: !input low_water_class_sensor
+    to: !input trigger_states
+
+actions: !input notify_action
