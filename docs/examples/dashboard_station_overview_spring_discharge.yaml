@@ -66,11 +66,26 @@ cards:
       - entity: sensor.REPLACE_MEASUREMENT_AGE
 
   # --- History ----------------------------------------------------------
+  # NIWIS doesn't expose historical statistics for spring discharge (see
+  # the note at the top of this file), so there's no calendar-day
+  # min/median/max envelope to compare against here, unlike discharge and
+  # water level (see dashboard_station_overview_discharge.yaml). The best
+  # available range context is Hydro Monitor's own rolling 30-day
+  # minimum/maximum instead -- the lowest/highest value actually measured
+  # in the last 30 days, not a deeper historical record. Both are enabled
+  # by default. Legend names are shortened here (unlike elsewhere in this
+  # file) since a graph legend has far less room than an entities-card
+  # row.
   - type: history-graph
     title: Last 30 days
     hours_to_show: 720
     entities:
       - entity: sensor.REPLACE_VALUE
+        name: Value
+      - entity: sensor.REPLACE_MAXIMUM_30D
+        name: 30-day max
+      - entity: sensor.REPLACE_MINIMUM_30D
+        name: 30-day min
 
   # --- Classification context ---------------------------------------------
   - type: entities

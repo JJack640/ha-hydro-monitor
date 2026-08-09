@@ -42,6 +42,27 @@ have a value. Station metadata also differs: no waterbody/catchment
 area/river-kilometre fields (river-specific), locality/ground
 elevation/hydrogeological region instead.
 
+All four history graphs plot the actual value alongside a reference band,
+so you can tell at a glance whether today's value is low, typical, or high
+— not just whether it's rising or falling. How rich that band is depends on
+what NIWIS publishes for the measurement type:
+
+- **Discharge** gets NIWIS's own calendar-day min/median/max (the lowest,
+  typical, and highest discharge ever recorded specifically on each
+  calendar day, reference period 1991-2020) — a genuinely historical
+  comparison. These entities are disabled by default (see below) — enable
+  them for the comparison to actually render.
+- **Water level** gets NIWIS's calendar-day median the same way, but NIWIS
+  publishes no calendar-day min/max for water level, so those two lines
+  fall back to Hydro Monitor's own rolling 30-day minimum/maximum instead
+  — a narrower, locally-computed comparison, not the historical extremes
+  for that date. The median entity is disabled by default; the 30-day
+  min/max are enabled by default.
+- **Groundwater level and spring discharge** have no NIWIS historical
+  statistics at all (see above), so their graphs use Hydro Monitor's
+  rolling 30-day minimum/maximum only — enabled by default, no entities to
+  turn on first.
+
 - [`dashboard_multi_station_comparison.yaml`](dashboard_multi_station_comparison.yaml) /
   [`dashboard_multi_station_comparison.de.yaml`](dashboard_multi_station_comparison.de.yaml) —
   a comparison across several configured stations (any mix of measurement

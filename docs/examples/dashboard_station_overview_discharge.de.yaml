@@ -63,12 +63,32 @@ cards:
       - entity: sensor.REPLACE_TREND_STATE
       - entity: sensor.REPLACE_MEASUREMENT_AGE
 
-  # --- Verlauf ------------------------------------------------------------
+  # --- Verlauf --------------------------------------------------------------
+  # Die drei REPLACE_..._CALENDAR_DAY-Entitäten sind Sprint 7s historische
+  # Kalendertag-Bandbreite: der niedrigste, typische (Median) und höchste
+  # Abfluss, den NIWIS jemals genau an diesem Kalendertag im
+  # Referenzzeitraum 1991-2020 aufgezeichnet hat. Zusammen mit dem
+  # aktuellen Wert geplottet, wird aus der reinen Verlaufslinie ein
+  # Vergleich auf einen Blick -- ist der heutige Abfluss für diese
+  # Jahreszeit niedrig, typisch oder hoch? Ihre eigenen Linien verschieben
+  # sich sanft über die 30-Tage-Ansicht, weil das Kalenderdatum
+  # fortschreitet, nicht weil sich der historische Datensatz selbst Tag
+  # für Tag ändert. Alle drei sind standardmäßig deaktiviert -- siehe
+  # docs/examples/README.md. Die Legenden-Namen sind hier (anders als
+  # sonst in dieser Datei) verkürzt, da eine Graph-Legende viel weniger
+  # Platz hat als eine Entities-Karten-Zeile.
   - type: history-graph
-    title: Letzte 30 Tage
+    title: Letzte 30 Tage im historischen Vergleich
     hours_to_show: 720
     entities:
       - entity: sensor.REPLACE_VALUE
+        name: Wert
+      - entity: sensor.REPLACE_MAX_Q_CALENDAR_DAY
+        name: Historisches Maximum (heute)
+      - entity: sensor.REPLACE_MEDIAN_Q_CALENDAR_DAY
+        name: Historischer Median (heute)
+      - entity: sensor.REPLACE_MIN_Q_CALENDAR_DAY
+        name: Historisches Minimum (heute)
 
   # --- Vergleich mit dem historischen Mittelwert ---------------------------
   - type: horizontal-stack

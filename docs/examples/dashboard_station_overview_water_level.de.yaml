@@ -62,12 +62,32 @@ cards:
       - entity: sensor.REPLACE_TREND_STATE
       - entity: sensor.REPLACE_MEASUREMENT_AGE
 
-  # --- Verlauf ------------------------------------------------------------
+  # --- Verlauf --------------------------------------------------------------
+  # REPLACE_MEDIAN_W_CALENDAR_DAY ist Sprint 7s historischer
+  # Kalendertag-Median: der typische Wasserstand, den NIWIS jemals genau
+  # an diesem Kalendertag im Referenzzeitraum 1991-2020 aufgezeichnet hat
+  # (standardmäßig deaktiviert -- siehe docs/examples/README.md). Für
+  # Wasserstand liefert NIWIS kein Kalendertag-Minimum/Maximum-Gegenstück
+  # (anders als beim Abfluss, siehe
+  # dashboard_station_overview_discharge.de.yaml) -- die Min/Max-Linien
+  # hier sind stattdessen Hydro Monitors eigenes gleitendes
+  # 30-Tage-Minimum/Maximum, ein engerer Vergleich (der niedrigste/höchste
+  # tatsächlich gemessene Wert der letzten 30 Tage, nicht das historische
+  # Extremum für dieses Datum). Die Legenden-Namen sind hier (anders als
+  # sonst in dieser Datei) verkürzt, da eine Graph-Legende viel weniger
+  # Platz hat als eine Entities-Karten-Zeile.
   - type: history-graph
-    title: Letzte 30 Tage
+    title: Letzte 30 Tage im historischen Vergleich
     hours_to_show: 720
     entities:
       - entity: sensor.REPLACE_VALUE
+        name: Wert
+      - entity: sensor.REPLACE_MAXIMUM_30D
+        name: 30-Tage-Maximum
+      - entity: sensor.REPLACE_MEDIAN_W_CALENDAR_DAY
+        name: Historischer Median (heute)
+      - entity: sensor.REPLACE_MINIMUM_30D
+        name: 30-Tage-Minimum
 
   # --- Vergleich mit dem historischen Mittelwert ---------------------------
   - type: horizontal-stack

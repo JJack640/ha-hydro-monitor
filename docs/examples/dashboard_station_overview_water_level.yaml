@@ -64,11 +64,29 @@ cards:
       - entity: sensor.REPLACE_MEASUREMENT_AGE
 
   # --- History ----------------------------------------------------------
+  # REPLACE_MEDIAN_W_CALENDAR_DAY is Sprint 7's historical calendar-day
+  # median: the typical water level NIWIS ever recorded specifically on
+  # this exact calendar day across the 1991-2020 reference period
+  # (disabled by default -- see docs/examples/README.md). NIWIS has no
+  # calendar-day min/max counterpart for water level (unlike discharge,
+  # see dashboard_station_overview_discharge.yaml), so the min/max lines
+  # here are Hydro Monitor's own rolling 30-day minimum/maximum instead --
+  # a narrower comparison (the lowest/highest actually measured in the
+  # last 30 days, not the historical extremes for this date). Legend
+  # names are shortened here (unlike elsewhere in this file) since a
+  # graph legend has far less room than an entities-card row.
   - type: history-graph
-    title: Last 30 days
+    title: Last 30 days vs. historical range
     hours_to_show: 720
     entities:
       - entity: sensor.REPLACE_VALUE
+        name: Value
+      - entity: sensor.REPLACE_MAXIMUM_30D
+        name: 30-day max
+      - entity: sensor.REPLACE_MEDIAN_W_CALENDAR_DAY
+        name: Historical median (today)
+      - entity: sensor.REPLACE_MINIMUM_30D
+        name: 30-day min
 
   # --- Compared to the historical mean -----------------------------------
   - type: horizontal-stack

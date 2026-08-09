@@ -66,12 +66,28 @@ cards:
       - entity: sensor.REPLACE_TREND_STATE
       - entity: sensor.REPLACE_MEASUREMENT_AGE
 
-  # --- Verlauf ------------------------------------------------------------
+  # --- Verlauf --------------------------------------------------------------
+  # Für Quellschüttung liefert NIWIS keine historischen Statistiken (siehe
+  # Hinweis oben in dieser Datei) -- es gibt also keine
+  # Kalendertag-Min/Median/Max-Bandbreite zum Vergleich, anders als bei
+  # Abfluss und Wasserstand (siehe
+  # dashboard_station_overview_discharge.de.yaml). Der beste verfügbare
+  # Vergleichsrahmen ist stattdessen Hydro Monitors eigenes gleitendes
+  # 30-Tage-Minimum/Maximum -- der niedrigste/höchste tatsächlich in den
+  # letzten 30 Tagen gemessene Wert, kein tieferer historischer
+  # Datensatz. Beide sind standardmäßig aktiv. Die Legenden-Namen sind
+  # hier (anders als sonst in dieser Datei) verkürzt, da eine
+  # Graph-Legende viel weniger Platz hat als eine Entities-Karten-Zeile.
   - type: history-graph
     title: Letzte 30 Tage
     hours_to_show: 720
     entities:
       - entity: sensor.REPLACE_VALUE
+        name: Wert
+      - entity: sensor.REPLACE_MAXIMUM_30D
+        name: 30-Tage-Maximum
+      - entity: sensor.REPLACE_MINIMUM_30D
+        name: 30-Tage-Minimum
 
   # --- Klassifikationskontext -----------------------------------------
   - type: entities

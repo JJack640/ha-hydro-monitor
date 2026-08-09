@@ -65,11 +65,30 @@ cards:
       - entity: sensor.REPLACE_MEASUREMENT_AGE
 
   # --- History ----------------------------------------------------------
+  # The three REPLACE_..._CALENDAR_DAY entities are Sprint 7's historical
+  # calendar-day envelope: the lowest, typical (median), and highest
+  # discharge NIWIS ever recorded specifically on each calendar day across
+  # the 1991-2020 reference period. Plotted alongside the actual value,
+  # they turn the plain trend line into an at-a-glance comparison -- is
+  # today's discharge low, typical, or high for this time of year? Their
+  # own lines shift smoothly across the 30-day window because the
+  # calendar date advances, not because the historical record itself
+  # changes day to day. All three are disabled by default -- see
+  # docs/examples/README.md. Legend names are shortened here (unlike
+  # elsewhere in this file) since a graph legend has far less room than
+  # an entities-card row.
   - type: history-graph
-    title: Last 30 days
+    title: Last 30 days vs. historical range
     hours_to_show: 720
     entities:
       - entity: sensor.REPLACE_VALUE
+        name: Value
+      - entity: sensor.REPLACE_MAX_Q_CALENDAR_DAY
+        name: Historical max (today)
+      - entity: sensor.REPLACE_MEDIAN_Q_CALENDAR_DAY
+        name: Historical median (today)
+      - entity: sensor.REPLACE_MIN_Q_CALENDAR_DAY
+        name: Historical min (today)
 
   # --- Compared to the historical mean -----------------------------------
   - type: horizontal-stack
