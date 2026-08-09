@@ -6,6 +6,51 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## v0.3.0-beta2 (2026-08-09)
+
+Completes the official NIWIS derived-quantity catalogue (43/43 quantities
+now implemented or explicitly deferred/blocked with documented reasoning)
+and improves discoverability of the many official-statistic sensors added
+along the way.
+
+### Added
+
+- 18 previously-untouched NIWIS derived quantities ("Sprint 7"):
+  - Historical calendar-day envelope: min/median/max discharge and median
+    water level for today's exact calendar day, reference period
+    1991-2020, disabled by default
+  - Reference-period NQ, Median Q (discharge) and NW, Median W (water
+    level), disabled by default
+  - NM7Q/NM30Q "mit Datum": the date range each lowest-discharge extreme
+    occurred in, exposed as `occurred_from`/`occurred_to` attributes on
+    the existing NM7Q/NM30Q sensors
+  - SumD/SumV: accumulated low-water days and discharge deficit volume
+    over the last 30 days (discharge only), disabled by default
+  - Waterway navigation indicators: below GlW, days below GlW/RWN/BWu,
+    for federal waterway gauges (water level only), disabled by default
+  - Groundwater depth below ground surface (Flurabstand), disabled by
+    default
+- A plain-language glossary (`sensor_glossary.py`), surfaced as a
+  localized `description` attribute on every official NIWIS sensor, since
+  their names mirror NIWIS's own hydrological abbreviations (MQ, GlW,
+  ...) and Home Assistant has no per-entity tooltip mechanism
+- Historical range comparison in the example dashboards' history graphs:
+  discharge and water level now plot the actual value alongside NIWIS's
+  calendar-day envelope (or, where NIWIS has no calendar-day min/max, the
+  rolling 30-day minimum/maximum); groundwater level and spring discharge
+  use the rolling 30-day minimum/maximum
+
+### Fixed
+
+- A naming collision between the new NQ/NW sensors and the pre-existing
+  `historical_low_discharge`/`historical_low_water_level` station-metadata
+  sensors, which shared the exact same translated label
+
+### Documented
+
+- README's "Available Sensors" table expanded to cover every sensor added
+  across Sprints 1-7
+
 ## v0.3.0-beta1 (2026-08-07)
 
 First beta release: Phase 2-6 of the technical roadmap are complete

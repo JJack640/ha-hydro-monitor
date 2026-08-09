@@ -31,7 +31,7 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 > Hydro Monitor is currently under active development. NIWIS is the first supported provider.
 
 > [!NOTE]
-> **Current status:** Beta (`v0.3.0-beta1`) – recommended for general use; feedback still welcome.
+> **Current status:** Beta (`v0.3.0-beta2`) – recommended for general use; feedback still welcome.
 
 ## Features
 
@@ -52,7 +52,13 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 - Official NIWIS static and dynamic low-water classification boundaries
 - Official NIWIS decile boundaries (P0-P100) for discharge and water level
 - Official NIWIS 7-day development assessment for discharge and water level
-- Official NIWIS historical statistics: MQ, MNQ, NM7Q, NM30Q (discharge), MW, MNW (water level)
+- Official NIWIS historical statistics: MQ, MNQ, NM7Q, NM30Q, NQ, Median Q, SumD, SumV (discharge), MW, MNW, NW, Median W (water level)
+- Official NIWIS historical calendar-day envelope: min/median/max discharge and median water level for today's exact calendar day, reference period 1991-2020
+- Official NIWIS waterway navigation indicators (below GlW, days below GlW/RWN/BWu) for federal waterway gauges
+- Official NIWIS groundwater depth below ground surface (Flurabstand)
+- `%`-of-mean comparison sensors (current value vs. MQ/MNQ/MW/MNW)
+- Plain-language glossary attribute on every official NIWIS sensor, explaining its abbreviation in your configured language
+- Example Lovelace dashboards (English and German) for every measurement type, including historical range comparison in the history graph
 - Built-in diagnostics download
 - Home Assistant System Health support
 - English and German translations
@@ -65,7 +71,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-**Current release:** `v0.3.0-beta1`
+**Current release:** `v0.3.0-beta2`
 
 Hydro Monitor currently supports the NIWIS public hydrological data service.
 

@@ -7,5 +7,5 @@
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/JJack640/ha-hydro-monitor/issues",
-  "version": "0.3.0-beta1"
+  "version": "0.3.0-beta2"
 }
