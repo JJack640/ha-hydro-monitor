@@ -31,7 +31,17 @@ from .localization import (
     resolve_language,
 )
 from .models import HydroMeasurementType, HydroObservation
-from .providers.niwis.const import HISTORICAL_STATISTIC_NIWIS_NAMES, LOW_WATER_CLASS_KEYS
+from .providers.niwis.const import (
+    CALENDAR_DAY_STATISTIC_MEASUREMENT_TYPES,
+    DECILES_MEASUREMENT_TYPES,
+    DEPTH_BELOW_GROUND_MEASUREMENT_TYPES,
+    HISTORICAL_STATISTIC_MEASUREMENT_TYPES,
+    HISTORICAL_STATISTIC_NIWIS_NAMES,
+    LOW_WATER_CLASS_KEYS,
+    OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES,
+    SUM_MEASUREMENT_TYPES,
+    WATERWAY_INDICATOR_MEASUREMENT_TYPES,
+)
 from .sensor_glossary import sensor_description
 
 PARALLEL_UPDATES = 0
@@ -259,6 +269,39 @@ def _decile_unit(observation: HydroObservation) -> str | None:
 DECILE_PERCENTILES: Final = (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
 
 
+# Which measurement types a given sensor key is ever fetched/possible for --
+# reuses the same gating dicts providers/niwis/const.py already uses to
+# decide whether to fetch a quantity at all (and therefore whether it can
+# ever have a value). A key absent here applies to all four measurement
+# types (value, trends, 30-day min/max, low_water_class, classification
+# boundaries, last_measurement, measurement_age). Used below to make sure a
+# quantity is never enabled by default on a device it can never apply to,
+# regardless of the entity description's own static default.
+_KEY_MEASUREMENT_TYPES: Final[dict[str, frozenset[str]]] = {
+    **HISTORICAL_STATISTIC_MEASUREMENT_TYPES,
+    **CALENDAR_DAY_STATISTIC_MEASUREMENT_TYPES,
+    "official_development_7d": OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES,
+    "sum_d": SUM_MEASUREMENT_TYPES,
+    "sum_v": SUM_MEASUREMENT_TYPES,
+    "below_glw": WATERWAY_INDICATOR_MEASUREMENT_TYPES,
+    "days_below_glw": WATERWAY_INDICATOR_MEASUREMENT_TYPES,
+    "depth_below_ground": DEPTH_BELOW_GROUND_MEASUREMENT_TYPES,
+    **{
+        f"percent_of_{stat}": types
+        for stat, types in HISTORICAL_STATISTIC_MEASUREMENT_TYPES.items()
+    },
+    **{f"decile_p{p}": DECILES_MEASUREMENT_TYPES for p in DECILE_PERCENTILES},
+}
+
+
+def _key_applies_to_measurement_type(
+    key: str, measurement_type: HydroMeasurementType
+) -> bool:
+    """Return whether a sensor key is ever fetched/possible for this type."""
+    applicable = _KEY_MEASUREMENT_TYPES.get(key)
+    return applicable is None or measurement_type.value in applicable
+
+
 @dataclass(frozen=True, kw_only=True)
 class HydroSensorEntityDescription(SensorEntityDescription):
     """Describe a Hydro Monitor sensor entity."""
@@ -440,7 +483,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:chart-timeline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=2,
-        entity_registry_enabled_default=False,
         value_fn=_historical_statistic("mq"),
         unit_fn=_historical_statistic_unit("mq"),
     ),
@@ -451,7 +493,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:water-minus-outline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=2,
-        entity_registry_enabled_default=False,
         value_fn=_historical_statistic("mnq"),
         unit_fn=_historical_statistic_unit("mnq"),
     ),
@@ -484,7 +525,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:chart-timeline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
-        entity_registry_enabled_default=False,
         value_fn=_historical_statistic("mw"),
         unit_fn=_historical_statistic_unit("mw"),
     ),
@@ -495,7 +535,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:water-minus-outline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
-        entity_registry_enabled_default=False,
         value_fn=_historical_statistic("mnw"),
         unit_fn=_historical_statistic_unit("mnw"),
     ),
@@ -506,7 +545,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:percent-outline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
-        entity_registry_enabled_default=False,
         value_fn=_percent_of_statistic("mq"),
         unit_fn=lambda observation: PERCENTAGE,
     ),
@@ -517,7 +555,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:percent-circle-outline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
-        entity_registry_enabled_default=False,
         value_fn=_percent_of_statistic("mnq"),
         unit_fn=lambda observation: PERCENTAGE,
     ),
@@ -528,7 +565,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:percent-outline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
-        entity_registry_enabled_default=False,
         value_fn=_percent_of_statistic("mw"),
         unit_fn=lambda observation: PERCENTAGE,
     ),
@@ -539,7 +575,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:percent-circle-outline",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=1,
-        entity_registry_enabled_default=False,
         value_fn=_percent_of_statistic("mnw"),
         unit_fn=lambda observation: PERCENTAGE,
     ),
@@ -680,7 +715,6 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:arrow-collapse-down",
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=2,
-        entity_registry_enabled_default=False,
         value_fn=_historical_statistic("depth_below_ground"),
         unit_fn=_historical_statistic_unit("depth_below_ground"),
     ),
@@ -1033,6 +1067,23 @@ class HydroObservationSensor(HydroBaseSensor):
             return _trend_icon(self.native_value)
 
         return self.entity_description.icon
+
+    @property
+    def entity_registry_enabled_default(self) -> bool:
+        """Return whether this entity should be enabled by default.
+
+        Never enabled for a measurement type the quantity doesn't apply to
+        at all -- it would otherwise clutter the entity list with a
+        permanently-unavailable entity (e.g. "% of MQ" on a groundwater
+        device, which never fetches MQ in the first place). Otherwise
+        defers to the entity description's own default.
+        """
+        if not _key_applies_to_measurement_type(
+            self.entity_description.key, self._measurement_type
+        ):
+            return False
+
+        return self.entity_description.entity_registry_enabled_default
 
     @property
     def native_value(self) -> Any:

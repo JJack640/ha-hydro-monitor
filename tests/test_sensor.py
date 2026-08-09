@@ -386,42 +386,49 @@ def test_decile_descriptions(key: str, index: int) -> None:
 
 
 @pytest.mark.parametrize(
-    "key",
+    ("key", "expected_enabled_default"),
     [
-        "mq",
-        "mnq",
-        "nm7q",
-        "nm30q",
-        "mw",
-        "mnw",
-        "nq",
-        "median_q",
-        "nw",
-        "median_w",
-        "min_q_calendar_day",
-        "median_q_calendar_day",
-        "max_q_calendar_day",
-        "median_w_calendar_day",
-        "sum_d",
-        "sum_v",
-        "days_below_glw",
-        "depth_below_ground",
+        ("mq", True),
+        ("mnq", True),
+        ("nm7q", False),
+        ("nm30q", False),
+        ("mw", True),
+        ("mnw", True),
+        ("nq", False),
+        ("median_q", False),
+        ("nw", False),
+        ("median_w", False),
+        ("min_q_calendar_day", False),
+        ("median_q_calendar_day", False),
+        ("max_q_calendar_day", False),
+        ("median_w_calendar_day", False),
+        ("sum_d", False),
+        ("sum_v", False),
+        ("days_below_glw", False),
+        ("depth_below_ground", True),
     ],
 )
-def test_historical_statistic_descriptions(key: str) -> None:
+def test_historical_statistic_descriptions(
+    key: str, expected_enabled_default: bool
+) -> None:
     """Test the official historical-statistic(-shaped) sensor descriptions.
 
     Covers both berechneEinzelwertNummer quantities (HydroDerivedValue) and
     the calendar-day envelope (HydroCalendarDayValue): both models expose
     the same value/unit attribute names, so _historical_statistic/
-    _historical_statistic_unit work identically for either.
+    _historical_statistic_unit work identically for either. MQ/MNQ/MW/MNW
+    and depth-below-ground are enabled by default (usually available and
+    broadly useful for their measurement type); the rest stay disabled to
+    keep the default device page focused on everyday values -- see
+    tests/test_entity.py for the per-measurement-type override that keeps
+    the enabled-by-default ones off on a type they don't even apply to.
     """
     description = _description(key)
     is_calendar_day = key.endswith("_calendar_day")
     model = HydroCalendarDayValue if is_calendar_day else HydroDerivedValue
 
     assert description.translation_key == key
-    assert description.entity_registry_enabled_default is False
+    assert description.entity_registry_enabled_default == expected_enabled_default
     assert description.entity_category is None
     assert description.state_class == SensorStateClass.MEASUREMENT
 
@@ -484,7 +491,7 @@ def test_percent_of_statistic_descriptions(key: str, stat_key: str) -> None:
     description = _description(key)
 
     assert description.translation_key == key
-    assert description.entity_registry_enabled_default is False
+    assert description.entity_registry_enabled_default is True
     assert description.entity_category is None
     assert description.state_class == SensorStateClass.MEASUREMENT
 

@@ -141,11 +141,22 @@ After installation:
 | Measurement age | Hours since the latest observation |
 | Low-water class | NIWIS's own current low-water classification |
 | Official 7-day development | NIWIS's own assessment of the last 7 days (discharge, water level) |
+| MQ / MNQ | Mean discharge / mean of the annual lowest discharge, reference period 1991-2020 (discharge) |
+| MW / MNW | Mean water level / mean of the annual lowest water level, reference period 1991-2020 (water level) |
+| % of MQ / MNQ / MW / MNW | Current value as a percentage of the corresponding reference-period mean |
+| Depth below ground surface | Groundwater depth below the ground surface (Flurabstand), from NIWIS directly (groundwater) |
 
-The following sensors are official NIWIS-calculated statistics. They are
-disabled by default (enable them individually in the entity list) to keep
-the default device page focused on everyday values. Every one of these
-also carries a plain-language explanation in its "more info" dialog
+These are also official NIWIS-calculated statistics, enabled by default
+alongside the sensors above: usually available and broadly useful for
+their measurement type, so they're on the default device page rather than
+tucked away in the entity list.
+
+The following sensors are further official NIWIS-calculated statistics.
+They are disabled by default (enable them individually in the entity
+list) to keep the default device page focused on the everyday values and
+the sensors above — these are more niche, redundant with a sensor already
+shown above, or only meaningful for a subset of stations. Every one of
+these also carries a plain-language explanation in its "more info" dialog
 (`description` attribute, in your Home Assistant language) since the
 abbreviations below mirror NIWIS's own hydrological terminology and aren't
 self-explanatory at a glance:
@@ -155,17 +166,13 @@ self-explanatory at a glance:
 | Static low-water boundaries | Fixed classification thresholds (extremely low / very low / low), unchanged all year |
 | Dynamic low-water boundaries | Classification thresholds adjusted for today's calendar day |
 | Decile boundaries (P0-P100) | 11-point decile distribution for today's calendar day, reference period 1991-2020 |
-| MQ / MNQ | Mean discharge / mean of the annual lowest discharge, reference period 1991-2020 |
 | NM7Q / NM30Q | Lowest 7-day / 30-day mean discharge within the last 30 days (with the date range it occurred in) |
-| MW / MNW | Mean water level / mean of the annual lowest water level, reference period 1991-2020 |
-| % of MQ / MNQ / MW / MNW | Current value as a percentage of the corresponding reference-period mean |
 | NQ / Median Q | Lowest / median discharge across the reference period |
 | NW / Median W | Lowest / median water level across the reference period |
 | Historical min/median/max Q for today | The lowest, typical, and highest discharge ever recorded on this exact calendar day, reference period 1991-2020 |
 | Historical median W for today | The typical water level ever recorded on this exact calendar day |
 | Low-water days (30d) / deficit volume (30d) | Number of low-water days, and accumulated discharge deficit volume, within the last 30 days (discharge only) |
 | Below GlW / Days below GlW-RWN-BWu | Whether the water level is below the waterway navigation reference level, and for how many consecutive days (federal waterway gauges only) |
-| Depth below ground surface | Groundwater depth below the ground surface (Flurabstand), from NIWIS directly (groundwater only) |
 
 ## Diagnostics
 

@@ -146,9 +146,13 @@ entity ID.
 5. Save.
 
 Several optional Hydro Monitor sensors used in these examples are disabled
-by default (classification boundaries, deciles, historical statistics, the
-`%`-of-mean comparison sensors). A disabled entity that has never been
-turned on has no state at all yet, so its card row will show
+by default (classification boundaries, deciles, NM7Q/NM30Q, NQ/Median Q/
+NW/Median W, the historical calendar-day envelope, low-water accumulation,
+waterway navigation status). MQ/MNQ/MW/MNW, the `%`-of-mean comparison
+sensors, and depth-below-ground are enabled by default — usually
+available and broadly useful for their measurement type. A disabled
+entity that has never been turned on has no state at all yet, so its card
+row will show
 **"Entity not found"**, not "unavailable" — enable the ones you want on the
 entity's settings page (Settings → Devices & Services → Entities → search
 for the sensor), then give it one update cycle to pick up a value. Once

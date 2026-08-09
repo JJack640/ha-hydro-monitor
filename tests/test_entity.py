@@ -712,3 +712,106 @@ def test_device_name_defaults_to_english_without_hass() -> None:
 
     assert sensor.device_info is not None
     assert sensor.device_info["name"] == "NBS-H/W KB 11/1 – Discharge"
+
+
+@pytest.mark.parametrize(
+    ("key", "measurement_type"),
+    [
+        ("mq", HydroMeasurementType.WATER_LEVEL),
+        ("mnq", HydroMeasurementType.GROUNDWATER_LEVEL),
+        ("mw", HydroMeasurementType.DISCHARGE),
+        ("mnw", HydroMeasurementType.SPRING_DISCHARGE),
+        ("percent_of_mq", HydroMeasurementType.GROUNDWATER_LEVEL),
+        ("percent_of_mw", HydroMeasurementType.SPRING_DISCHARGE),
+        ("depth_below_ground", HydroMeasurementType.DISCHARGE),
+    ],
+)
+def test_enabled_by_default_sensor_stays_disabled_on_inapplicable_type(
+    key: str, measurement_type: HydroMeasurementType
+) -> None:
+    """Test that an enabled-by-default sensor never enables on a type it can't apply to.
+
+    Every HydroObservationSensor description is instantiated for every
+    device regardless of measurement type (sensor.py's async_setup_entry),
+    with irrelevant ones simply staying permanently "unavailable" -- so
+    naively enabling e.g. MQ by default would also enable it, uselessly,
+    on a groundwater device. The entity_registry_enabled_default override
+    must catch this even though the description's own static default is
+    True.
+    """
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = measurement_type
+    coordinator.data = HydroObservation(
+        measurement_type=measurement_type,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    assert sensor.entity_registry_enabled_default is False
+
+
+@pytest.mark.parametrize(
+    ("key", "measurement_type"),
+    [
+        ("mq", HydroMeasurementType.DISCHARGE),
+        ("mw", HydroMeasurementType.WATER_LEVEL),
+        ("percent_of_mnw", HydroMeasurementType.WATER_LEVEL),
+        ("depth_below_ground", HydroMeasurementType.GROUNDWATER_LEVEL),
+    ],
+)
+def test_enabled_by_default_sensor_stays_enabled_on_applicable_type(
+    key: str, measurement_type: HydroMeasurementType
+) -> None:
+    """Test that the override doesn't suppress the default on a type it does apply to."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = measurement_type
+    coordinator.data = HydroObservation(
+        measurement_type=measurement_type,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+    assert sensor.entity_registry_enabled_default is True
+
+
+def test_disabled_by_default_sensor_stays_disabled_regardless_of_type() -> None:
+    """Test that the override never *enables* something disabled by default.
+
+    boundary_static_extremely_low applies to all four measurement types
+    (no gating entry in _KEY_MEASUREMENT_TYPES) and is disabled by default
+    -- confirms the override purely narrows, never widens, a description's
+    own default.
+    """
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.GROUNDWATER_LEVEL
+    coordinator.data = HydroObservation(
+        measurement_type=HydroMeasurementType.GROUNDWATER_LEVEL,
+        value=10.5,
+        unit="m³/s",
+        observed_on=date(2026, 7, 15),
+    )
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("boundary_static_extremely_low"),
+    )
+
+    assert sensor.entity_registry_enabled_default is False
