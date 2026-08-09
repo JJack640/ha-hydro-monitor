@@ -59,6 +59,26 @@ def measurement_type_name(
     return MEASUREMENT_TYPE_NAMES[language][measurement_type]
 
 
+def device_display_name(
+    station_name: str,
+    measurement_type: HydroMeasurementType,
+    language: str,
+) -> str:
+    """Return the localized device name, disambiguated by measurement type.
+
+    Without this, a station offering more than one measurement type (e.g.
+    discharge and water level) creates two devices with the exact same
+    bare name -- indistinguishable in any flat, multi-device view
+    (entity lists, history-graph legends, map card labels, the logbook),
+    since every Hydro Monitor entity uses has_entity_name and inherits its
+    displayed name from the device. Reuses the exact "{station} –
+    {measurement type}" format already used for the config entry title
+    (config_flow.py), so a station's device name and its entry in
+    Settings -> Devices & Services read identically.
+    """
+    return f"{station_name} – {measurement_type_name(measurement_type, language)}"
+
+
 def device_model(
     measurement_type: HydroMeasurementType,
     language: str,

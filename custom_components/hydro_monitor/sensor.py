@@ -24,7 +24,12 @@ from homeassistant.util import dt as dt_util
 from . import HydroMonitorConfigEntry
 from .const import DOMAIN, MEASUREMENT_STALE_AFTER
 from .coordinator import HydroMonitorCoordinator
-from .localization import device_model, measurement_type_name, resolve_language
+from .localization import (
+    device_display_name,
+    device_model,
+    measurement_type_name,
+    resolve_language,
+)
 from .models import HydroMeasurementType, HydroObservation
 from .providers.niwis.const import HISTORICAL_STATISTIC_NIWIS_NAMES, LOW_WATER_CLASS_KEYS
 from .sensor_glossary import sensor_description
@@ -980,7 +985,7 @@ class HydroBaseSensor(
                     f"{station.provider}:{station.station_id}:{measurement_type.value}",
                 )
             },
-            name=station.name,
+            name=device_display_name(station.name, measurement_type, language),
             manufacturer=station.institution or station.provider.upper(),
             model=device_model(measurement_type, language),
             configuration_url=station.source_url,

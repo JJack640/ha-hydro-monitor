@@ -622,3 +622,93 @@ def test_device_model_defaults_to_english_without_hass() -> None:
 
     assert sensor.device_info is not None
     assert sensor.device_info["model"] == "Hydrological monitoring station (Discharge)"
+
+
+@pytest.mark.parametrize(
+    ("measurement_type", "expected_name"),
+    [
+        (HydroMeasurementType.DISCHARGE, "Discharge"),
+        (HydroMeasurementType.WATER_LEVEL, "Water level"),
+        (HydroMeasurementType.GROUNDWATER_LEVEL, "Groundwater level"),
+        (HydroMeasurementType.SPRING_DISCHARGE, "Spring discharge"),
+    ],
+)
+def test_device_name_includes_measurement_type(
+    measurement_type: HydroMeasurementType, expected_name: str
+) -> None:
+    """Test that the device name itself distinguishes same-station, different-type devices.
+
+    Unlike the device model (only visible on the device page's "Device
+    info" card), the device name is what's actually shown in flat,
+    multi-device contexts -- entity lists, history-graph legends, map
+    card labels, notifications, the logbook -- since every Hydro Monitor
+    entity uses has_entity_name and inherits its displayed name from the
+    device. Without this, two same-station devices are genuinely
+    indistinguishable there, not just cosmetically repetitive.
+    """
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = measurement_type
+    coordinator.data = _observation()
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("value"),
+    )
+
+    assert sensor.device_info is not None
+    assert sensor.device_info["name"] == f"NBS-H/W KB 11/1 – {expected_name}"
+
+
+@pytest.mark.parametrize(
+    ("configured_language", "expected_name"),
+    [
+        ("de", "NBS-H/W KB 11/1 – Abfluss"),
+        ("de-DE", "NBS-H/W KB 11/1 – Abfluss"),
+        ("en", "NBS-H/W KB 11/1 – Discharge"),
+        ("fr", "NBS-H/W KB 11/1 – Discharge"),
+    ],
+)
+def test_device_name_localizes_to_configured_language(
+    configured_language: str, expected_name: str
+) -> None:
+    """Test that the device name follows Home Assistant's configured language.
+
+    Unlike entity names, device name text has no translation_key
+    mechanism, so it must be resolved manually against hass.config.language.
+    Region-qualified codes (de-DE) and unsupported languages (fr) both fall
+    back sensibly (to the base language and to English respectively).
+    """
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = _observation()
+    coordinator.last_update_success = True
+    coordinator.hass = MagicMock()
+    coordinator.hass.config.language = configured_language
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("value"),
+    )
+
+    assert sensor.device_info is not None
+    assert sensor.device_info["name"] == expected_name
+
+
+def test_device_name_defaults_to_english_without_hass() -> None:
+    """Test the fallback for test doubles / edge cases without a real hass."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = HydroMeasurementType.DISCHARGE
+    coordinator.data = _observation()
+    coordinator.last_update_success = True
+
+    sensor = HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description("value"),
+    )
+
+    assert sensor.device_info is not None
+    assert sensor.device_info["name"] == "NBS-H/W KB 11/1 – Discharge"
