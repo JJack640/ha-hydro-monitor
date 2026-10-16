@@ -28,15 +28,14 @@ from .providers.niwis.const import (
     DECILES_MEASUREMENT_TYPES,
     DEPTH_BELOW_GROUND_MEASUREMENT_TYPES,
     DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
+    DERIVED_ENDPOINT_CATEGORY,
     DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC,
-    DERIVED_ENDPOINT_LOW_WATER_CLASS,
     DERIVED_REFERENCE_END_YEAR,
     DERIVED_REFERENCE_START_YEAR,
     DERIVED_YEAR_DEFINITION,
     HISTORICAL_STATISTIC_INTERVAL_DAYS,
-    HISTORICAL_STATISTIC_INTERVAL_QUANTITIES,
     HISTORICAL_STATISTIC_MEASUREMENT_TYPES,
     HISTORICAL_STATISTIC_NIWIS_NAMES,
     HYDRO_TO_NIWIS_BELOW_GLW_QUANTITY,
@@ -44,11 +43,12 @@ from .providers.niwis.const import (
     HYDRO_TO_NIWIS_DECILES_QUANTITY,
     HYDRO_TO_NIWIS_DEPTH_BELOW_GROUND_QUANTITY,
     HYDRO_TO_NIWIS_ENDPOINT,
+    HYDRO_TO_NIWIS_KARTE_MESSGROESSE,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_DYNAMIC_QUANTITY,
     HYDRO_TO_NIWIS_LOW_WATER_BOUNDARIES_STATIC_QUANTITY,
-    HYDRO_TO_NIWIS_LOW_WATER_CLASS_QUANTITY,
     HYDRO_TO_NIWIS_OFFICIAL_DEVELOPMENT_7D_QUANTITY,
     HYDRO_TO_NIWIS_SUM_QUANTITY,
+    KARTE_KLASSIFIKATIONSART,
     OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES,
     SUM_MEASUREMENT_TYPES,
     WATERWAY_INDICATOR_MEASUREMENT_TYPES,
@@ -60,8 +60,7 @@ from .providers.niwis.mapper import (
     deciles_from_niwis,
     dynamic_low_water_boundaries_from_niwis,
     historical_statistic_from_niwis,
-    latest_interval_value_from_niwis,
-    low_water_class_from_niwis,
+    low_water_class_from_karte,
     observation_from_niwis,
     official_development_7d_from_niwis,
     static_low_water_boundaries_from_niwis,
@@ -123,7 +122,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
     ) -> dict[str, str]:
         """Return request params combining a reference period AND an interval.
 
-        Needed only for SumD/SumV Zeitfenster (Sprint 7 Group D) --
+        Needed only for SumD/SumV (Sprint 7 Group D) --
         live-verified as the one quantity family requiring both
         simultaneously; every other derived quantity in this coordinator
         needs at most one of the two.
@@ -152,13 +151,11 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         observation = observation_from_niwis(self.measurement_type, series)
 
         try:
-            classification = await self.client.async_get_derived_result(
-                DERIVED_ENDPOINT_LOW_WATER_CLASS,
-                self._reference_period_params(
-                    HYDRO_TO_NIWIS_LOW_WATER_CLASS_QUANTITY[
-                        self.measurement_type.value
-                    ]
-                ),
+            # One shared (cached) list for all stations of this measurement
+            # type -- see KARTE_URL in providers/niwis/const.py.
+            classification = await self.client.async_get_karte_stations(
+                HYDRO_TO_NIWIS_KARTE_MESSGROESSE[self.measurement_type.value],
+                KARTE_KLASSIFIKATIONSART,
             )
         except NiwisError as err:
             _LOGGER.warning(
@@ -170,7 +167,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
             observation = replace(observation, low_water_class_error=str(err))
         else:
             low_water_class, low_water_class_raw, low_water_class_error = (
-                low_water_class_from_niwis(classification)
+                low_water_class_from_karte(classification, self.station.station_id)
             )
             observation = replace(
                 observation,
@@ -182,7 +179,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         if self.measurement_type.value in OFFICIAL_DEVELOPMENT_7D_MEASUREMENT_TYPES:
             try:
                 development = await self.client.async_get_derived_result(
-                    DERIVED_ENDPOINT_LOW_WATER_CLASS,
+                    DERIVED_ENDPOINT_CATEGORY,
                     self._param_less_params(
                         HYDRO_TO_NIWIS_OFFICIAL_DEVELOPMENT_7D_QUANTITY[
                             self.measurement_type.value
@@ -250,36 +247,32 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
     async def _async_fetch_historical_statistics(
         self, observation: HydroObservation
     ) -> HydroObservation:
-        """Fetch MQ/MNQ/NM7Q/NM30Q/MW/MNW where applicable for this station.
+        """Fetch MQ/MNQ/MW/MNW/NQ/NW/medians where applicable for this station.
 
-        Each quantity is fetched and can fail independently, mirroring
+        NM7Q/NM30Q are not part of this loop: since the 2026-10 NIWIS
+        restructuring they live on the category endpoint and are fetched
+        by _async_fetch_dated_extremes. Each quantity is fetched and can
+        fail independently, mirroring
         every other derived-quantity fetch in this coordinator: a failure
         never raises UpdateFailed, it only sets that quantity's own
         HydroDerivedValue.error and leaves value=None.
         """
-        today = date.today()
         updates: dict[str, HydroDerivedValue] = {}
 
         for key, niwis_name in HISTORICAL_STATISTIC_NIWIS_NAMES.items():
+            if key in HYDRO_TO_NIWIS_DATED_EXTREME_QUANTITY:
+                continue
+
             if (
                 self.measurement_type.value
                 not in HISTORICAL_STATISTIC_MEASUREMENT_TYPES[key]
             ):
                 continue
 
-            params = (
-                self._interval_params(
-                    niwis_name,
-                    today - timedelta(days=HISTORICAL_STATISTIC_INTERVAL_DAYS),
-                    today,
-                )
-                if key in HISTORICAL_STATISTIC_INTERVAL_QUANTITIES
-                else self._reference_period_params(niwis_name)
-            )
-
             try:
                 data = await self.client.async_get_derived_result(
-                    DERIVED_ENDPOINT_HISTORICAL_STATISTICS, params
+                    DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
+                    self._reference_period_params(niwis_name),
                 )
             except NiwisError as err:
                 _LOGGER.warning(
@@ -299,15 +292,17 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
     async def _async_fetch_dated_extremes(
         self, observation: HydroObservation
     ) -> HydroObservation:
-        """Fetch NM7Q/NM30Q bundled with the date range they occurred in.
+        """Fetch NM7Q/NM30Q: the value bundled with the date range it occurred in.
 
-        Shares berechneEinzelwertKategorie (SHARED/OVERLOADED, see
-        providers/niwis/const.py) with low_water_class/
-        official_development_7d, and the same 30-day interval as plain
-        NM7Q/NM30Q.
+        One request per quantity on berechneEinzelwertKategorie (SHARED/
+        OVERLOADED, see providers/niwis/const.py) with the 30-day interval
+        shared with SumD/SumV. The single result feeds BOTH the plain
+        HydroObservation.nm7q/nm30q value and nm7q_dated/nm30q_dated (value
+        plus dates); a failure sets the error on both, never raising
+        UpdateFailed.
         """
         today = date.today()
-        updates: dict[str, HydroDatedExtreme] = {}
+        updates: dict[str, HydroDerivedValue | HydroDatedExtreme] = {}
 
         for key, niwis_name in HYDRO_TO_NIWIS_DATED_EXTREME_QUANTITY.items():
             if (
@@ -318,7 +313,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
 
             try:
                 data = await self.client.async_get_derived_result(
-                    DERIVED_ENDPOINT_LOW_WATER_CLASS,
+                    DERIVED_ENDPOINT_CATEGORY,
                     self._interval_params(
                         niwis_name,
                         today - timedelta(days=HISTORICAL_STATISTIC_INTERVAL_DAYS),
@@ -333,19 +328,22 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
                     self.measurement_type.value,
                     err,
                 )
+                updates[key] = HydroDerivedValue(error=str(err))
                 updates[f"{key}_dated"] = HydroDatedExtreme(error=str(err))
                 continue
 
-            sibling = getattr(observation, key)
-            unit = sibling.unit if sibling is not None else None
-            updates[f"{key}_dated"] = dated_extreme_from_niwis(data, unit)
+            dated = dated_extreme_from_niwis(data)
+            updates[key] = HydroDerivedValue(
+                value=dated.value, unit=dated.unit, error=dated.error
+            )
+            updates[f"{key}_dated"] = dated
 
         return replace(observation, **updates)
 
     async def _async_fetch_sum_statistics(
         self, observation: HydroObservation
     ) -> HydroObservation:
-        """Fetch SumD/SumV Zeitfenster (station-specific low-water day/volume accumulation)."""
+        """Fetch SumD/SumV (station-specific low-water day/volume accumulation)."""
         if self.measurement_type.value not in SUM_MEASUREMENT_TYPES:
             return observation
 
@@ -395,7 +393,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
 
         try:
             below_glw_data = await self.client.async_get_derived_result(
-                DERIVED_ENDPOINT_LOW_WATER_CLASS,
+                DERIVED_ENDPOINT_CATEGORY,
                 self._param_less_params(
                     HYDRO_TO_NIWIS_BELOW_GLW_QUANTITY[self.measurement_type.value]
                 ),
@@ -443,16 +441,13 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
         if self.measurement_type.value not in DEPTH_BELOW_GROUND_MEASUREMENT_TYPES:
             return observation
 
-        today = date.today()
         try:
             data = await self.client.async_get_derived_result(
-                DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
-                self._interval_params(
+                DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
+                self._param_less_params(
                     HYDRO_TO_NIWIS_DEPTH_BELOW_GROUND_QUANTITY[
                         self.measurement_type.value
-                    ],
-                    today - timedelta(days=HISTORICAL_STATISTIC_INTERVAL_DAYS),
-                    today,
+                    ]
                 ),
             )
         except NiwisError as err:
@@ -468,7 +463,7 @@ class HydroMonitorCoordinator(DataUpdateCoordinator[HydroObservation]):
 
         return replace(
             observation,
-            depth_below_ground=latest_interval_value_from_niwis(data),
+            depth_below_ground=historical_statistic_from_niwis(data),
         )
 
     async def _async_fetch_static_boundaries(self) -> HydroLowWaterBoundaries:

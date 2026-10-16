@@ -12,10 +12,11 @@ from custom_components.hydro_monitor.providers.niwis.api import NiwisConnectionE
 from custom_components.hydro_monitor.providers.niwis.const import (
     CALENDAR_DAY_STATISTIC_NIWIS_NAMES,
     DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
+    DERIVED_ENDPOINT_CATEGORY,
     DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC,
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC,
-    DERIVED_ENDPOINT_LOW_WATER_CLASS,
+    HISTORICAL_STATISTIC_NIWIS_NAMES,
 )
 
 
@@ -34,16 +35,19 @@ def _series() -> list[dict[str, object]]:
     return [{"datum": "2026-07-20", "messwert": "10,5", "einheit": "m³/s", "flag": "A"}]
 
 
-def _classification_response(**overrides: object) -> dict[str, object]:
-    """Create a representative NIWIS classification response."""
-    response: dict[str, object] = {
-        "einzelwert": "extrem niedrig",
-        "einheit": None,
-        "hatZuvieleFehlwerte": False,
-        "fehlermeldung": None,
-    }
-    response.update(overrides)
-    return response
+def _karte_response(
+    klasse: str = "EXTREM_NIEDRIG", station_id: str = "DESM_DEBY16607001"
+) -> list[dict[str, object]]:
+    """Create a representative NIWIS map-classification list (karte endpoint).
+
+    One list for ALL stations of a measurement type; the requested station
+    sits between two others so the lookup by nummer is exercised.
+    """
+    return [
+        {"nummer": "DESM_OTHER_1", "niedrigwasserKlasse": "NIEDRIG"},
+        {"nummer": station_id, "niedrigwasserKlasse": klasse},
+        {"nummer": "DESM_OTHER_2", "niedrigwasserKlasse": "KEIN_NIEDRIGWASSER"},
+    ]
 
 
 def _official_development_response(**overrides: object) -> dict[str, object]:
@@ -126,10 +130,10 @@ def _historical_statistic_response(**overrides: object) -> dict[str, object]:
 
 
 def _dated_extreme_response(**overrides: object) -> dict[str, object]:
-    """Create a representative NIWIS 'mit Datum' response (NM7Q/NM30Q mit Datum)."""
+    """Create a representative NIWIS NM7Q/NM30Q response (category endpoint)."""
     response: dict[str, object] = {
         "einzelwert": "15.26 (15.07.2026-21.07.2026)",
-        "einheit": None,
+        "einheit": "m³/s",
         "hatZuvieleFehlwerte": False,
         "fehlermeldung": None,
     }
@@ -162,10 +166,9 @@ def _calendar_day_response(**overrides: object) -> dict[str, object]:
 
 
 def _depth_below_ground_response(**overrides: object) -> dict[str, object]:
-    """Create a representative NIWIS interval berechneZeitreihenErgebnisNummer response."""
+    """Create a representative NIWIS depth-below-ground response (plain Nummer result)."""
     response: dict[str, object] = {
-        "startDatum": "2026-07-08",
-        "werte": [12.3, 12.4, 12.5],
+        "einzelwert": 12.5,
         "einheit": "m",
         "hatZuvieleFehlwerte": False,
         "fehlermeldung": None,
@@ -186,26 +189,30 @@ def _routed_client(
     below_glw: object = None,
     calendar_day_results: dict[str, object] | None = None,
 ) -> AsyncMock:
-    """Build a client whose async_get_derived_result routes by quantity.
+    """Build a client routing derived-quantity calls by endpoint and quantity.
 
-    DERIVED_ENDPOINT_LOW_WATER_CLASS is shared by four different
-    quantities — low-water classification, the official 7-day
-    development (Sprint 3), NM7Q/NM30Q "mit Datum" and "unter GlW"
-    (Sprint 7) — routed by checking the requested abgeleiteteGroesse for
-    "mit Datum", an exact "unter GlW" match, then "Entwicklung", falling
-    back to plain classification. DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC
-    is likewise shared by the low-water dynamic boundaries and deciles —
-    routed by whether "Dezile" appears in the requested abgeleiteteGroesse.
+    The current low-water class no longer goes through
+    async_get_derived_result at all (2026-10 NIWIS restructuring): it comes
+    from async_get_karte_stations, one list per measurement type -- the
+    `classification` override is that list (or an exception to raise).
+
+    DERIVED_ENDPOINT_CATEGORY (berechneEinzelwertKategorie) is shared by
+    three quantity families -- NM7Q/NM30Q (with their date range), "unter
+    GlW" and the official 7-day development -- routed by exact
+    abgeleiteteGroesse; anything else (notably the removed "<Typ>
+    Niedrigwasserklasse aktueller Tag") trips an AssertionError.
+    DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC is likewise shared by the
+    low-water dynamic boundaries and deciles -- routed by whether "Dezile"
+    appears in the requested abgeleiteteGroesse.
     DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC still only ever serves one
     quantity family, so it's routed by endpoint alone.
-    DERIVED_ENDPOINT_HISTORICAL_STATISTICS is routed by the exact
-    abgeleiteteGroesse value (e.g. "MQ", "NQ", "SumD Zeitfenster", "Tage
-    unter GlWRNW/BWu aktueller Tag") via the historical_statistics
-    override dict, keyed the same way — this single dict already covers
-    every quantity sharing that endpoint, old and new.
-    DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS (Sprint 7) is likewise routed
-    by exact abgeleiteteGroesse via calendar_day_results, covering both
-    the calendar-day envelope quantities and depth-below-ground.
+    DERIVED_ENDPOINT_HISTORICAL_STATISTICS (berechneEinzelwertNummer) is
+    routed by the exact abgeleiteGroesse value (e.g. "MQ", "NQ", "SumD",
+    "Tage unter GlW", "m unter Geländeoberkante") via the
+    historical_statistics override dict, keyed the same way; NM7Q/NM30Q
+    must NOT arrive here any more (HTTP 400 against the real API).
+    DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS is routed by exact
+    abgeleiteteGroesse via calendar_day_results (the calendar-day envelope).
     """
     client = AsyncMock()
     client.async_get_series.return_value = _series()
@@ -214,18 +221,26 @@ def _routed_client(
     dated_extremes = dated_extremes or {}
     calendar_day_results = calendar_day_results or {}
 
+    async def _async_get_karte_stations(
+        messgroesse: str, klassifikationsart: str
+    ) -> object:
+        result = classification if classification is not None else _karte_response()
+        if isinstance(result, Exception):
+            raise result
+        return result
+
     async def _async_get_derived_result(endpoint: str, params: dict[str, str]) -> object:
         quantity = params["abgeleiteteGroesse"]
 
-        if endpoint == DERIVED_ENDPOINT_LOW_WATER_CLASS:
-            if "mit Datum" in quantity:
+        if endpoint == DERIVED_ENDPOINT_CATEGORY:
+            if quantity in ("NM7Q", "NM30Q"):
                 result = dated_extremes.get(quantity, _dated_extreme_response())
             elif quantity == "unter GlW":
                 result = below_glw or _below_glw_response()
             elif "Entwicklung" in quantity:
                 result = official_development or _official_development_response()
             else:
-                result = classification or _classification_response()
+                raise AssertionError(f"unrouted category quantity: {quantity}")
         elif endpoint == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_DYNAMIC:
             if "Dezile" in quantity:
                 result = deciles or _decile_response()
@@ -234,16 +249,20 @@ def _routed_client(
         elif endpoint == DERIVED_ENDPOINT_LOW_WATER_BOUNDARIES_STATIC:
             result = static or _static_boundaries_response()
         elif endpoint == DERIVED_ENDPOINT_HISTORICAL_STATISTICS:
-            result = historical_statistics.get(
-                quantity, _historical_statistic_response()
-            )
-        elif endpoint == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS:
+            if quantity in ("NM7Q", "NM30Q"):
+                raise AssertionError(
+                    f"{quantity} moved to the category endpoint (HTTP 400 here)"
+                )
             if quantity == "m unter Geländeoberkante":
-                result = calendar_day_results.get(
+                result = historical_statistics.get(
                     quantity, _depth_below_ground_response()
                 )
             else:
-                result = calendar_day_results.get(quantity, _calendar_day_response())
+                result = historical_statistics.get(
+                    quantity, _historical_statistic_response()
+                )
+        elif endpoint == DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS:
+            result = calendar_day_results.get(quantity, _calendar_day_response())
         else:
             raise AssertionError(f"unrouted endpoint: {endpoint}")
 
@@ -251,6 +270,7 @@ def _routed_client(
             raise result
         return result
 
+    client.async_get_karte_stations.side_effect = _async_get_karte_stations
     client.async_get_derived_result.side_effect = _async_get_derived_result
     return client
 
@@ -280,7 +300,7 @@ async def test_update_merges_low_water_class_on_success() -> None:
 
     assert observation.value == pytest.approx(10.5)
     assert observation.low_water_class == "extremely_low"
-    assert observation.low_water_class_raw == "extrem niedrig"
+    assert observation.low_water_class_raw == "EXTREM_NIEDRIG"
     assert observation.low_water_class_error is None
 
 
@@ -312,22 +332,68 @@ async def test_update_survives_classification_failure() -> None:
 
 
 @pytest.mark.asyncio
-async def test_update_requests_expected_classification_parameters() -> None:
-    """Test the exact endpoint and params sent for the classification request."""
+async def test_update_requests_class_from_karte_not_derived_endpoint() -> None:
+    """Test the low-water class comes from the map endpoint with NIWIS's default art.
+
+    The per-station "Niedrigwasserklasse aktueller Tag" quantities were
+    removed server-side (2026-10); requesting one would 404.
+    """
     client = _routed_client()
 
     await _coordinator(client)._async_update_data()
 
-    client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_LOW_WATER_CLASS,
-        {
-            "abgeleiteteGroesse": "Abfluss Niedrigwasserklasse aktueller Tag",
-            "messstelleNr": "DESM_DEBY16607001",
-            "jahresdefinition": "KALENDERJAHR",
-            "startJahr": "1991",
-            "endJahr": "2020",
-        },
+    client.async_get_karte_stations.assert_awaited_once_with("ABFLUSS", "DYNAMISCH")
+    for call in client.async_get_derived_result.await_args_list:
+        assert "Niedrigwasserklasse" not in call.args[1]["abgeleiteteGroesse"]
+
+
+@pytest.mark.parametrize(
+    ("measurement_type", "messgroesse"),
+    [
+        (HydroMeasurementType.DISCHARGE, "ABFLUSS"),
+        (HydroMeasurementType.WATER_LEVEL, "WASSERSTAND"),
+        (HydroMeasurementType.GROUNDWATER_LEVEL, "GRUNDWASSER"),
+        (HydroMeasurementType.SPRING_DISCHARGE, "QUELLSCHUETTUNG"),
+    ],
+)
+@pytest.mark.asyncio
+async def test_update_requests_class_for_every_measurement_type(
+    measurement_type: HydroMeasurementType, messgroesse: str
+) -> None:
+    """Test the NIWIS Messgröße used for the classification list per type."""
+    client = _routed_client()
+
+    await _coordinator(client, measurement_type)._async_update_data()
+
+    client.async_get_karte_stations.assert_awaited_once_with(
+        messgroesse, "DYNAMISCH"
     )
+
+
+@pytest.mark.asyncio
+async def test_update_survives_station_missing_from_classification_list() -> None:
+    """Test that a station absent from NIWIS's list sets an error, not UpdateFailed."""
+    client = _routed_client(
+        classification=_karte_response(station_id="SOME_OTHER_STATION")
+    )
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.value == pytest.approx(10.5)
+    assert observation.low_water_class is None
+    assert observation.low_water_class_error == "station not in NIWIS classification data"
+
+
+@pytest.mark.asyncio
+async def test_update_no_data_class_is_not_an_error() -> None:
+    """Test that KEINE_DATEN leaves the class unset, raw preserved, no error."""
+    client = _routed_client(classification=_karte_response(klasse="KEINE_DATEN"))
+
+    observation = await _coordinator(client)._async_update_data()
+
+    assert observation.low_water_class is None
+    assert observation.low_water_class_raw == "KEINE_DATEN"
+    assert observation.low_water_class_error is None
 
 
 @pytest.mark.asyncio
@@ -514,7 +580,7 @@ async def test_update_requests_expected_official_development_7d_parameters() -> 
     await _coordinator(client)._async_update_data()
 
     client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_LOW_WATER_CLASS,
+        DERIVED_ENDPOINT_CATEGORY,
         {
             "abgeleiteteGroesse": "Abfluss Entwicklung letzte 7 Tage",
             "messstelleNr": "DESM_DEBY16607001",
@@ -544,7 +610,7 @@ async def test_official_development_7d_not_fetched_for_unsupported_types(
     assert observation.official_development_7d_error is None
 
     for call in client.async_get_derived_result.await_args_list:
-        if call.args[0] == DERIVED_ENDPOINT_LOW_WATER_CLASS:
+        if call.args[0] == DERIVED_ENDPOINT_CATEGORY:
             assert "Entwicklung" not in call.args[1]["abgeleiteteGroesse"]
 
 
@@ -632,10 +698,12 @@ async def test_update_requests_expected_reference_period_statistic_parameters(
 
 @pytest.mark.asyncio
 async def test_update_requests_expected_nm7q_interval_parameters() -> None:
-    """Test that NM7Q uses the trailing 30-day analysis interval.
+    """Test that NM7Q uses the trailing 30-day analysis interval, on the category endpoint.
 
     Live-verified against the real API: a bare 7-day interval makes NIWIS
     return hatZuvieleFehlwerte=true for NM7Q; a 30-day interval succeeds.
+    Since the 2026-10 restructuring NM7Q is served by
+    berechneEinzelwertKategorie (the numeric endpoint now answers 400).
     """
     client = _routed_client()
 
@@ -644,7 +712,7 @@ async def test_update_requests_expected_nm7q_interval_parameters() -> None:
         await _coordinator(client)._async_update_data()
 
     client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
+        DERIVED_ENDPOINT_CATEGORY,
         {
             "abgeleiteteGroesse": "NM7Q",
             "messstelleNr": "DESM_DEBY16607001",
@@ -664,7 +732,7 @@ async def test_update_requests_expected_nm30q_interval_parameters() -> None:
         await _coordinator(client)._async_update_data()
 
     client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
+        DERIVED_ENDPOINT_CATEGORY,
         {
             "abgeleiteteGroesse": "NM30Q",
             "messstelleNr": "DESM_DEBY16607001",
@@ -682,10 +750,11 @@ async def test_update_requests_expected_nm30q_interval_parameters() -> None:
 async def test_historical_statistics_not_fetched_for_unsupported_types(
     measurement_type: HydroMeasurementType,
 ) -> None:
-    """Test that groundwater/spring-discharge coordinators skip this endpoint.
+    """Test that groundwater/spring-discharge coordinators skip the statistics.
 
-    No catalog entry exists at all for these measurement types in the
-    berechneEinzelwertNummer endpoint family.
+    No catalog entry exists for these measurement types for MQ/MNQ/MW/MNW/...
+    (groundwater does use berechneEinzelwertNummer, but only for depth below
+    ground, so this checks the statistic names rather than the endpoint).
     """
     client = _routed_client()
 
@@ -699,7 +768,10 @@ async def test_historical_statistics_not_fetched_for_unsupported_types(
     assert observation.mnw is None
 
     for call in client.async_get_derived_result.await_args_list:
-        assert call.args[0] != DERIVED_ENDPOINT_HISTORICAL_STATISTICS
+        assert (
+            call.args[1]["abgeleiteteGroesse"]
+            not in HISTORICAL_STATISTIC_NIWIS_NAMES.values()
+        )
 
 
 @pytest.mark.asyncio
@@ -1019,7 +1091,7 @@ async def test_calendar_day_statistics_not_fetched_for_unsupported_types(
             )
 
 
-# --- Group C: NM7Q/NM30Q mit Datum ----------------------------------------
+# --- Group C: NM7Q/NM30Q (value + date range, category endpoint) -----------
 
 
 @pytest.mark.asyncio
@@ -1033,11 +1105,18 @@ async def test_update_merges_dated_extremes_on_success() -> None:
     assert observation.nm7q_dated.occurred_to == date(2026, 7, 21)
     assert observation.nm7q_dated.unit == "m³/s"
     assert observation.nm30q_dated is not None
+    # The same single result also feeds the plain NM7Q/NM30Q value.
+    assert observation.nm7q is not None
+    assert observation.nm7q.value == pytest.approx(15.26)
+    assert observation.nm7q.unit == "m³/s"
+    assert observation.nm7q.error is None
+    assert observation.nm30q is not None
+    assert observation.nm30q.value == pytest.approx(15.26)
 
 
 @pytest.mark.asyncio
 async def test_dated_extremes_not_fetched_for_unsupported_types() -> None:
-    """Test that non-discharge coordinators skip NM7Q/NM30Q mit Datum."""
+    """Test that non-discharge coordinators skip NM7Q/NM30Q."""
     client = _routed_client()
 
     observation = await _coordinator(
@@ -1048,46 +1127,58 @@ async def test_dated_extremes_not_fetched_for_unsupported_types() -> None:
     assert observation.nm30q_dated is None
 
     for call in client.async_get_derived_result.await_args_list:
-        assert "mit Datum" not in call.args[1]["abgeleiteteGroesse"]
+        assert call.args[1]["abgeleiteteGroesse"] not in ("NM7Q", "NM30Q")
 
 
 @pytest.mark.asyncio
 async def test_update_survives_dated_extreme_failure() -> None:
-    """Test that a failed NM7Q mit Datum fetch does not fail the whole update."""
+    """Test that a failed NM7Q fetch does not fail the whole update.
+
+    The one request feeds both the plain and the dated NM7Q value, so the
+    error lands on both; NM30Q is unaffected.
+    """
     client = _routed_client(
-        dated_extremes={"NM7Q mit Datum": NiwisConnectionError("nm7q dated down")}
+        dated_extremes={"NM7Q": NiwisConnectionError("nm7q down")}
     )
 
     observation = await _coordinator(client)._async_update_data()
 
     assert observation.value == pytest.approx(10.5)
+    assert observation.nm7q is not None
+    assert observation.nm7q.value is None
+    assert observation.nm7q.error == "nm7q down"
     assert observation.nm7q_dated is not None
-    assert observation.nm7q_dated.error == "nm7q dated down"
+    assert observation.nm7q_dated.error == "nm7q down"
+    assert observation.nm30q is not None
+    assert observation.nm30q.value == pytest.approx(15.26)
     assert observation.nm30q_dated is not None
     assert observation.nm30q_dated.value == pytest.approx(15.26)
 
 
 @pytest.mark.asyncio
-async def test_update_requests_expected_dated_extreme_parameters() -> None:
-    """Test that NM7Q mit Datum reuses the same 30-day interval as plain NM7Q."""
+async def test_nm7q_nm30q_never_requested_on_numeric_endpoint() -> None:
+    """Test NM7Q/NM30Q are only ever requested on the category endpoint, once each.
+
+    The numeric endpoint answers 400 for them since the 2026-10
+    restructuring, and the separate "mit Datum" quantities are gone (404),
+    so exactly one request per quantity remains.
+    """
     client = _routed_client()
 
-    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
-        mock_date.today.return_value = date(2026, 7, 22)
-        await _coordinator(client)._async_update_data()
+    await _coordinator(client)._async_update_data()
 
-    client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_LOW_WATER_CLASS,
-        {
-            "abgeleiteteGroesse": "NM7Q mit Datum",
-            "messstelleNr": "DESM_DEBY16607001",
-            "von": "2026-06-22",
-            "bis": "2026-07-22",
-        },
-    )
+    requests = [
+        (call.args[0], call.args[1]["abgeleiteteGroesse"])
+        for call in client.async_get_derived_result.await_args_list
+        if call.args[1]["abgeleiteteGroesse"].startswith("NM")
+    ]
+    assert sorted(requests) == [
+        (DERIVED_ENDPOINT_CATEGORY, "NM30Q"),
+        (DERIVED_ENDPOINT_CATEGORY, "NM7Q"),
+    ]
 
 
-# --- Group D: SumD/SumV Zeitfenster ---------------------------------------
+# --- Group D: SumD/SumV ---------------------------------------------------
 
 
 @pytest.mark.asyncio
@@ -1102,7 +1193,7 @@ async def test_update_merges_sum_statistics_on_success() -> None:
 
 @pytest.mark.asyncio
 async def test_sum_statistics_not_fetched_for_unsupported_types() -> None:
-    """Test that non-discharge coordinators skip SumD/SumV Zeitfenster."""
+    """Test that non-discharge coordinators skip SumD/SumV."""
     client = _routed_client()
 
     observation = await _coordinator(
@@ -1113,17 +1204,14 @@ async def test_sum_statistics_not_fetched_for_unsupported_types() -> None:
     assert observation.sum_v is None
 
     for call in client.async_get_derived_result.await_args_list:
-        assert call.args[1]["abgeleiteteGroesse"] not in (
-            "SumD Zeitfenster",
-            "SumV Zeitfenster",
-        )
+        assert call.args[1]["abgeleiteteGroesse"] not in ("SumD", "SumV")
 
 
 @pytest.mark.asyncio
 async def test_update_survives_sum_statistic_failure() -> None:
     """Test that a failed SumD fetch does not fail the whole update."""
     client = _routed_client(
-        historical_statistics={"SumD Zeitfenster": NiwisConnectionError("sumd down")}
+        historical_statistics={"SumD": NiwisConnectionError("sumd down")}
     )
 
     observation = await _coordinator(client)._async_update_data()
@@ -1137,7 +1225,7 @@ async def test_update_survives_sum_statistic_failure() -> None:
 
 @pytest.mark.asyncio
 async def test_update_requests_expected_sum_parameters() -> None:
-    """Test that SumD Zeitfenster combines a reference period AND an interval."""
+    """Test that SumD combines a reference period AND an interval."""
     client = _routed_client()
 
     with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
@@ -1147,7 +1235,7 @@ async def test_update_requests_expected_sum_parameters() -> None:
     client.async_get_derived_result.assert_any_await(
         DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
         {
-            "abgeleiteteGroesse": "SumD Zeitfenster",
+            "abgeleiteteGroesse": "SumD",
             "messstelleNr": "DESM_DEBY16607001",
             "jahresdefinition": "KALENDERJAHR",
             "startJahr": "1991",
@@ -1188,7 +1276,7 @@ async def test_waterway_indicators_not_fetched_for_unsupported_types() -> None:
     for call in client.async_get_derived_result.await_args_list:
         assert call.args[1]["abgeleiteteGroesse"] not in (
             "unter GlW",
-            "Tage unter GlWRNW/BWu aktueller Tag",
+            "Tage unter GlW",
         )
 
 
@@ -1216,13 +1304,13 @@ async def test_update_requests_expected_waterway_indicator_parameters() -> None:
     await _coordinator(client, HydroMeasurementType.WATER_LEVEL)._async_update_data()
 
     client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_LOW_WATER_CLASS,
+        DERIVED_ENDPOINT_CATEGORY,
         {"abgeleiteteGroesse": "unter GlW", "messstelleNr": "DESM_DEBY16607001"},
     )
     client.async_get_derived_result.assert_any_await(
         DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
         {
-            "abgeleiteteGroesse": "Tage unter GlWRNW/BWu aktueller Tag",
+            "abgeleiteteGroesse": "Tage unter GlW",
             "messstelleNr": "DESM_DEBY16607001",
         },
     )
@@ -1233,7 +1321,7 @@ async def test_update_requests_expected_waterway_indicator_parameters() -> None:
 
 @pytest.mark.asyncio
 async def test_update_merges_depth_below_ground_on_success() -> None:
-    """Test that depth_below_ground picks the newest value in the interval."""
+    """Test that depth_below_ground is the plain single value NIWIS returns."""
     observation = await _coordinator(
         _routed_client(), HydroMeasurementType.GROUNDWATER_LEVEL
     )._async_update_data()
@@ -1260,7 +1348,7 @@ async def test_depth_below_ground_not_fetched_for_unsupported_types() -> None:
 async def test_update_survives_depth_below_ground_failure() -> None:
     """Test that a failed depth-below-ground fetch does not fail the whole update."""
     client = _routed_client(
-        calendar_day_results={
+        historical_statistics={
             "m unter Geländeoberkante": NiwisConnectionError("depth down")
         }
     )
@@ -1276,21 +1364,21 @@ async def test_update_survives_depth_below_ground_failure() -> None:
 
 @pytest.mark.asyncio
 async def test_update_requests_expected_depth_below_ground_parameters() -> None:
-    """Test that depth-below-ground uses a 30-day interval, no reference period."""
+    """Test depth-below-ground is a param-less berechneEinzelwertNummer call.
+
+    Since the 2026-10 NIWIS restructuring it needs neither an interval nor a
+    reference period (the old interval series now answers 400).
+    """
     client = _routed_client()
 
-    with patch("custom_components.hydro_monitor.coordinator.date") as mock_date:
-        mock_date.today.return_value = date(2026, 7, 22)
-        await _coordinator(
-            client, HydroMeasurementType.GROUNDWATER_LEVEL
-        )._async_update_data()
+    await _coordinator(
+        client, HydroMeasurementType.GROUNDWATER_LEVEL
+    )._async_update_data()
 
     client.async_get_derived_result.assert_any_await(
-        DERIVED_ENDPOINT_CALENDAR_DAY_STATISTICS,
+        DERIVED_ENDPOINT_HISTORICAL_STATISTICS,
         {
             "abgeleiteteGroesse": "m unter Geländeoberkante",
             "messstelleNr": "DESM_DEBY16607001",
-            "von": "2026-06-22",
-            "bis": "2026-07-22",
         },
     )

@@ -17,8 +17,7 @@ from custom_components.hydro_monitor.providers.niwis.mapper import (
     deciles_from_niwis,
     dynamic_low_water_boundaries_from_niwis,
     historical_statistic_from_niwis,
-    latest_interval_value_from_niwis,
-    low_water_class_from_niwis,
+    low_water_class_from_karte,
     observation_from_niwis,
     official_development_7d_from_niwis,
     static_low_water_boundaries_from_niwis,
@@ -320,140 +319,124 @@ def test_station_invalid_historical_dates_are_ignored() -> None:
     assert station.historical_low_water_level_date is None
 
 
-def test_low_water_class_maps_normal_value() -> None:
-    """Test mapping of a normal low-water classification result."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "extrem niedrig",
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
+def _karte_fixture(name: str) -> list[dict[str, object]]:
+    """Load a real captured (trimmed) NIWIS map-classification list."""
+    return json.loads(
+        (INVENTORY_DIR / "karte" / f"{name}_dynamisch.json").read_text(
+            encoding="utf-8"
+        )
     )
 
-    assert result == ("extremely_low", "extrem niedrig", None)
+
+@pytest.mark.parametrize(
+    ("fixture", "station_id", "expected_key", "expected_raw"),
+    [
+        ("abfluss", "DESM_DEBY16607001", "extremely_low", "EXTREM_NIEDRIG"),
+        ("wasserstand", "DESM_DEXX25700100", "extremely_low", "EXTREM_NIEDRIG"),
+        ("grundwasser", "DEGM_DEBY16232", "extremely_low", "EXTREM_NIEDRIG"),
+        ("quellschuettung", "DEGM_DEBY15500", "very_low", "SEHR_NIEDRIG"),
+    ],
+)
+def test_low_water_class_maps_real_karte_fixture(
+    fixture: str, station_id: str, expected_key: str, expected_raw: str
+) -> None:
+    """Test mapping of real captured map-classification entries (2026-10-16)."""
+    result = low_water_class_from_karte(_karte_fixture(fixture), station_id)
+
+    assert result == (expected_key, expected_raw, None)
 
 
-def test_low_water_class_maps_second_observed_value() -> None:
-    """Test mapping of the other real-world observed category label."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "Kein Niedrigwasser",
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
+@pytest.mark.parametrize(
+    ("raw_label", "expected_key"),
+    [
+        ("EXTREM_NIEDRIG", "extremely_low"),
+        ("SEHR_NIEDRIG", "very_low"),
+        ("NIEDRIG", "low"),
+        ("KEIN_NIEDRIGWASSER", "no_low_water"),
+    ],
+)
+def test_low_water_class_maps_every_enum_value(
+    raw_label: str, expected_key: str
+) -> None:
+    """Test that each documented enum value maps to its stable option key."""
+    stations = [{"nummer": "X", "niedrigwasserKlasse": raw_label}]
+
+    assert low_water_class_from_karte(stations, "X") == (
+        expected_key,
+        raw_label,
+        None,
     )
 
-    assert result == ("no_low_water", "Kein Niedrigwasser", None)
 
+def test_low_water_class_no_data_preserves_raw_value() -> None:
+    """Test that KEINE_DATEN yields no class but keeps the raw label.
 
-def test_low_water_class_maps_case_insensitively() -> None:
-    """Test that label matching ignores case.
-
-    NIWIS is inconsistent about capitalization of "kein Niedrigwasser"
-    across its own endpoints (capital K in berechneEinzelwertKategorie
-    samples, lowercase k in classification-boundary samples).
+    NIWIS's own map shows these stations as "no data"; this is not an error.
     """
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "kein niedrigwasser",
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
-    )
+    stations = [{"nummer": "X", "niedrigwasserKlasse": "KEINE_DATEN"}]
 
-    assert result == ("no_low_water", "kein niedrigwasser", None)
+    assert low_water_class_from_karte(stations, "X") == (None, "KEINE_DATEN", None)
 
 
 def test_low_water_class_unrecognized_label_preserves_raw_value() -> None:
     """Test that an unmapped label is not discarded, only left unmapped."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "irgendwas",
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
+    stations = [{"nummer": "X", "niedrigwasserKlasse": "IRGENDWAS"}]
+
+    assert low_water_class_from_karte(stations, "X") == (None, "IRGENDWAS", None)
+
+
+def test_low_water_class_selects_the_requested_station() -> None:
+    """Test that the entry is looked up by nummer, not by position."""
+    stations = [
+        {"nummer": "A", "niedrigwasserKlasse": "NIEDRIG"},
+        {"nummer": "B", "niedrigwasserKlasse": "SEHR_NIEDRIG"},
+    ]
+
+    assert low_water_class_from_karte(stations, "B") == (
+        "very_low",
+        "SEHR_NIEDRIG",
+        None,
     )
 
-    assert result == (None, "irgendwas", None)
 
+def test_low_water_class_station_missing_reports_error() -> None:
+    """Test that a station absent from the list is reported, not silently ignored."""
+    stations = [{"nummer": "A", "niedrigwasserKlasse": "NIEDRIG"}]
 
-def test_low_water_class_too_many_missing_values_without_error_message() -> None:
-    """Test that hatZuvieleFehlwerte suppresses the class but preserves the raw label."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "extrem niedrig",
-            "einheit": None,
-            "hatZuvieleFehlwerte": True,
-            "fehlermeldung": None,
-        }
+    assert low_water_class_from_karte(stations, "B") == (
+        None,
+        None,
+        "station not in NIWIS classification data",
     )
 
-    assert result == (None, "extrem niedrig", None)
 
+@pytest.mark.parametrize("value", [None, "", "  ", 42])
+def test_low_water_class_missing_class_field_reports_error(value: object) -> None:
+    """Test that an entry without a usable niedrigwasserKlasse reports an error."""
+    stations = [{"nummer": "X", "niedrigwasserKlasse": value}]
 
-def test_low_water_class_too_many_missing_values_with_error_message() -> None:
-    """Test that hatZuvieleFehlwerte together with fehlermeldung preserves the error."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": None,
-            "einheit": None,
-            "hatZuvieleFehlwerte": True,
-            "fehlermeldung": "Zu viele Fehlwerte im Referenzzeitraum",
-        }
+    assert low_water_class_from_karte(stations, "X") == (
+        None,
+        None,
+        "no classification in NIWIS response",
     )
 
-    assert result == (None, None, "Zu viele Fehlwerte im Referenzzeitraum")
 
-
-def test_low_water_class_error_message_takes_priority_over_value() -> None:
-    """Test that a present fehlermeldung suppresses the mapped class but preserves the raw label."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "extrem niedrig",
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": "Berechnung fehlgeschlagen",
-        }
+@pytest.mark.parametrize("payload", [None, {}, "oops", 42])
+def test_low_water_class_rejects_non_list_input(payload: object) -> None:
+    """Test that a malformed (non-list) response is reported as an error."""
+    assert low_water_class_from_karte(payload, "X") == (
+        None,
+        None,
+        "malformed classification response",
     )
 
-    assert result == (None, "extrem niedrig", "Berechnung fehlgeschlagen")
 
+def test_low_water_class_skips_non_dict_entries() -> None:
+    """Test that junk entries in the list neither match nor crash the lookup."""
+    stations = ["junk", None, {"nummer": "X", "niedrigwasserKlasse": "NIEDRIG"}]
 
-def test_low_water_class_empty_value_is_ignored() -> None:
-    """Test that an empty einzelwert string is treated as no class."""
-    result = low_water_class_from_niwis(
-        {
-            "einzelwert": "",
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
-    )
-
-    assert result == (None, None, None)
-
-
-def test_low_water_class_missing_value_key_is_ignored() -> None:
-    """Test that a missing einzelwert key is treated as no class."""
-    result = low_water_class_from_niwis(
-        {
-            "einheit": None,
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
-    )
-
-    assert result == (None, None, None)
-
-
-@pytest.mark.parametrize("payload", [None, [], "oops", 42])
-def test_low_water_class_rejects_non_dict_input(payload: object) -> None:
-    """Test that malformed non-dict responses are treated as no class."""
-    assert low_water_class_from_niwis(payload) == (None, None, None)
+    assert low_water_class_from_karte(stations, "X") == ("low", "NIEDRIG", None)
 
 
 @pytest.mark.parametrize(
@@ -1093,24 +1076,53 @@ def test_calendar_day_value_rejects_non_dict_input(payload: object) -> None:
 # --- Group C: dated_extreme_from_niwis ------------------------------------
 
 
-def test_dated_extreme_maps_real_fixture() -> None:
-    """Test mapping of a real captured 'NM7Q mit Datum' response."""
+@pytest.mark.parametrize(
+    ("fixture", "value", "date_from", "date_to", "raw_label"),
+    [
+        (
+            "abfluss__nm7q.json",
+            13.81,
+            date(2026, 10, 1),
+            date(2026, 10, 7),
+            "13.81 (01.10.2026-07.10.2026)",
+        ),
+        (
+            "abfluss__nm30q.json",
+            14.74,
+            date(2026, 9, 17),
+            date(2026, 10, 16),
+            "14.74 (17.09.2026-16.10.2026)",
+        ),
+    ],
+)
+def test_dated_extreme_maps_real_fixture(
+    fixture: str,
+    value: float,
+    date_from: date,
+    date_to: date,
+    raw_label: str,
+) -> None:
+    """Test mapping of real captured NM7Q/NM30Q responses (2026-10-16).
+
+    Since the 2026-10 NIWIS restructuring these come straight from
+    berechneEinzelwertKategorie, with the unit in the envelope.
+    """
     data = json.loads(
         (
             INVENTORY_DIR
             / "derived_results"
             / "berechneEinzelwertKategorie"
-            / "abfluss__nm7q_mit_datum.json"
+            / fixture
         ).read_text(encoding="utf-8")
     )
 
-    result = dated_extreme_from_niwis(data, "m³/s")
+    result = dated_extreme_from_niwis(data)
 
-    assert result.value == pytest.approx(15.26)
-    assert result.occurred_from == date(2026, 7, 15)
-    assert result.occurred_to == date(2026, 7, 21)
+    assert result.value == pytest.approx(value)
+    assert result.occurred_from == date_from
+    assert result.occurred_to == date_to
     assert result.unit == "m³/s"
-    assert result.raw_label == "15.26 (15.07.2026-21.07.2026)"
+    assert result.raw_label == raw_label
     assert result.error is None
 
 
@@ -1123,14 +1135,14 @@ def test_dated_extreme_unrecognized_format() -> None:
     result = dated_extreme_from_niwis(
         {
             "einzelwert": "15.26",
-            "einheit": None,
+            "einheit": "m³/s",
             "hatZuvieleFehlwerte": False,
             "fehlermeldung": None,
-        },
-        "m³/s",
+        }
     )
 
     assert result.value is None
+    assert result.unit == "m³/s"
     assert result.raw_label == "15.26"
     assert result.error == "unrecognized format"
 
@@ -1140,22 +1152,23 @@ def test_dated_extreme_too_many_missing_values() -> None:
     result = dated_extreme_from_niwis(
         {
             "einzelwert": "15.26 (15.07.2026-21.07.2026)",
-            "einheit": None,
+            "einheit": "m³/s",
             "hatZuvieleFehlwerte": True,
             "fehlermeldung": None,
-        },
-        "m³/s",
+        }
     )
 
     assert result.value is None
+    assert result.unit == "m³/s"
     assert result.error is None
 
 
 @pytest.mark.parametrize("payload", [None, [], "oops", 42])
 def test_dated_extreme_rejects_non_dict_input(payload: object) -> None:
     """Test that malformed non-dict responses map to an empty result."""
-    result = dated_extreme_from_niwis(payload, "m³/s")
+    result = dated_extreme_from_niwis(payload)
     assert result.value is None
+    assert result.unit is None
     assert result.error is None
 
 
@@ -1170,68 +1183,73 @@ def test_parse_german_date_rejects_invalid_input(value: str) -> None:
     assert _parse_german_date(value) is None
 
 
-# --- Group F: latest_interval_value_from_niwis ----------------------------
+# --- Group F: depth below ground / days below GlW (plain Nummer results) -------
 
 
-def test_latest_interval_value_maps_real_fixture() -> None:
-    """Test mapping of a real captured 'm unter Geländeoberkante' response."""
-    data = json.loads(
+def _nummer_fixture(name: str) -> dict[str, object]:
+    """Load a real captured berechneEinzelwertNummer response."""
+    return json.loads(
         (
-            INVENTORY_DIR
-            / "derived_results"
-            / "berechneZeitreihenErgebnisNummer"
-            / "grundwasser__m_unter_geländeoberkante.json"
+            INVENTORY_DIR / "derived_results" / "berechneEinzelwertNummer" / name
         ).read_text(encoding="utf-8")
     )
-    expected_value = next(v for v in reversed(data["werte"]) if as_float(v) is not None)
 
-    result = latest_interval_value_from_niwis(data)
 
-    assert result.value == pytest.approx(expected_value)
+def test_depth_below_ground_maps_real_fixture() -> None:
+    """Test mapping of a real captured 'm unter Geländeoberkante' response.
+
+    Since the 2026-10 NIWIS restructuring this is a plain single-value
+    berechneEinzelwertNummer result (no interval series any more).
+    """
+    result = historical_statistic_from_niwis(
+        _nummer_fixture("grundwasser__m_unter_gelaendeoberkante.json")
+    )
+
+    assert result.value == pytest.approx(27.42)
     assert result.unit == "m"
     assert result.error is None
 
 
-def test_latest_interval_value_skips_trailing_nan() -> None:
-    """Test that a not-yet-published trailing 'NaN' is skipped for the newest real value."""
-    result = latest_interval_value_from_niwis(
-        {
-            "werte": [12.3, 12.4, 12.5, "NaN"],
-            "einheit": "m",
-            "hatZuvieleFehlwerte": False,
-            "fehlermeldung": None,
-        }
+def test_days_below_glw_maps_real_fixture() -> None:
+    """Test mapping of a real captured 'Tage unter GlW' response (federal waterway)."""
+    result = historical_statistic_from_niwis(
+        _nummer_fixture("wasserstand__tage_unter_glw.json")
     )
 
-    assert result.value == pytest.approx(12.5)
-    assert result.unit == "m"
+    assert result.value == pytest.approx(86.0)
+    assert result.unit == "d"
+    assert result.error is None
 
 
-def test_latest_interval_value_no_valid_value_in_window() -> None:
-    """Test the all-NaN edge case."""
-    result = latest_interval_value_from_niwis(
-        {"werte": ["NaN", "NaN"], "einheit": "m", "hatZuvieleFehlwerte": False, "fehlermeldung": None}
-    )
+def test_days_below_glw_empty_at_non_waterway_station() -> None:
+    """Test the real response for a regular station: no value, no error.
 
-    assert result.value is None
-    assert result.error == "no valid value in window"
-
-
-def test_latest_interval_value_too_many_missing_values() -> None:
-    """Test that hatZuvieleFehlwerte suppresses the value."""
-    result = latest_interval_value_from_niwis(
-        {"werte": [12.3], "einheit": "m", "hatZuvieleFehlwerte": True, "fehlermeldung": None}
+    NIWIS answers hatZuvieleFehlwerte=true with a literal "NaN" there; the
+    sensor then simply stays unavailable (graceful degradation).
+    """
+    result = historical_statistic_from_niwis(
+        _nummer_fixture("wasserstand__tage_unter_glw_non_waterway.json")
     )
 
     assert result.value is None
     assert result.error is None
 
 
-@pytest.mark.parametrize("payload", [None, [], "oops", 42])
-def test_latest_interval_value_rejects_non_dict_input(payload: object) -> None:
-    """Test that malformed non-dict responses map to an empty result."""
-    result = latest_interval_value_from_niwis(payload)
-    assert result.value is None
+@pytest.mark.parametrize(
+    ("fixture", "value", "unit"),
+    [
+        ("abfluss__sumd.json", 30.0, "d"),
+        ("abfluss__sumv.json", 26542080.0, "m³"),
+    ],
+)
+def test_sum_statistics_map_real_fixtures(
+    fixture: str, value: float, unit: str
+) -> None:
+    """Test mapping of real captured SumD/SumV responses (plain names, 2026-10-16)."""
+    result = historical_statistic_from_niwis(_nummer_fixture(fixture))
+
+    assert result.value == pytest.approx(value)
+    assert result.unit == unit
     assert result.error is None
 
 

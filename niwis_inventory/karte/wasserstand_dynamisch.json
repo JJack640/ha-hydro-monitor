@@ -1,0 +1,58 @@
+[
+  {
+    "nummer": "DESM_DEBY16607001",
+    "anzeigeName": "Inkofen (Amper)",
+    "koordinate": {
+      "x": 11.8655273361443,
+      "y": 48.4606574767785
+    },
+    "aktuellerMesswert": 33.0,
+    "niedrigwasserKlasse": "EXTREM_NIEDRIG",
+    "entwicklung": "STEIGEND",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DESM_DEXX25700100",
+    "anzeigeName": "Kaub (Rhein)",
+    "koordinate": {
+      "x": 7.7649398184133,
+      "y": 50.0854324566892
+    },
+    "aktuellerMesswert": 12.0,
+    "niedrigwasserKlasse": "EXTREM_NIEDRIG",
+    "entwicklung": "GLEICHBLEIBEND",
+    "pegelUnterGlw": "JA",
+    "anzahlTageUnterGlw": 86,
+    "hatSchifffahrtsrelevantenKennwert": true
+  },
+  {
+    "nummer": "DESM_DEBB5860101",
+    "anzeigeName": "Grünheide 2 (Löcknitz)",
+    "koordinate": {
+      "x": 13.8259124984306,
+      "y": 52.4121524549525
+    },
+    "aktuellerMesswert": 24.0,
+    "niedrigwasserKlasse": "KEINE_DATEN",
+    "entwicklung": "KEINE_DATEN",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DESM_DEBY18606000",
+    "anzeigeName": "Burghausen (Salzach)",
+    "koordinate": {
+      "x": 12.8343889527477,
+      "y": 48.1586176618296
+    },
+    "aktuellerMesswert": 149.0,
+    "niedrigwasserKlasse": "KEIN_NIEDRIGWASSER",
+    "entwicklung": "STEIGEND",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  }
+]

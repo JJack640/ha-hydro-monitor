@@ -1,0 +1,58 @@
+[
+  {
+    "nummer": "DESM_DEBY16607001",
+    "anzeigeName": "Inkofen (Amper)",
+    "koordinate": {
+      "x": 11.8655273361443,
+      "y": 48.4606574767785
+    },
+    "aktuellerMesswert": 15.6,
+    "niedrigwasserKlasse": "EXTREM_NIEDRIG",
+    "entwicklung": "GLEICHBLEIBEND",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DESM_DEXX25700100",
+    "anzeigeName": "Kaub (Rhein)",
+    "koordinate": {
+      "x": 7.7649398184133,
+      "y": 50.0854324566892
+    },
+    "aktuellerMesswert": 489.539,
+    "niedrigwasserKlasse": "EXTREM_NIEDRIG",
+    "entwicklung": "GLEICHBLEIBEND",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DESM_DEBB5860800",
+    "anzeigeName": "Fredersdorf (Fredersdorfer Fließ)",
+    "koordinate": {
+      "x": 13.7673211842087,
+      "y": 52.52704255243
+    },
+    "aktuellerMesswert": null,
+    "niedrigwasserKlasse": "KEINE_DATEN",
+    "entwicklung": "KEINE_DATEN",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DESM_DEBY24236007",
+    "anzeigeName": "Emskirchen (Aurach)",
+    "koordinate": {
+      "x": 10.7099931667903,
+      "y": 49.5446087323032
+    },
+    "aktuellerMesswert": 0.112,
+    "niedrigwasserKlasse": "KEIN_NIEDRIGWASSER",
+    "entwicklung": "STEIGEND",
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  }
+]

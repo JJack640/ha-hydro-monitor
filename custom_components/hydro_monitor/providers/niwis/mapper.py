@@ -121,12 +121,17 @@ def station_from_niwis(
 
 
 def _low_water_class_key(label: str) -> str | None:
-    """Map one NIWIS German low-water label to a stable English option key.
+    """Map one NIWIS low-water label to a stable English option key.
 
-    NIWIS is inconsistent about capitalization of "kein Niedrigwasser"
-    across endpoints, so the lookup is case-insensitive.
+    Two vocabularies reach here: the German labels of the classification-
+    boundary endpoints ("extrem niedrig") and the upper-case enum of the map
+    classification endpoint ("EXTREM_NIEDRIG"). NIWIS is also inconsistent
+    about capitalization across endpoints, so the lookup normalises
+    underscores to spaces and is case-insensitive.
     """
-    return LOW_WATER_CLASS_LABEL_TO_KEY.get(label.strip().casefold())
+    return LOW_WATER_CLASS_LABEL_TO_KEY.get(
+        label.strip().replace("_", " ").casefold()
+    )
 
 
 def _single_category_result_from_niwis(
@@ -154,27 +159,39 @@ def _single_category_result_from_niwis(
     return raw_label, error, suppressed
 
 
-def low_water_class_from_niwis(
-    data: Any,
+def low_water_class_from_karte(
+    stations: Any,
+    station_id: str,
 ) -> tuple[str | None, str | None, str | None]:
-    """Map a berechneEinzelwertKategorie result to (class_key, raw_label, error).
+    """Map NIWIS's map-classification list to (class_key, raw_label, error).
 
-    hatZuvieleFehlwerte or a non-empty fehlermeldung take priority over any
-    co-present einzelwert for the mapped class (no observed sample has both
-    set; treat as an unverified-but-conservative assumption, revisit if
-    seen). The raw label is preserved whenever present, even when the
-    mapped class is suppressed, so nothing NIWIS returned is silently
-    discarded.
+    stations is the list returned by the karte/messstelle endpoint (one
+    entry per station of a measurement type); the entry is looked up by
+    nummer. The raw enum label is preserved whenever present, even when it
+    does not map to a class key (e.g. KEINE_DATEN, which NIWIS's own map
+    shows as "no data"), so nothing NIWIS returned is silently discarded
+    (ADR-005 in docs/niwis_reference.md). An error is reported only for a
+    malformed response or a station missing from the list.
     """
-    raw_label, error, suppressed = _single_category_result_from_niwis(data)
+    if not isinstance(stations, list):
+        return None, None, "malformed classification response"
 
-    if suppressed:
-        return None, raw_label, error
+    entry = next(
+        (
+            item
+            for item in stations
+            if isinstance(item, dict) and item.get("nummer") == station_id
+        ),
+        None,
+    )
+    if entry is None:
+        return None, None, "station not in NIWIS classification data"
 
-    if raw_label is None:
-        return None, None, error
+    raw_label = entry.get("niedrigwasserKlasse")
+    if not isinstance(raw_label, str) or not raw_label.strip():
+        return None, None, "no classification in NIWIS response"
 
-    return _low_water_class_key(raw_label), raw_label, error
+    return _low_water_class_key(raw_label), raw_label, None
 
 
 def official_development_7d_from_niwis(
@@ -478,25 +495,32 @@ _DATED_EXTREME_PATTERN = re.compile(
 )
 
 
-def dated_extreme_from_niwis(data: Any, unit: str | None) -> HydroDatedExtreme:
-    """Map a berechneEinzelwertKategorie 'mit Datum' result (NM7Q/NM30Q mit Datum).
+def dated_extreme_from_niwis(data: Any) -> HydroDatedExtreme:
+    """Map a berechneEinzelwertKategorie NM7Q/NM30Q result.
 
     The composite string ("15.26 (15.07.2026-21.07.2026)") is parsed into
-    a value and the date range it occurred in. unit isn't present in this
-    endpoint's own envelope (unlike berechneEinzelwertNummer) -- the
-    caller passes the sibling plain-NM7Q/NM30Q fetch's unit, which shares
-    the same underlying quantity. The raw label is preserved even on parse
+    a value and the date range it occurred in; the unit comes from the
+    envelope's einheit (present since the 2026-10 NIWIS restructuring, when
+    NM7Q/NM30Q moved to this endpoint and the separate "mit Datum"
+    quantities disappeared). The raw label is preserved even on parse
     failure (ADR-005 in docs/niwis_reference.md), instead of silently
     discarding an unrecognized response shape.
     """
     raw_label, error, suppressed = _single_category_result_from_niwis(data)
+    unit = (
+        data.get("einheit")
+        if isinstance(data, dict) and isinstance(data.get("einheit"), str)
+        else None
+    )
 
     if suppressed or raw_label is None:
-        return HydroDatedExtreme(error=error, raw_label=raw_label)
+        return HydroDatedExtreme(unit=unit, error=error, raw_label=raw_label)
 
     match = _DATED_EXTREME_PATTERN.match(raw_label.strip())
     if match is None:
-        return HydroDatedExtreme(raw_label=raw_label, error="unrecognized format")
+        return HydroDatedExtreme(
+            unit=unit, raw_label=raw_label, error="unrecognized format"
+        )
 
     value = as_float(match.group(1))
     occurred_from = _parse_german_date(match.group(2))
@@ -509,37 +533,6 @@ def dated_extreme_from_niwis(data: Any, unit: str | None) -> HydroDatedExtreme:
         occurred_to=occurred_to,
         raw_label=raw_label,
     )
-
-
-def latest_interval_value_from_niwis(data: Any) -> HydroDerivedValue:
-    """Map the newest valid value from a berechneZeitreihenErgebnisNummer interval result.
-
-    Used for quantities requested over a date interval (not a reference
-    period) where only the latest value in the window is wanted, e.g.
-    groundwater depth below ground surface. Mirrors
-    observation_from_niwis's "pick the newest valid value" spirit, adapted
-    to a dateless array of sequential daily values starting at startDatum
-    -- the trailing entry may be "NaN" if today hasn't been published yet.
-    """
-    if not isinstance(data, dict):
-        return HydroDerivedValue()
-
-    error = _boundary_error(data)
-    unit = data.get("einheit") if isinstance(data.get("einheit"), str) else None
-
-    if error is not None or data.get("hatZuvieleFehlwerte"):
-        return HydroDerivedValue(unit=unit, error=error)
-
-    values = data.get("werte")
-    if not isinstance(values, list):
-        return HydroDerivedValue(unit=unit, error="malformed werte array")
-
-    for raw in reversed(values):
-        value = as_float(raw)
-        if value is not None:
-            return HydroDerivedValue(value=value, unit=unit)
-
-    return HydroDerivedValue(unit=unit, error="no valid value in window")
 
 
 def below_glw_from_niwis(data: Any) -> tuple[str | None, str | None, str | None]:

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import time
 from datetime import date, timedelta
-from typing import Any
+from typing import Any, ClassVar
 
 from aiohttp import ClientError, ClientSession
 from yarl import URL
 
-from .const import BASE_URL
+from .const import BASE_URL, KARTE_CACHE_TTL, KARTE_URL
 
 
 class NiwisError(Exception):
@@ -22,15 +23,32 @@ class NiwisResponseError(NiwisError):
 
 
 class NiwisClient:
+    # Shared by every client instance (one coordinator creates one client):
+    # the NIWIS map-classification list is the same for all stations of a
+    # measurement type, so devices refreshing around the same time reuse one
+    # download instead of each fetching ~110 KB. Failures are never cached.
+    _karte_cache: ClassVar[
+        dict[tuple[str, str], tuple[float, list[dict[str, Any]]]]
+    ] = {}
+
     def __init__(self, session: ClientSession) -> None:
         self._session = session
 
+    @classmethod
+    def clear_karte_cache(cls) -> None:
+        """Drop all cached map-classification lists (used by tests)."""
+        cls._karte_cache.clear()
+
     async def _get_json(
-        self, endpoint: str, params: dict[str, str] | None = None
+        self,
+        endpoint: str,
+        params: dict[str, str] | None = None,
+        *,
+        base_url: str = BASE_URL,
     ) -> Any:
         try:
             async with self._session.get(
-                URL(f"{BASE_URL}/{endpoint}"),
+                URL(f"{base_url}/{endpoint}"),
                 params=params,
                 headers={
                     "Accept": "application/json",
@@ -78,6 +96,33 @@ class NiwisClient:
             endpoint,
             params=params,
         )
+
+    async def async_get_karte_stations(
+        self, messgroesse: str, klassifikationsart: str
+    ) -> list[dict[str, Any]]:
+        """Return NIWIS's map classification list for one measurement type.
+
+        One entry per station (nummer, niedrigwasserKlasse, entwicklung,
+        pegelUnterGlw, ...), cached for KARTE_CACHE_TTL seconds. See the
+        KARTE_URL comment in const.py for why the current low-water class
+        comes from here.
+        """
+        key = (messgroesse, klassifikationsart)
+        cached = self._karte_cache.get(key)
+        if cached is not None and time.monotonic() - cached[0] < KARTE_CACHE_TTL:
+            return cached[1]
+
+        data = await self._get_json(
+            f"messstelle/{messgroesse}",
+            {"klassifikationsart": klassifikationsart},
+            base_url=KARTE_URL,
+        )
+        if not isinstance(data, list):
+            raise NiwisResponseError("Map classification response is not a list")
+
+        stations = [x for x in data if isinstance(x, dict)]
+        self._karte_cache[key] = (time.monotonic(), stations)
+        return stations
 
     async def async_get_station(self, station_id: str) -> dict[str, Any]:
         data = await self._get_json("stammdaten", {"messstelleNr": station_id})

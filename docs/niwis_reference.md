@@ -2280,6 +2280,11 @@ niwis_inventory/derived_quantities.json
 niwis_inventory/derived_probe_results.json
 ```
 
+These files are the **2026-07-22 snapshot**. NIWIS restructured its
+catalogue afterwards (43 → 34 quantities) — see
+[7.18](#718-api-changes-after-the-initial-discovery) for what changed and
+`niwis_inventory/derived_quantities_2026-10-16.json` for the current catalogue.
+
 ---
 
 ## 7.2 Why NIWIS calculates these values server-side
@@ -2998,6 +3003,77 @@ It should expose values that are:
 - clearly distinguished from local calculations.
 
 This principle will guide the next major development phase of the project.
+
+---
+
+## 7.18 API changes after the initial discovery
+
+NIWIS publishes **no OpenAPI description and no changelog** (`/v3/api-docs`,
+Swagger UI and similar all answer 404). Its derived-quantity catalogue
+(`GET /api/daten/abgeleiteteGroesse`) is the only authoritative description
+of what can be requested — and it changed without notice.
+
+Between 2026-08-17 (last verified working) and 2026-10-16 NIWIS
+restructured the catalogue from 43 to 34 quantities. Requests the
+integration had been making returned `404 EntityNotFound` ("Abgeleitete
+Größe mit Name … existiert nicht") or `400`. Station metadata, series, the
+classification boundaries, deciles, MQ/MNQ/MW/MNW/NQ/NW, the medians, the
+calendar-day envelope, the official 7-day development and `unter GlW` were
+unaffected. The station catalogue grew from 632 to 698 stations.
+
+| Quantity | Before | Now |
+|---|---|---|
+| Current low-water class | `<Typ> Niedrigwasserklasse aktueller Tag` (`berechneEinzelwertKategorie`) | removed; replaced by the map endpoint below |
+| NM7Q / NM30Q | `berechneEinzelwertNummer`, plus separate `NM7Q mit Datum` / `NM30Q mit Datum` | `berechneEinzelwertKategorie`, returns `"13.81 (01.10.2026-07.10.2026)"` with `einheit`; the "mit Datum" quantities are gone |
+| SumD / SumV | `SumD Zeitfenster` / `SumV Zeitfenster` | `SumD` / `SumV` (`berechneEinzelwertNummer`, same reference period + interval) |
+| Days below GlW | `Tage unter GlWRNW/BWu aktueller Tag` | `Tage unter GlW` (`berechneEinzelwertNummer`, no parameters) |
+| Depth below ground | `m unter Geländeoberkante` on `berechneZeitreihenErgebnisNummer` with an interval | same name on `berechneEinzelwertNummer`, no parameters, plain `einzelwert` |
+
+### Current low-water class: the map endpoint
+
+The class is no longer a per-station derived quantity. NIWIS's own web
+application (an Angular single-page app; its bundle shows the calls) gets it
+from a separate backend area:
+
+```text
+GET https://niwis-online.de/api/karte/messstelle/{MESSGROESSE}?klassifikationsart={ART}
+```
+
+- `MESSGROESSE` is `ABFLUSS`, `WASSERSTAND`, `GRUNDWASSER` or `QUELLSCHUETTUNG`.
+- `klassifikationsart` is **required** (omitting it is a 400). Verified
+  values: `DYNAMISCH`, `STATISCH`. NIWIS's own default is `DYNAMISCH`
+  (`GET /api/config` → `klassifikationConfig.standardKlassifikationsart`),
+  which Hydro Monitor follows.
+- The response is **one list with every station** of that measurement type
+  (about 110 KB for `ABFLUSS`, 364 stations). Per entry: `nummer`,
+  `anzeigeName`, `koordinate`, `aktuellerMesswert`, `niedrigwasserKlasse`
+  (`EXTREM_NIEDRIG`, `SEHR_NIEDRIG`, `NIEDRIG`, `KEIN_NIEDRIGWASSER`,
+  `KEINE_DATEN`), `entwicklung` (`STEIGEND`, `GLEICHBLEIBEND`, `FALLEND`),
+  `pegelUnterGlw` (`JA`/`NEIN`), `anzahlTageUnterGlw`,
+  `hatSchifffahrtsrelevantenKennwert`.
+- Coverage matches the station catalogue exactly for every measurement type.
+  `KEINE_DATEN` marks stations without current data (NIWIS's map shows them
+  as "no data"); Hydro Monitor leaves the class unset and keeps the raw label.
+- For the verified stations the returned class equals a local comparison of
+  the current value against the static and dynamic classification
+  boundaries, so the boundary sensors remain a faithful explanation of it.
+
+This is the web application's own backend, **not a documented contract**.
+Hydro Monitor caches the list for ten minutes (shared between devices) to
+stay a considerate client, in line with NIWIS's terms of use (free use with
+source attribution; abuse that impairs NIWIS's operation is prohibited).
+
+### Detecting drift
+
+`python -m tools.niwis_contract_check` compares everything the integration
+requests (derived from `providers/niwis/const.py`) with the live catalogue,
+and probes the map endpoint. Run it before releases and whenever sensors
+unexpectedly turn unavailable; exit code 1 lists every missing or moved
+quantity. `tools/niwis_discovery.py` can additionally regenerate the full
+inventory for a manual diff. Per-quantity failures are deliberately **not**
+raised as Home Assistant errors (they surface in each sensor's `error`
+attribute and in warning log lines), so a clean log alone does not prove that
+every value is still being delivered.
 
 ---
 

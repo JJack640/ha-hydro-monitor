@@ -1,0 +1,30 @@
+[
+  {
+    "nummer": "DEGM_DEBY15500",
+    "anzeigeName": "Helchenbach 18/2",
+    "koordinate": {
+      "x": 11.9782145270051,
+      "y": 48.7975257772933
+    },
+    "aktuellerMesswert": 0.99,
+    "niedrigwasserKlasse": "SEHR_NIEDRIG",
+    "entwicklung": null,
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DEGM_DEBY20501",
+    "anzeigeName": "Hohenwarth 14/2",
+    "koordinate": {
+      "x": 12.932109614451,
+      "y": 49.1914764858426
+    },
+    "aktuellerMesswert": 1.27,
+    "niedrigwasserKlasse": "KEIN_NIEDRIGWASSER",
+    "entwicklung": null,
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  }
+]

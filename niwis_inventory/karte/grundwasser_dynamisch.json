@@ -1,0 +1,44 @@
+[
+  {
+    "nummer": "DEGM_DEBY16232",
+    "anzeigeName": "UNERING 913",
+    "koordinate": {
+      "x": 11.263676964069,
+      "y": 48.0293473798214
+    },
+    "aktuellerMesswert": 607.69,
+    "niedrigwasserKlasse": "EXTREM_NIEDRIG",
+    "entwicklung": null,
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DEGM_DEBB28491016",
+    "anzeigeName": "Schmiedeberg",
+    "koordinate": {
+      "x": 13.9657243256834,
+      "y": 53.1498597942958
+    },
+    "aktuellerMesswert": null,
+    "niedrigwasserKlasse": "KEINE_DATEN",
+    "entwicklung": null,
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  },
+  {
+    "nummer": "DEGM_DEBY83614",
+    "anzeigeName": "NBS-H/W KB 11/1",
+    "koordinate": {
+      "x": 9.62182150403828,
+      "y": 50.2036860313345
+    },
+    "aktuellerMesswert": 196.23,
+    "niedrigwasserKlasse": "KEIN_NIEDRIGWASSER",
+    "entwicklung": null,
+    "pegelUnterGlw": null,
+    "anzahlTageUnterGlw": null,
+    "hatSchifffahrtsrelevantenKennwert": false
+  }
+]

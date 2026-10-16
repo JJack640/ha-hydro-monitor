@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## Unreleased
+
+Adapts to a restructuring of the NIWIS API (found 2026-10-16). Between
+2026-08-17 and 2026-10-16 NIWIS renamed, moved or removed several derived
+quantities without notice (there is no changelog or API description), which
+left the low-water class and a few statistics permanently unavailable in
+v0.3.0-beta2. Details: `docs/niwis_reference.md` §7.18.
+
+### Fixed
+
+- **Low-water class** (all measurement types): NIWIS removed the per-station
+  "… Niedrigwasserklasse aktueller Tag" quantities. The class now comes from
+  NIWIS's own map-classification endpoint (one cached list per measurement
+  type, shared between devices) using NIWIS's default `DYNAMISCH`
+  classification. The `raw_value` attribute now carries NIWIS's enum
+  (`EXTREM_NIEDRIG`, `SEHR_NIEDRIG`, `NIEDRIG`, `KEIN_NIEDRIGWASSER`,
+  `KEINE_DATEN`) instead of the former German label ("extrem niedrig");
+  the sensor states themselves are unchanged. Stations without current data
+  (`KEINE_DATEN`) stay unavailable, as on NIWIS's own map.
+- **NM7Q / NM30Q** (and their `occurred_from`/`occurred_to` attributes):
+  now one request each on NIWIS's category endpoint instead of four requests
+  in total; the plain value and the date range come from the same result.
+- **SumD / SumV**, **days below GlW**, **depth below ground**: adjusted to the
+  new NIWIS names/endpoints (`SumD`/`SumV`, `Tage unter GlW`, a plain
+  parameter-less `m unter Geländeoberkante`).
+
+### Added
+
+- `python -m tools.niwis_contract_check`: compares what the integration
+  requests with what NIWIS currently offers and exits non-zero on drift, so
+  an API change like this one is noticed immediately.
+
+---
+
 ## v0.3.0-beta2 (2026-08-09)
 
 Completes the official NIWIS derived-quantity catalogue (43/43 quantities
