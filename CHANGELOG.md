@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## Unreleased
+## v0.3.0-beta3 (2026-10-16)
 
 Adapts to a restructuring of the NIWIS API (found 2026-10-16). Between
 2026-08-17 and 2026-10-16 NIWIS renamed, moved or removed several derived
