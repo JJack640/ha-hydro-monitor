@@ -6,6 +6,7 @@ from datetime import date
 from typing import Any
 
 from homeassistant.components import system_health
+from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant, callback
 
 from .const import DOMAIN
@@ -25,7 +26,12 @@ async def async_system_health_info(
 ) -> dict[str, Any]:
     """Return system health information for Hydro Monitor."""
     entries = hass.config_entries.async_entries(DOMAIN)
-    loaded_entries = [entry for entry in entries if entry.runtime_data is not None]
+    # runtime_data only exists once setup succeeded: reading it on an entry
+    # that is not loaded (e.g. retrying setup during a NIWIS outage) raises
+    # AttributeError, so filter on the entry state instead.
+    loaded_entries = [
+        entry for entry in entries if entry.state is ConfigEntryState.LOADED
+    ]
 
     providers: set[str] = set()
     station_ids: set[str] = set()
