@@ -28,7 +28,7 @@ A modern Home Assistant integration for monitoring groundwater levels and other 
 Hydro Monitor is a custom Home Assistant integration for public hydrological data. It is designed to help users discover nearby monitoring stations automatically and add groundwater, water-level, river-discharge, and spring-discharge data without having to know provider-specific station IDs.
 
 > [!IMPORTANT]
-> Hydro Monitor is currently under active development. NIWIS is the first supported provider.
+> Hydro Monitor is currently under active development. NIWIS (Niedrigwasserinformationssystem, Bundesanstalt für Gewässerkunde) is the first supported provider.
 
 > [!NOTE]
 > **Current status:** Beta (`v0.3.0-beta3`) – recommended for general use; feedback still welcome.
