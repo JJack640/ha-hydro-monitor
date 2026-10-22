@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/github/license/JJack640/ha-hydro-monitor" alt="License">
   <img src="https://img.shields.io/badge/HACS-Compatible-41BDF5.svg" alt="HACS Compatible">
   <img src="https://img.shields.io/badge/Home%20Assistant-2026.7+-41BDF5" alt="Home Assistant">
+  <img src="https://img.shields.io/badge/Coverage-Germany%20only-41BDF5" alt="Coverage: Germany only">
   <a href="https://buymeacoffee.com/JJack640"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-support-FFDD00.svg?logo=buy-me-a-coffee&logoColor=black" alt="Buy me a coffee"></a>
 </p>
 
@@ -12,10 +13,11 @@
   <img src="custom_components/hydro_monitor/brand/logo.png" alt="Hydro Monitor logo" width="220">
 </p>
 
-A modern Home Assistant integration for monitoring groundwater levels and other hydrological measurements from public data providers.
+A modern Home Assistant integration for monitoring groundwater levels and other hydrological measurements from public data providers. **Currently available for Germany only.**
 
 - 📍 Automatic station discovery
-- 🌍 Uses your Home Assistant location
+- 🌍 Uses your Home Assistant location to find the nearest stations
+- 🇩🇪 Germany only for now (data from NIWIS)
 - 📈 Trend analysis
 - 🩺 Diagnostics & System Health
 - 🌐 English & German
@@ -28,7 +30,7 @@ A modern Home Assistant integration for monitoring groundwater levels and other 
 Hydro Monitor is a custom Home Assistant integration for public hydrological data. It is designed to help users discover nearby monitoring stations automatically and add groundwater, water-level, river-discharge, and spring-discharge data without having to know provider-specific station IDs.
 
 > [!IMPORTANT]
-> Hydro Monitor is currently under active development. NIWIS (Niedrigwasserinformationssystem, Bundesanstalt für Gewässerkunde) is the first supported provider.
+> **Hydro Monitor currently covers Germany only.** Its one supported data provider is NIWIS (Niedrigwasserinformationssystem of the Bundesanstalt für Gewässerkunde), which publishes monitoring stations in nearly all German federal states and on the federal waterways. There are no stations outside Germany yet, so if your Home Assistant is located elsewhere the integration will not be useful to you for now. Support for further providers is planned, and Hydro Monitor is under active development.
 
 > [!NOTE]
 > **Current status:** Beta (`v0.3.0`) – recommended for general use; feedback still welcome.
@@ -73,15 +75,15 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 **Current release:** `v0.3.0`
 
-Hydro Monitor currently supports the NIWIS public hydrological data service.
+Hydro Monitor currently supports the NIWIS public hydrological data service, which covers Germany.
 
 The architecture is provider-based and designed to support additional national and regional hydrological services without requiring changes to the Home Assistant integration itself.
 
 ## Supported providers
 
-| Provider | Status | Data |
-|---|---|---|
-| NIWIS | Beta | Groundwater level, water level, discharge, spring discharge |
+| Provider | Coverage | Status | Data |
+|---|---|---|---|
+| NIWIS | Germany (nearly all federal states and the federal waterways) | Beta | Groundwater level, water level, discharge, spring discharge |
 
 Additional providers may be added later without changing the core integration architecture.
 
@@ -123,7 +125,7 @@ After installation:
 1. Open **Settings → Devices & Services**.
 2. Add **Hydro Monitor**.
 3. Select the desired measurement type.
-4. Hydro Monitor automatically discovers the nearest monitoring stations using your Home Assistant location.
+4. Hydro Monitor automatically discovers the nearest monitoring stations using your Home Assistant location. Stations exist in Germany only, so outside Germany the nearest one is far away.
 5. Select a station.
 6. The integration creates all available sensors automatically.
 
