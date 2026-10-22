@@ -19,7 +19,7 @@ A modern Home Assistant integration for monitoring groundwater levels and other 
 - 📈 Trend analysis
 - 🩺 Diagnostics & System Health
 - 🌐 English & German
-- ✅ HACS compatible
+- ✅ Available in HACS (default repository)
 
 <p align="center">
   <strong>Hydrological monitoring for Home Assistant.</strong>
@@ -108,13 +108,13 @@ integration.
 
 ### HACS
 
-Hydro Monitor can be installed through HACS as a custom repository.
+Hydro Monitor is part of the HACS default repository list, so no custom repository is needed.
 
-1. Open **HACS → Integrations**.
-2. Open the menu and select **Custom repositories**.
-3. Add `https://github.com/JJack640/ha-hydro-monitor`.
-4. Select **Integration** as the category.
-5. Install Hydro Monitor and restart Home Assistant.
+[![Open your Home Assistant instance and open Hydro Monitor inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=JJack640&repository=ha-hydro-monitor&category=integration)
+
+1. Open **HACS** and search for **Hydro Monitor** (or use the button above).
+2. Open it and select **Download**.
+3. Restart Home Assistant.
 
 ## Configuration
 
