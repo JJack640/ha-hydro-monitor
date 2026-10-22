@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## v0.3.0 (2026-10-22)
+
+First regular (non-pre-release) release, and the first one HACS can list.
+Hydro Monitor was accepted into the HACS default repository list on
+2026-10-18, but did not appear in HACS: HACS determines a repository's
+version from its latest *regular* release, and every earlier release here was
+a GitHub pre-release, so HACS's data generator dropped the repository
+("Missing version data"). The code is the same as `v0.3.0-beta3` plus the
+fix below.
+
+### Fixed
+
+- **System information**: an entry that is not loaded (for example while
+  retrying setup during a NIWIS outage) no longer makes the System
+  information page raise `AttributeError` and show an error for Hydro
+  Monitor. Such entries are still counted under "Configured entries" and are
+  skipped for the station details. Reported in the HACS default-repository
+  review.
+
+### Changed
+
+- README: installation now goes through the HACS default list instead of a
+  custom repository.
+
+---
+
 ## v0.3.0-beta3 (2026-10-16)
 
 Adapts to a restructuring of the NIWIS API (found 2026-10-16). Between
