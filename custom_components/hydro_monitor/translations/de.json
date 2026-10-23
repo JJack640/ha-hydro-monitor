@@ -64,6 +64,14 @@
           "strong_falling": "Stark fallend"
         }
       },
+      "level_state": {
+        "name": "Wasserstand zu MNW/MHW",
+        "state": {
+          "low": "Niedrig",
+          "normal": "Normal",
+          "high": "Hoch"
+        }
+      },
       "high_30_days": {
         "name": "30-Tage-Hoch"
       },

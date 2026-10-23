@@ -202,9 +202,15 @@ Goal:
 
 Support additional providers.
 
+Status: started. The provider interface exists (`providers/base.py`, see
+`docs/ARCHITECTURE.md`) and NIWIS and PEGELONLINE run through it
+(`docs/pegelonline_reference.md`). HyDAS, the nationwide REST API standard of
+the German states, is deferred until a state implements it or PEGELONLINE's
+implementation leaves beta (watch `https://hydrodaten-api.mhwz.de/reals`).
+
 Potential providers:
 
-- PegelOnline
+- HyDAS (when a state serves it)
 - BAFU
 - Rijkswaterstaat
 - Environment Agency

@@ -6,16 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+### Added
+
+- **PEGELONLINE as a second data provider** (federal waterways and shipping
+  administration, REST API v2, licence DL-DE->Zero-2.0, no key). It adds
+  water level and discharge gauges NIWIS does not have, including the Hamburg
+  gauges and the tidal gauges, with values every 15 minutes (some gauges every
+  minute) instead of daily values. Details: `docs/pegelonline_reference.md`.
+  - The setup dialog shows the nearest stations of both providers in one list,
+    each entry naming its source. A gauge that is in both services appears
+    twice; you can add both.
+  - PEGELONLINE entries get the value, the 1-day and 7-day trend and trend
+    state, the 30-day low and high, the last measurement and its age, and a
+    new sensor **Water level vs. mean low/high** (PEGELONLINE's own
+    classification against the gauge's mean low and mean high water). They do
+    not get NIWIS's low-water class, deciles or reference statistics.
+  - On PEGELONLINE entries the trends compare the mean of the last 24 hours
+    with the mean of the day (week) before, because two single readings only
+    show the phase of the tide at tidal gauges.
+  - `python -m tools.pegelonline_discovery` captures real responses as test
+    fixtures; `python -m tools.pegelonline_contract_check` checks the live
+    service for drift.
+
 ### Changed
 
 - Internal: the code now talks to data providers through a common interface
   (`providers/base.py`, registry in `providers/__init__.py`). NIWIS runs
   through it unchanged: entity ids, device identifiers, config entry ids and
-  sensor values stay exactly as they were. This prepares additional data
-  providers.
-- The station list in the setup dialog now names the data source of each
-  station (for now always NIWIS), and a failed connection reports "Could not
-  connect to the data providers".
+  sensor values stay exactly as they were.
+- The station list in the setup dialog names the data source of each station,
+  and a failed connection reports "Could not connect to the data providers".
 
 ---
 

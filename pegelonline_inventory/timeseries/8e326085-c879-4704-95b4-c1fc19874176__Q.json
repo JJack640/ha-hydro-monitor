@@ -1,0 +1,10 @@
+{
+  "currentMeasurement": {
+    "timestamp": "2026-10-23T12:00:00+02:00",
+    "value": 21.5
+  },
+  "equidistance": 10,
+  "longname": "ABFLUSS_ROHDATEN",
+  "shortname": "Q",
+  "unit": "m³/s"
+}

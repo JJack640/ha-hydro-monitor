@@ -11,6 +11,7 @@ CONF_MEASUREMENT_TYPE: Final = "measurement_type"
 CONF_SEARCH_QUERY: Final = "query"
 
 PROVIDER_NIWIS: Final = "niwis"
+PROVIDER_PEGELONLINE: Final = "pegelonline"
 
 DEFAULT_UPDATE_INTERVAL: Final = timedelta(hours=6)
 MEASUREMENT_STALE_AFTER: Final = timedelta(hours=12)

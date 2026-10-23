@@ -885,3 +885,108 @@ def test_trend_icon_without_data_is_neutral() -> None:
     sensor = _trend_sensor("change_7d", HydroMeasurementType.DISCHARGE, None)
 
     assert sensor.icon == "mdi:trending-neutral"
+
+
+def _level_state_sensor(observation: HydroObservation | None) -> HydroObservationSensor:
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = HydroStation(
+        provider="pegelonline",
+        station_id="u1",
+        name="Kaub",
+        measurement_types=(HydroMeasurementType.WATER_LEVEL,),
+    )
+    coordinator.measurement_type = HydroMeasurementType.WATER_LEVEL
+    coordinator.data = observation
+    coordinator.last_update_success = True
+
+    return HydroObservationSensor(
+        coordinator=coordinator, description=_description("level_state")
+    )
+
+
+def test_level_state_sensor_description() -> None:
+    """Test the MNW/MHW sensor is an enum that only PEGELONLINE gets."""
+    from homeassistant.components.sensor import SensorDeviceClass
+
+    description = _description("level_state")
+
+    assert description.device_class is SensorDeviceClass.ENUM
+    assert description.options == ["low", "normal", "high"]
+    assert description.providers == frozenset({"pegelonline"})
+    assert description.unit_fn(_observation()) is None
+    assert description.value_fn(_observation()) is None
+
+
+def test_level_state_sensor_value_and_attributes() -> None:
+    """Test state, the service's raw word, and the glossary text."""
+    observation = HydroObservation(
+        HydroMeasurementType.WATER_LEVEL,
+        27.0,
+        "cm",
+        date(2026, 10, 23),
+        level_state="low",
+        level_state_raw="low",
+    )
+
+    sensor = _level_state_sensor(observation)
+
+    assert sensor.native_value == "low"
+    attributes = sensor.extra_state_attributes
+    assert attributes["raw_value"] == "low"
+    assert attributes["error"] is None
+    assert "MNW" in attributes["description"]
+
+
+def test_level_state_sensor_keeps_the_unusable_raw_value() -> None:
+    """Test "unknown" is no state, but the raw word is shown for diagnosis."""
+    observation = HydroObservation(
+        HydroMeasurementType.WATER_LEVEL,
+        27.0,
+        "m+NN",
+        date(2026, 10, 23),
+        level_state=None,
+        level_state_raw="unknown",
+    )
+
+    sensor = _level_state_sensor(observation)
+
+    assert sensor.native_value is None
+    assert sensor.available is False
+    assert sensor.extra_state_attributes["raw_value"] == "unknown"
+
+
+def test_level_state_sensor_shows_a_fetch_error() -> None:
+    """Test a failed request surfaces on the sensor like the NIWIS extras."""
+    observation = HydroObservation(
+        HydroMeasurementType.WATER_LEVEL,
+        27.0,
+        "cm",
+        date(2026, 10, 23),
+        level_state_error="flaky",
+    )
+
+    assert _level_state_sensor(observation).extra_state_attributes["error"] == "flaky"
+
+
+@pytest.mark.parametrize("language", ["en", "de"])
+def test_level_state_is_translated(language: str) -> None:
+    """Test the sensor name and every state exist in both languages."""
+    import json
+    from pathlib import Path
+
+    path = (
+        Path(__file__).resolve().parent.parent
+        / "custom_components/hydro_monitor/translations"
+        / f"{language}.json"
+    )
+    entry = json.loads(path.read_text("utf-8"))["entity"]["sensor"]["level_state"]
+
+    assert entry["name"]
+    assert set(entry["state"]) == {"low", "normal", "high"}
+    assert all(entry["state"].values())
+
+
+@pytest.mark.parametrize("language", ["en", "de"])
+def test_level_state_has_a_glossary_entry(language: str) -> None:
+    """Test the explanation exists in both languages."""
+    assert sensor_description("level_state", language)

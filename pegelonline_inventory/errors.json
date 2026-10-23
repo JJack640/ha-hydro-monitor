@@ -1,0 +1,34 @@
+{
+  "malformed_station_id": {
+    "body": {
+      "message": "Timeseries does not exist.",
+      "status": 404
+    },
+    "path": "stations/not-a-uuid/W.json",
+    "status": 404
+  },
+  "unknown_series_measurements": {
+    "body": {
+      "message": "Timeseries does not exist.",
+      "status": 404
+    },
+    "path": "stations/1d26e504-7f9e-480a-b52c-5932be6549ab/XX/measurements.json",
+    "status": 404
+  },
+  "unknown_station_measurements": {
+    "body": {
+      "message": "Timeseries does not exist.",
+      "status": 404
+    },
+    "path": "stations/00000000-0000-0000-0000-000000000000/W/measurements.json",
+    "status": 404
+  },
+  "unknown_station_timeseries": {
+    "body": {
+      "message": "Timeseries does not exist.",
+      "status": 404
+    },
+    "path": "stations/00000000-0000-0000-0000-000000000000/W.json",
+    "status": 404
+  }
+}

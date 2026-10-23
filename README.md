@@ -17,7 +17,7 @@ A modern Home Assistant integration for monitoring groundwater levels and other 
 
 - 📍 Automatic station discovery
 - 🌍 Uses your Home Assistant location to find the nearest stations
-- 🇩🇪 Germany only for now (data from NIWIS)
+- 🇩🇪 Germany only for now (data from NIWIS and PEGELONLINE)
 - 📈 Trend analysis
 - 🩺 Diagnostics & System Health
 - 🌐 English & German
@@ -30,7 +30,7 @@ A modern Home Assistant integration for monitoring groundwater levels and other 
 Hydro Monitor is a custom Home Assistant integration for public hydrological data. It is designed to help users discover nearby monitoring stations automatically and add groundwater, water-level, river-discharge, and spring-discharge data without having to know provider-specific station IDs.
 
 > [!IMPORTANT]
-> **Hydro Monitor currently covers Germany only.** Its one supported data provider is NIWIS (Niedrigwasserinformationssystem of the Bundesanstalt für Gewässerkunde), which publishes monitoring stations in nearly all German federal states and on the federal waterways. There are no stations outside Germany yet, so if your Home Assistant is located elsewhere the integration will not be useful to you for now. Support for further providers is planned, and Hydro Monitor is under active development.
+> **Hydro Monitor currently covers Germany only.** It has two data providers: NIWIS (Niedrigwasserinformationssystem of the Bundesanstalt für Gewässerkunde), which publishes monitoring stations in nearly all German federal states and on the federal waterways, and PEGELONLINE of the federal waterways and shipping administration (WSV), which adds the water level and discharge gauges of the federal waterways, including Hamburg. There are no stations outside Germany yet apart from a few gauges on border waters, so if your Home Assistant is located elsewhere the integration will not be useful to you for now. Support for further providers is planned, and Hydro Monitor is under active development.
 
 > [!NOTE]
 > **Current status:** Beta (`v0.3.1`) – recommended for general use; feedback still welcome.
@@ -38,6 +38,7 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 ## Features
 
 - Native Home Assistant integration
+- Two data providers in one station list: NIWIS and PEGELONLINE
 - Automatic station discovery based on your Home Assistant location
 - Manual station search by name, across all stations nationwide
 - Groundwater level monitoring
@@ -75,7 +76,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 **Current release:** `v0.3.1`
 
-Hydro Monitor currently supports the NIWIS public hydrological data service, which covers Germany.
+Hydro Monitor currently supports two public hydrological data services, which cover Germany: NIWIS and PEGELONLINE.
 
 The architecture is provider-based and designed to support additional national and regional hydrological services without requiring changes to the Home Assistant integration itself.
 
@@ -83,7 +84,8 @@ The architecture is provider-based and designed to support additional national a
 
 | Provider | Coverage | Status | Data |
 |---|---|---|---|
-| NIWIS | Germany (nearly all federal states and the federal waterways) | Beta | Groundwater level, water level, discharge, spring discharge |
+| NIWIS | Germany (nearly all federal states and the federal waterways) | Beta | Groundwater level, water level, discharge, spring discharge (daily values, official low-water classification and statistics) |
+| PEGELONLINE | Germany's federal waterways, including Hamburg and the tidal gauges | Beta | Water level and discharge every 15 minutes (some gauges every minute), position against mean low and high water |
 
 Additional providers may be added later without changing the core integration architecture.
 
@@ -125,9 +127,22 @@ After installation:
 1. Open **Settings → Devices & Services**.
 2. Add **Hydro Monitor**.
 3. Select the desired measurement type.
-4. Hydro Monitor automatically discovers the nearest monitoring stations using your Home Assistant location. Stations exist in Germany only, so outside Germany the nearest one is far away.
+4. Hydro Monitor automatically discovers the nearest monitoring stations of all data providers using your Home Assistant location, as one list sorted by distance. Each entry names its source. Stations exist in Germany only, so outside Germany the nearest one is far away.
 5. Select a station.
 6. The integration creates all available sensors automatically.
+
+### NIWIS or PEGELONLINE?
+
+Many gauges on the federal waterways (for example Kaub on the Rhine) are in both services and appear twice in the list, once per source. You can add both.
+
+| | NIWIS | PEGELONLINE |
+|---|---|---|
+| Values | Daily | Every 15 minutes (some gauges every minute) |
+| Stations | Federal states' networks and federal waterways; groundwater and springs | Federal waterways only; water level and discharge |
+| Official low-water class, deciles, reference statistics (MQ, NM7Q, ...) | Yes | No |
+| Position against mean low / high water | No | Yes (`Water level vs. mean low/high`) |
+
+PEGELONLINE entries get only the sensors a raw measurement series can fill: the value, the trends, the 30-day low and high, the age of the measurement and the position against mean low and high water. On PEGELONLINE entries the trends compare the mean of the last 24 hours with the mean of the day (week) before, so the tide of tidal gauges (Elbe, Weser, Ems, coast) does not drown them; the 30-day low and high are the raw extremes and show the full tidal range.
 
 ## Available Sensors
 
@@ -141,7 +156,8 @@ After installation:
 | 30-day maximum | Highest value during the last 30 days |
 | Last observation | Timestamp of the latest observation |
 | Measurement age | Hours since the latest observation |
-| Low-water class | NIWIS's own current low-water classification |
+| Low-water class | NIWIS's own current low-water classification (NIWIS only) |
+| Water level vs. mean low/high | PEGELONLINE's own classification of the water level: low (at or below mean low water), normal, high (at or above mean high water) (PEGELONLINE water level only) |
 | Official 7-day development | NIWIS's own assessment of the last 7 days (discharge, water level) |
 | MQ / MNQ | Mean discharge / mean of the annual lowest discharge, reference period 1991-2020 (discharge) |
 | MW / MNW | Mean water level / mean of the annual lowest water level, reference period 1991-2020 (water level) |

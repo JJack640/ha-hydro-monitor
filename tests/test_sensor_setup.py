@@ -65,11 +65,20 @@ async def _created_observation_keys(entry: SimpleNamespace) -> list[str]:
 
 @pytest.mark.asyncio
 async def test_niwis_entry_gets_every_observation_sensor() -> None:
-    """Test NIWIS (no key list) is not filtered: existing users keep all."""
+    """Test NIWIS (no key list) keeps every sensor it always had.
+
+    The 50 sensors NIWIS entries had before a second provider existed must
+    not change; sensors only another provider can fill are not added.
+    """
     keys = await _created_observation_keys(_entry("niwis"))
 
-    assert keys == [description.key for description in SENSOR_DESCRIPTIONS]
+    assert keys == [
+        description.key
+        for description in SENSOR_DESCRIPTIONS
+        if description.providers is None
+    ]
     assert len(keys) == 50
+    assert "level_state" not in keys
 
 
 @pytest.mark.asyncio
@@ -92,3 +101,21 @@ async def test_sensor_order_follows_the_description_order() -> None:
         keys = await _created_observation_keys(_entry("limited"))
 
     assert keys == ["value", "trend_state"]
+
+
+@pytest.mark.asyncio
+async def test_provider_only_sensor_needs_its_provider() -> None:
+    """Test a provider-restricted sensor is created for that provider alone.
+
+    A provider that lists no keys (all of them) still must not get a sensor
+    that only another provider can ever fill.
+    """
+    everything = _provider("other", None)
+    pegelonline = _provider("pegelonline", None)
+
+    with patch.dict(PROVIDERS, {"other": everything, "pegelonline": pegelonline}):
+        other_keys = await _created_observation_keys(_entry("other"))
+        pegelonline_keys = await _created_observation_keys(_entry("pegelonline"))
+
+    assert "level_state" not in other_keys
+    assert "level_state" in pegelonline_keys

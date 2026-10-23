@@ -1,0 +1,354 @@
+{
+  "discharge_only": {
+    "agency": "POVODÍ LABE",
+    "km": -220.1,
+    "longname": "PRELOUC",
+    "number": "061000",
+    "shortname": "PRELOUC",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "timestamp": "2026-10-23T12:00:00+02:00",
+          "value": 21.5
+        },
+        "equidistance": 10,
+        "longname": "ABFLUSS_ROHDATEN",
+        "shortname": "Q",
+        "unit": "m³/s"
+      }
+    ],
+    "uuid": "8e326085-c879-4704-95b4-c1fc19874176",
+    "water": {
+      "longname": "ELBE",
+      "shortname": "ELBE"
+    }
+  },
+  "hamburg_tidal": {
+    "agency": "HAMBURG PORT AUTHORITY",
+    "km": 615.0,
+    "latitude": 53.472726,
+    "longitude": 9.991826,
+    "longname": "HAMBURG-HARBURG",
+    "number": "5952025",
+    "shortname": "HAMBURG-HARBURG",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "unknown",
+          "stateNswHsw": "unknown",
+          "timestamp": "2026-10-23T13:02:00+02:00",
+          "value": 611.0
+        },
+        "equidistance": 1,
+        "gaugeZero": {
+          "unit": "m. ü. NHN",
+          "validFrom": "2019-11-01",
+          "value": -5.015
+        },
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "cm"
+      }
+    ],
+    "uuid": "706e5110-c5e2-4915-9989-c071fcb492ec",
+    "voiceServiceNumber": "+49 228 286527 112",
+    "water": {
+      "longname": "ELBE",
+      "shortname": "ELBE"
+    }
+  },
+  "kaub_w_and_q": {
+    "agency": "STANDORT BINGEN",
+    "km": 546.23,
+    "latitude": 50.085438,
+    "longitude": 7.764962,
+    "longname": "KAUB",
+    "number": "25700100",
+    "shortname": "KAUB",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "timestamp": "2026-10-23T12:45:00+02:00",
+          "value": 555.0
+        },
+        "equidistance": 15,
+        "longname": "ABFLUSS_ROHDATEN",
+        "shortname": "Q",
+        "unit": "m³/s"
+      },
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "low",
+          "stateNswHsw": "normal",
+          "timestamp": "2026-10-23T13:00:00+02:00",
+          "value": 27.0
+        },
+        "equidistance": 15,
+        "gaugeZero": {
+          "unit": "m. ü. NHN",
+          "validFrom": "2019-11-01",
+          "value": 67.669
+        },
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "cm"
+      }
+    ],
+    "uuid": "1d26e504-7f9e-480a-b52c-5932be6549ab",
+    "voiceServiceNumber": "+49 228 286527 558",
+    "water": {
+      "longname": "RHEIN",
+      "shortname": "RHEIN"
+    }
+  },
+  "one_minute_interval": {
+    "agency": "RHEINE",
+    "km": 2.144,
+    "latitude": 51.639741,
+    "longitude": 7.380201,
+    "longname": "WALTROP",
+    "number": "27800090",
+    "shortname": "WALTROP",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "unknown",
+          "stateNswHsw": "unknown",
+          "timestamp": "2026-10-23T12:45:00+02:00",
+          "value": 56.53
+        },
+        "equidistance": 1,
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "m+NN"
+      }
+    ],
+    "uuid": "facc5c16-f700-4248-9893-a395bffaf2e4",
+    "voiceServiceNumber": "+49 228 286527 012",
+    "water": {
+      "longname": "DATTELN-HAMM-KANAL",
+      "shortname": "DHK"
+    }
+  },
+  "state_mnw_mhw_commented": {
+    "agency": "WILHELMSHAVEN",
+    "km": 31.13,
+    "latitude": 53.771714,
+    "longitude": 8.092507,
+    "longname": "MELLUMPLATE",
+    "number": "9420010",
+    "shortname": "MELLUMPLATE",
+    "timeseries": [
+      {
+        "comment": {
+          "longDescription": "Aufgrund eines Defektes derzeit fehlerhafte Messwerte. Bis zur Behebung des Schadens kann auf die benachbarten Pegel Wangerooge Nord oder Schillig ausgewichen werden.",
+          "shortDescription": "Aufgrund eines Defektes derzeit fehlerhafte Messwerte."
+        },
+        "currentMeasurement": {
+          "stateMnwMhw": "commented",
+          "stateNswHsw": "commented",
+          "timestamp": "2026-10-11T10:54:00+02:00",
+          "value": 611.0
+        },
+        "equidistance": 1,
+        "gaugeZero": {
+          "unit": "m. ü. NHN",
+          "validFrom": "2019-11-01",
+          "value": -5.04
+        },
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "cm"
+      }
+    ],
+    "uuid": "c8b9a2b6-b783-417f-8479-3a0d732fb901",
+    "voiceServiceNumber": "+49 228 286527 223",
+    "water": {
+      "longname": "JADE",
+      "shortname": "JADE"
+    }
+  },
+  "state_mnw_mhw_low": {
+    "agency": "VERDEN",
+    "km": 58.71,
+    "latitude": 52.762431,
+    "longitude": 9.570881,
+    "longname": "AHLDEN",
+    "number": "48900102",
+    "shortname": "AHLDEN",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "low",
+          "stateNswHsw": "normal",
+          "timestamp": "2026-10-23T13:00:00+02:00",
+          "value": 22.0
+        },
+        "equidistance": 15,
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "cm"
+      }
+    ],
+    "uuid": "522286e2-b2b3-4d0d-9a11-01b3ea418c76",
+    "voiceServiceNumber": "+49 228 286527 003",
+    "water": {
+      "longname": "ALLER",
+      "shortname": "ALLER"
+    }
+  },
+  "state_mnw_mhw_normal": {
+    "agency": "VERDEN",
+    "km": 1.74,
+    "latitude": 52.622706,
+    "longitude": 10.062164,
+    "longname": "CELLE",
+    "number": "48300105",
+    "shortname": "CELLE",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "normal",
+          "stateNswHsw": "normal",
+          "timestamp": "2026-10-23T13:00:00+02:00",
+          "value": 127.0
+        },
+        "equidistance": 15,
+        "gaugeZero": {
+          "unit": "m. ü. NN",
+          "validFrom": "1936-11-01",
+          "value": 31.82
+        },
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "cm"
+      }
+    ],
+    "uuid": "b475386c-30cc-453a-b3b7-1d17ace13595",
+    "voiceServiceNumber": "+49 228 286527 001",
+    "water": {
+      "longname": "ALLER",
+      "shortname": "ALLER"
+    }
+  },
+  "state_mnw_mhw_unknown": {
+    "agency": "RHEINE",
+    "km": 38.72,
+    "latitude": 51.693782,
+    "longitude": 7.842759,
+    "longname": "HAMM OW",
+    "number": "27800060",
+    "shortname": "HAMM OW",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "unknown",
+          "stateNswHsw": "unknown",
+          "timestamp": "2026-10-23T12:45:00+02:00",
+          "value": 58.16
+        },
+        "equidistance": 1,
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "m+NN"
+      }
+    ],
+    "uuid": "4dbce62d-a015-4011-afcd-423bb8d4b7a1",
+    "voiceServiceNumber": "+49 228 286527 014",
+    "water": {
+      "longname": "DATTELN-HAMM-KANAL",
+      "shortname": "DHK"
+    }
+  },
+  "unit_metres_above_datum": {
+    "agency": "RHEINE",
+    "km": 36.59,
+    "latitude": 51.684812,
+    "longitude": 7.815789,
+    "longname": "HAMM UW",
+    "number": "27800080",
+    "shortname": "HAMM UW",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "unknown",
+          "stateNswHsw": "unknown",
+          "timestamp": "2026-10-23T12:45:00+02:00",
+          "value": 56.52
+        },
+        "equidistance": 1,
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "m+NN"
+      }
+    ],
+    "uuid": "4ef9dd9c-b32b-43fc-bc5e-3849d4ab7ecc",
+    "voiceServiceNumber": "+49 228 286527 013",
+    "water": {
+      "longname": "DATTELN-HAMM-KANAL",
+      "shortname": "DHK"
+    }
+  },
+  "without_coordinates": {
+    "agency": "RIJKSWATERSTAAT",
+    "km": 975.0,
+    "longname": "DORDRECHT",
+    "number": "123456785",
+    "shortname": "DORDRECHT",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "stateMnwMhw": "unknown",
+          "stateNswHsw": "unknown",
+          "timestamp": "2026-10-23T12:50:00+02:00",
+          "value": 11.0
+        },
+        "equidistance": 10,
+        "longname": "WASSERSTAND ROHDATEN",
+        "shortname": "W",
+        "unit": "cm"
+      }
+    ],
+    "uuid": "6c6f84c2-b7ea-4720-8ecd-a83c100c6291",
+    "water": {
+      "longname": "ALTE MAAS",
+      "shortname": "ALTE_MAAS"
+    }
+  },
+  "without_w_and_q": {
+    "agency": "STANDORT HAMBURG",
+    "km": 2.95,
+    "latitude": 53.668963,
+    "longitude": 9.494307,
+    "longname": "ABBENFLETH SPERRWERK",
+    "number": "126013",
+    "shortname": "ABBENFLETH SPERRWERK",
+    "timeseries": [
+      {
+        "currentMeasurement": {
+          "timestamp": "2026-10-23T13:03:00+02:00",
+          "value": 3227.0
+        },
+        "equidistance": 1,
+        "longname": "ELEKTRISCHE_LEITFÄHIGKEIT_ROHDATEN",
+        "shortname": "LF",
+        "unit": "µS/cm"
+      },
+      {
+        "currentMeasurement": {
+          "timestamp": "2026-10-23T13:03:00+02:00",
+          "value": 12.2
+        },
+        "equidistance": 1,
+        "longname": "WASSERTEMPERATUR ROHDATEN",
+        "shortname": "WT",
+        "unit": "°C"
+      }
+    ],
+    "uuid": "28ec91e8-90c0-44d1-8fd2-b0b64c00c43b",
+    "water": {
+      "longname": "BÜTZFLETHER SÜDERELBE",
+      "shortname": "BSE"
+    }
+  }
+}

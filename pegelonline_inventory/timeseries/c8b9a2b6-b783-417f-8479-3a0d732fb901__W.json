@@ -1,0 +1,21 @@
+{
+  "comment": {
+    "longDescription": "Aufgrund eines Defektes derzeit fehlerhafte Messwerte. Bis zur Behebung des Schadens kann auf die benachbarten Pegel Wangerooge Nord oder Schillig ausgewichen werden.",
+    "shortDescription": "Aufgrund eines Defektes derzeit fehlerhafte Messwerte."
+  },
+  "currentMeasurement": {
+    "stateMnwMhw": "commented",
+    "stateNswHsw": "commented",
+    "timestamp": "2026-10-11T10:54:00+02:00",
+    "value": 611.0
+  },
+  "equidistance": 1,
+  "gaugeZero": {
+    "unit": "m. ü. NHN",
+    "validFrom": "2019-11-01",
+    "value": -5.04
+  },
+  "longname": "WASSERSTAND ROHDATEN",
+  "shortname": "W",
+  "unit": "cm"
+}

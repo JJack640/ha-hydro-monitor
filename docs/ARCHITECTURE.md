@@ -146,6 +146,7 @@ providers/
     ├── fetcher.py     assembles the observation for one config entry
     ├── mapper.py      raw response -> Hydro Monitor models
     └── provider.py    NIWIS_PROVIDER, the definition handed to the registry
+└── pegelonline/       same layout; see docs/pegelonline_reference.md
 ```
 
 Possible future providers:
@@ -154,6 +155,7 @@ Possible future providers:
 providers/
 ├── niwis/
 ├── pegelonline/
+├── hydas/             when a state serves the HyDAS API
 ├── bafu/
 ├── rijkswaterstaat/
 └── ...

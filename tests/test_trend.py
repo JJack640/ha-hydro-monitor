@@ -169,6 +169,7 @@ def test_water_level_trend_keeps_its_own_unit() -> None:
     observation = _water_level(0.0)
 
     assert trend_unit(observation) == "cm"
+    assert trend_unit(_observation(HydroMeasurementType.WATER_LEVEL, value=1.0, unit=None)) == "cm"
     assert trend_value(observation, 12.0) == 12.0
     assert trend_value(observation, 0.30000000000000004) == 0.3
 
@@ -183,6 +184,29 @@ def test_water_level_in_metres_is_converted() -> None:
     )
 
     assert trend_state(observation) == "strong_rising"
+
+
+@pytest.mark.parametrize("unit", ["m+NN", "m+PNP", "m. ü. NN", "m"])
+def test_water_level_above_a_datum_is_metres(unit: str) -> None:
+    """Test a level in metres above a datum is not mistaken for centimetres.
+
+    PEGELONLINE reports some gauges as "m+NN"; read as cm, a 0.30 m rise
+    would count as 0.3 cm (stable) instead of a strong rise.
+    """
+    observation = _observation(
+        HydroMeasurementType.WATER_LEVEL,
+        value=41.2,
+        unit=unit,
+        change_7d=0.30,
+    )
+
+    assert trend_state(observation) == "strong_rising"
+    assert trend_icon(observation, 0.30) == "mdi:arrow-up-bold"
+    assert trend_state(_observation(
+        HydroMeasurementType.WATER_LEVEL, value=41.2, unit=unit, change_7d=0.004
+    )) == "stable"
+    # The trend is a change in metres, not "metres above NN".
+    assert trend_unit(observation) == "m"
 
 
 @pytest.mark.parametrize(

@@ -64,6 +64,14 @@
           "strong_falling": "Strongly falling"
         }
       },
+      "level_state": {
+        "name": "Water level vs. mean low/high",
+        "state": {
+          "low": "Low",
+          "normal": "Normal",
+          "high": "High"
+        }
+      },
       "high_30_days": {
         "name": "30-day high"
       },

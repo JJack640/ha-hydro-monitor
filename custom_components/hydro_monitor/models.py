@@ -271,3 +271,12 @@ class HydroObservation:
     # had elevation_ground=null while this endpoint still returned real
     # values for it.
     depth_below_ground: HydroDerivedValue | None = None
+
+    # PEGELONLINE's own classification of the current water level against
+    # the mean low and mean high water of the gauge (MNW/MHW): "low",
+    # "normal" or "high". `level_state_raw` keeps the service's value (it
+    # also says "unknown", "commented" and "out-dated", which map to None).
+    # Water level only; None for providers that do not report it.
+    level_state: str | None = None
+    level_state_raw: str | None = None
+    level_state_error: str | None = None

@@ -5,6 +5,7 @@ from __future__ import annotations
 from ..models import HydroMeasurementType
 from .base import ProviderDefinition, ProviderError
 from .niwis.provider import NIWIS_PROVIDER
+from .pegelonline.provider import PEGELONLINE_PROVIDER
 
 __all__ = [
     "PROVIDERS",
@@ -16,6 +17,7 @@ __all__ = [
 
 PROVIDERS: dict[str, ProviderDefinition] = {
     NIWIS_PROVIDER.id: NIWIS_PROVIDER,
+    PEGELONLINE_PROVIDER.id: PEGELONLINE_PROVIDER,
 }
 
 

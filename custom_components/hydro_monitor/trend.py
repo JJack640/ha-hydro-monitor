@@ -35,13 +35,22 @@ _RELATIVE_THRESHOLDS_PCT: Final = (2.0, 10.0, 25.0)
 _NEUTRAL_ICON: Final = "mdi:trending-neutral"
 
 
+def _level_unit(observation: HydroObservation) -> str:
+    """Return the plain length unit of a level observation ("m", "cm", "mm").
+
+    "m. ü. NHN" (NIWIS) and "m+NN" / "m+PNP" (PEGELONLINE) are levels
+    relative to a datum; their change is plain metres. An unknown unit falls
+    back to the usual one of the measurement type.
+    """
+    default_unit = _LEVEL_DEFAULT_UNIT[observation.measurement_type]
+    token = (observation.unit or default_unit).split()[0].split("+")[0].rstrip(".")
+
+    return token if token in _METRES_PER_UNIT else default_unit
+
+
 def _metres_per_unit(observation: HydroObservation) -> float:
     """Return how many metres one unit of a level observation is."""
-    default_unit = _LEVEL_DEFAULT_UNIT[observation.measurement_type]
-    # "m. ü. NHN" is a level relative to a datum; its change is plain metres.
-    token = (observation.unit or default_unit).split()[0].rstrip(".")
-
-    return _METRES_PER_UNIT.get(token, _METRES_PER_UNIT[default_unit])
+    return _METRES_PER_UNIT[_level_unit(observation)]
 
 
 def _thresholds(
@@ -80,11 +89,15 @@ def _score(
 def trend_unit(observation: HydroObservation) -> str | None:
     """Return the unit of the trend sensors for an observation.
 
-    Groundwater trends are small, so they stay in millimetres. Everything
-    else is shown in the unit of the measurement itself.
+    Groundwater trends are small, so they stay in millimetres. A water level
+    is shown in its length unit without the datum ("m+NN" becomes "m").
+    Discharges are shown in the unit of the measurement itself.
     """
     if observation.measurement_type is HydroMeasurementType.GROUNDWATER_LEVEL:
         return "mm"
+
+    if observation.measurement_type is HydroMeasurementType.WATER_LEVEL:
+        return _level_unit(observation)
 
     return observation.unit
 

@@ -1,0 +1,12 @@
+{
+  "currentMeasurement": {
+    "stateMnwMhw": "unknown",
+    "stateNswHsw": "unknown",
+    "timestamp": "2026-10-23T12:45:00+02:00",
+    "value": 58.16
+  },
+  "equidistance": 1,
+  "longname": "WASSERSTAND ROHDATEN",
+  "shortname": "W",
+  "unit": "m+NN"
+}

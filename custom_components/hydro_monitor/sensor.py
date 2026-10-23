@@ -22,7 +22,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
 from . import HydroMonitorConfigEntry
-from .const import DOMAIN, MEASUREMENT_STALE_AFTER
+from .const import DOMAIN, MEASUREMENT_STALE_AFTER, PROVIDER_PEGELONLINE
 from .coordinator import HydroMonitorCoordinator
 from .localization import (
     device_display_name,
@@ -56,6 +56,8 @@ PRIMARY_TRANSLATION_KEYS: Final = {
 }
 
 TREND_SENSOR_KEYS: Final = frozenset({"change_1d", "change_7d"})
+
+LEVEL_STATE_KEYS: Final = ("low", "normal", "high")
 
 
 TREND_STATE_OPTIONS: Final = [
@@ -256,6 +258,11 @@ class HydroSensorEntityDescription(SensorEntityDescription):
     unit_fn: Callable[[HydroObservation], str | None]
     options: list[str] | None = None
     is_primary: bool = False
+    # Providers this sensor exists for; None = every provider that can fill
+    # it (see ProviderDefinition.observation_sensor_keys). Set for sensors
+    # that only one provider can ever supply, so providers that do not
+    # know them are not given a permanently unavailable entity.
+    providers: frozenset[str] | None = None
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -317,6 +324,17 @@ SENSOR_DESCRIPTIONS = (
         device_class=SensorDeviceClass.ENUM,
         options=TREND_STATE_OPTIONS,
         value_fn=trend_state,
+        unit_fn=lambda observation: None,
+    ),
+    HydroSensorEntityDescription(
+        key="level_state",
+        translation_key="level_state",
+        name=None,
+        icon="mdi:gauge",
+        device_class=SensorDeviceClass.ENUM,
+        options=list(LEVEL_STATE_KEYS),
+        providers=frozenset({PROVIDER_PEGELONLINE}),
+        value_fn=lambda observation: observation.level_state,
         unit_fn=lambda observation: None,
     ),
     HydroSensorEntityDescription(
@@ -928,7 +946,11 @@ async def async_setup_entry(
         *(
             HydroObservationSensor(coordinator, description)
             for description in SENSOR_DESCRIPTIONS
-            if supported_keys is None or description.key in supported_keys
+            if (supported_keys is None or description.key in supported_keys)
+            and (
+                description.providers is None
+                or coordinator.station.provider in description.providers
+            )
         ),
         *(
             HydroStationSensor(coordinator, description)
@@ -1085,6 +1107,11 @@ class HydroObservationSensor(HydroBaseSensor):
             attrs = {
                 "raw_value": observation.low_water_class_raw,
                 "error": observation.low_water_class_error,
+            }
+        elif key == "level_state":
+            attrs = {
+                "raw_value": observation.level_state_raw,
+                "error": observation.level_state_error,
             }
         elif key == "official_development_7d":
             attrs = {

@@ -1,0 +1,17 @@
+{
+  "currentMeasurement": {
+    "stateMnwMhw": "normal",
+    "stateNswHsw": "normal",
+    "timestamp": "2026-10-23T13:00:00+02:00",
+    "value": 127.0
+  },
+  "equidistance": 15,
+  "gaugeZero": {
+    "unit": "m. ü. NN",
+    "validFrom": "1936-11-01",
+    "value": 31.82
+  },
+  "longname": "WASSERSTAND ROHDATEN",
+  "shortname": "W",
+  "unit": "cm"
+}

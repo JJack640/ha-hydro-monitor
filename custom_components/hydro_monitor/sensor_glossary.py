@@ -15,6 +15,23 @@ from __future__ import annotations
 from typing import Final
 
 SENSOR_GLOSSARY: Final = {
+    "level_state": {
+        "en": (
+            "PEGELONLINE's own classification of the current water level "
+            "against the gauge's mean low water (MNW) and mean high water "
+            "(MHW): low (at or below MNW), normal, or high (at or above "
+            "MHW). Unavailable when the gauge has no such reference values "
+            "or reports a fault."
+        ),
+        "de": (
+            "PEGELONLINEs eigene Einordnung des aktuellen Wasserstands "
+            "gegenüber dem mittleren Niedrigwasser (MNW) und dem mittleren "
+            "Hochwasser (MHW) des Pegels: niedrig (auf oder unter MNW), "
+            "normal oder hoch (auf oder über MHW). Nicht verfügbar, wenn "
+            "der Pegel keine solchen Bezugswerte hat oder eine Störung "
+            "meldet."
+        ),
+    },
     "low_water_class": {
         "en": (
             "NIWIS's official current low-water classification (extremely "
