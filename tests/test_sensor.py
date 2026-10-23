@@ -25,8 +25,6 @@ from custom_components.hydro_monitor.sensor import (
     TREND_STATE_OPTIONS,
     _measurement_age_hours,
     _measurement_datetime,
-    _trend_icon,
-    _trend_state,
 )
 
 
@@ -118,59 +116,6 @@ def _description(key: str):
     return next(
         description for description in SENSOR_DESCRIPTIONS if description.key == key
     )
-
-
-@pytest.mark.parametrize(
-    ("change_mm", "expected_icon"),
-    [
-        (None, "mdi:trending-neutral"),
-        (0, "mdi:trending-neutral"),
-        (1, "mdi:trending-neutral"),
-        (2, "mdi:arrow-up-thin"),
-        (9, "mdi:arrow-up-thin"),
-        (10, "mdi:arrow-up"),
-        (24, "mdi:arrow-up"),
-        (25, "mdi:arrow-up-bold"),
-        (-2, "mdi:arrow-down-thin"),
-        (-9, "mdi:arrow-down-thin"),
-        (-10, "mdi:arrow-down"),
-        (-24, "mdi:arrow-down"),
-        (-25, "mdi:arrow-down-bold"),
-    ],
-)
-def test_trend_icon(
-    change_mm: float | int | None,
-    expected_icon: str,
-) -> None:
-    """Test trend icons for direction and strength."""
-    assert _trend_icon(change_mm) == expected_icon
-
-
-@pytest.mark.parametrize(
-    ("change_7d", "expected_state"),
-    [
-        (None, None),
-        (0.030, "strong_rising"),
-        (0.025, "strong_rising"),
-        (0.010, "rising"),
-        (0.002, "rising"),
-        (0.001, "stable"),
-        (0.0, "stable"),
-        (-0.001, "stable"),
-        (-0.002, "falling"),
-        (-0.020, "falling"),
-        (-0.025, "strong_falling"),
-        (-0.030, "strong_falling"),
-    ],
-)
-def test_trend_state(
-    change_7d: float | None,
-    expected_state: str | None,
-) -> None:
-    """Test categorized seven-day trend states."""
-    observation = _observation(change_7d=change_7d)
-
-    assert _trend_state(observation) == expected_state
 
 
 def test_trend_state_options() -> None:

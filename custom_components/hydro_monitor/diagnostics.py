@@ -11,6 +11,7 @@ from homeassistant.util import dt as dt_util
 from . import HydroMonitorConfigEntry
 from .const import MEASUREMENT_STALE_AFTER
 from .models import HydroCalendarDayValue, HydroDatedExtreme, HydroDerivedValue, HydroObservation
+from .trend import trend_state
 
 
 def _observation_datetime(
@@ -43,32 +44,6 @@ def _is_stale(
         return None
 
     return dt_util.utcnow() - observed_at >= MEASUREMENT_STALE_AFTER
-
-
-def _trend_state(
-    observation: HydroObservation,
-) -> str | None:
-    """Return the categorized seven-day trend state."""
-    change = observation.change_7d
-
-    if change is None:
-        return None
-
-    change_mm = change * 1000
-
-    if change_mm >= 25:
-        return "strong_rising"
-
-    if change_mm >= 2:
-        return "rising"
-
-    if change_mm <= -25:
-        return "strong_falling"
-
-    if change_mm <= -2:
-        return "falling"
-
-    return "stable"
 
 
 def _boundaries_diagnostics(
@@ -267,7 +242,7 @@ async def async_get_config_entry_diagnostics(
                     else None
                 ),
                 "is_stale": _is_stale(observation),
-                "trend_state": _trend_state(observation),
+                "trend_state": trend_state(observation),
                 "quality_flag": observation.quality_flag,
                 "change_1d": observation.change_1d,
                 "change_7d": observation.change_7d,

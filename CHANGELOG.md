@@ -8,6 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+### Fixed
+
+- **Trend sensors** (1-day and 7-day trend, trend state and trend arrow) now
+  judge each measurement type on its own scale. Until now every value was
+  treated as metres and shown in "mm", which is only right for groundwater:
+  a discharge fall of 1.6 m³/s was shown as -1600 mm, and any discharge
+  change above 0.025 m³/s counted as a strong trend.
+  - Water level: change in cm; stable below 1 cm, strong from 25 cm.
+  - Discharge and spring discharge: change in m³/s resp. l/s; stable below
+    2 %, strong from 25 % of the earlier value, so small brooks and large
+    rivers are comparable.
+  - Groundwater is unchanged (millimetres, same thresholds).
+  - Home Assistant may show a one-time "unit changed" notice for the trend
+    sensors of water level, discharge and spring discharge (Developer tools →
+    Statistics); accepting it keeps their history.
+
 ### Changed
 
 - New logo: a flat water-drop gauge with a live-data signal, instead of the

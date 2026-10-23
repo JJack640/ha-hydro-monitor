@@ -815,3 +815,73 @@ def test_disabled_by_default_sensor_stays_disabled_regardless_of_type() -> None:
     )
 
     assert sensor.entity_registry_enabled_default is False
+
+
+def _trend_sensor(
+    key: str,
+    measurement_type: HydroMeasurementType,
+    observation: HydroObservation | None,
+) -> HydroObservationSensor:
+    """Create a trend sensor around a mocked coordinator."""
+    coordinator = MagicMock(spec=HydroMonitorCoordinator)
+    coordinator.station = _station()
+    coordinator.measurement_type = measurement_type
+    coordinator.data = observation
+    coordinator.last_update_success = True
+
+    return HydroObservationSensor(
+        coordinator=coordinator,
+        description=_description(key),
+    )
+
+
+def test_trend_icon_follows_the_measurement_scale() -> None:
+    """Test the discharge icon follows the relative change, not "mm".
+
+    Before the fix the icon was derived from the displayed value in "mm", so
+    every fall of more than 0.025 m³/s was the strongest arrow.
+    """
+    observation = HydroObservation(
+        HydroMeasurementType.DISCHARGE,
+        15.3,
+        "m³/s",
+        date(2026, 10, 23),
+        change_1d=-0.5,
+        change_7d=-2.5,
+    )
+
+    seven_days = _trend_sensor("change_7d", HydroMeasurementType.DISCHARGE, observation)
+    one_day = _trend_sensor("change_1d", HydroMeasurementType.DISCHARGE, observation)
+
+    # 7 days: -2.5 of 17.8 = -14 % (moderate); 1 day: -0.5 of 15.8 = -3 % (thin)
+    assert seven_days.native_value == -2.5
+    assert seven_days.native_unit_of_measurement == "m³/s"
+    assert seven_days.icon == "mdi:arrow-down"
+    assert one_day.icon == "mdi:arrow-down-thin"
+
+
+def test_groundwater_trend_sensor_is_unchanged() -> None:
+    """Test the groundwater trend keeps its millimetre value, unit and icon."""
+    observation = HydroObservation(
+        HydroMeasurementType.GROUNDWATER_LEVEL,
+        608.07,
+        "m. ü. NHN",
+        date(2026, 7, 15),
+        change_1d=0.003,
+        change_7d=-0.021,
+    )
+
+    sensor = _trend_sensor(
+        "change_7d", HydroMeasurementType.GROUNDWATER_LEVEL, observation
+    )
+
+    assert sensor.native_value == -21
+    assert sensor.native_unit_of_measurement == "mm"
+    assert sensor.icon == "mdi:arrow-down"
+
+
+def test_trend_icon_without_data_is_neutral() -> None:
+    """Test the icon of a trend sensor before the first update."""
+    sensor = _trend_sensor("change_7d", HydroMeasurementType.DISCHARGE, None)
+
+    assert sensor.icon == "mdi:trending-neutral"

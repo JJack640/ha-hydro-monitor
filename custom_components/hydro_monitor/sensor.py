@@ -43,6 +43,7 @@ from .providers.niwis.const import (
     WATERWAY_INDICATOR_MEASUREMENT_TYPES,
 )
 from .sensor_glossary import sensor_description
+from .trend import trend_icon, trend_state, trend_unit, trend_value
 
 PARALLEL_UPDATES = 0
 
@@ -56,38 +57,6 @@ PRIMARY_TRANSLATION_KEYS: Final = {
 TREND_SENSOR_KEYS: Final = frozenset({"change_1d", "change_7d"})
 
 
-def _trend_mm(change_m: float | None) -> int | None:
-    """Convert a trend value from metres to millimetres."""
-    if change_m is None:
-        return None
-
-    return round(change_m * 1000)
-
-
-def _trend_icon(change_mm: float | int | None) -> str:
-    """Return a direction and strength icon for a trend in millimetres."""
-    if change_mm is None:
-        return "mdi:trending-neutral"
-
-    absolute_change = abs(float(change_mm))
-
-    if absolute_change < 2:
-        return "mdi:trending-neutral"
-
-    if change_mm > 0:
-        if absolute_change >= 25:
-            return "mdi:arrow-up-bold"
-        if absolute_change >= 10:
-            return "mdi:arrow-up"
-        return "mdi:arrow-up-thin"
-
-    if absolute_change >= 25:
-        return "mdi:arrow-down-bold"
-    if absolute_change >= 10:
-        return "mdi:arrow-down"
-    return "mdi:arrow-down-thin"
-
-
 TREND_STATE_OPTIONS: Final = [
     "strong_rising",
     "rising",
@@ -95,30 +64,6 @@ TREND_STATE_OPTIONS: Final = [
     "falling",
     "strong_falling",
 ]
-
-
-def _trend_state(
-    observation: HydroObservation,
-) -> str | None:
-    """Return a categorized seven-day trend state."""
-    change_mm = _trend_mm(observation.change_7d)
-
-    if change_mm is None:
-        return None
-
-    if change_mm >= 25:
-        return "strong_rising"
-
-    if change_mm >= 2:
-        return "rising"
-
-    if change_mm <= -25:
-        return "strong_falling"
-
-    if change_mm <= -2:
-        return "falling"
-
-    return "stable"
 
 
 def _measurement_datetime(
@@ -351,8 +296,8 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:trending-neutral",
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda observation: _trend_mm(observation.change_1d),
-        unit_fn=lambda observation: "mm",
+        value_fn=lambda observation: trend_value(observation, observation.change_1d),
+        unit_fn=trend_unit,
     ),
     HydroSensorEntityDescription(
         key="change_7d",
@@ -360,8 +305,8 @@ SENSOR_DESCRIPTIONS = (
         name=None,
         icon="mdi:trending-neutral",
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda observation: _trend_mm(observation.change_7d),
-        unit_fn=lambda observation: "mm",
+        value_fn=lambda observation: trend_value(observation, observation.change_7d),
+        unit_fn=trend_unit,
     ),
     HydroSensorEntityDescription(
         key="trend_state",
@@ -370,7 +315,7 @@ SENSOR_DESCRIPTIONS = (
         icon="mdi:chart-timeline-variant",
         device_class=SensorDeviceClass.ENUM,
         options=TREND_STATE_OPTIONS,
-        value_fn=_trend_state,
+        value_fn=trend_state,
         unit_fn=lambda observation: None,
     ),
     HydroSensorEntityDescription(
@@ -1063,8 +1008,15 @@ class HydroObservationSensor(HydroBaseSensor):
     @property
     def icon(self) -> str | None:
         """Return a dynamic icon for trend sensors."""
-        if self.entity_description.key in TREND_SENSOR_KEYS:
-            return _trend_icon(self.native_value)
+        key = self.entity_description.key
+
+        if key in TREND_SENSOR_KEYS:
+            observation = self.coordinator.data
+
+            return trend_icon(
+                observation,
+                getattr(observation, key) if observation is not None else None,
+            )
 
         return self.entity_description.icon
 
