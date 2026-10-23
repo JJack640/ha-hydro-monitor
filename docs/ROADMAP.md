@@ -208,13 +208,7 @@ Status: started. The provider interface exists (`providers/base.py`, see
 the German states, is deferred until a state implements it or PEGELONLINE's
 implementation leaves beta (watch `https://hydrodaten-api.mhwz.de/reals`).
 
-Potential providers:
-
-- HyDAS (when a state serves it)
-- BAFU
-- Rijkswaterstaat
-- Environment Agency
-- Others
+Candidates are evaluated in "Provider candidates" below.
 
 Provider support should require only:
 
@@ -226,6 +220,61 @@ Everything else should already exist.
 Deliverable:
 
 Provider-independent hydrology platform.
+
+## Provider candidates
+
+Evaluated on 2026-10-23. **Verified** means queried live that day; **reported**
+means taken from a web search or documentation and not checked. Nothing here is
+decided: it is the shortlist to build the next provider from.
+
+What a provider needs to be worth integrating:
+
+- an open API without key or account (the integration is open source, so a
+  per-user account cannot be shipped),
+- a licence that allows use in an open-source integration,
+- coordinates and a current value per station (the station list is sorted by
+  distance),
+- a fit to the four measurement types; groundwater and springs are the rare
+  ones (only NIWIS has them today),
+- a stable service (versioning policy, no beta).
+
+Every provider outside Germany also changes the project's scope: the README and
+`hacs.json` (`country: ["DE"]`) say "Germany only", and licences that require
+attribution (see below) must be shown to the user.
+
+### Germany
+
+| Candidate | Status |
+|---|---|
+| **HyDAS of the states** | Standard of the German states. No state serves it yet; the only live implementation is PEGELONLINE's beta (`hydrodaten-api.mhwz.de/reals`, verified). Watched by the weekly task. Would unlock many states, and the standard already models groundwater and springs. **First choice once a state goes live.** |
+| LHP (hochwasserzentralen.de) | Aggregates the gauges of all 16 states, but only through an undocumented JSON interface that third parties use, with no stated licence (the rights lie with the states). Run by the same group as HyDAS, which replaces it. **Not recommended.** |
+| NLWKN Lower Saxony, Grundwasserstandonline | JSON web service, own licence "Open Data NLWKN" (reported). Documentation embeds an API key and warns of swapped coordinates. Whether NIWIS already covers it: not checked. |
+| Other states (NRW, Bayern HND, BW, Sachsen, ...) | One client each, mixed access and licences. Not checked; wait for HyDAS. |
+
+### Neighbours and further abroad
+
+| Candidate | What was verified | Open points |
+|---|---|---|
+| **France: Hub'Eau** | Hydrometry: 4195 stations in service, level (H) and discharge (Q) with timestamps and coordinates (verified). Groundwater: 23 355 stations (list verified). REST API, no key. | Licence not confirmed (probably Licence Ouverte). Latest groundwater readings not verified (the first station returned none). Version 1 of the hydrometry API was shut down on 2025-05-05. **Best fit: the only open REST API covering surface water and groundwater.** |
+| **UK: Environment Agency** | 4230 level and 351 flow stations, JSON, coordinates, Open Government Licence v3 (verified). | The service calls itself "Beta service" (version 0.9). Groundwater uses a different API (not checked). |
+| **Switzerland: BAFU** | Official route is LINDAS (SPARQL, `lindas.admin.ch/query`, graph `foen/hydro`): a river cube with station, measurement time, water level, discharge, water temperature, danger level (198 observations) and a lake cube, updated every 10 minutes (verified). The old direct files (`hydroweb.xml`, GeoJSON) answer 404. Terms (AGB 2019, read): commercial and non-commercial use allowed, source citation recommended, polling at most every 10 minutes, unchecked data without guarantee. | SPARQL instead of REST. No groundwater. The AGB are written for the account-based download server; the BAFU page names them for its data, LINDAS' own terms were not read. The third-party API `api.existenz.ch` works but is a private, non-commercial service without availability guarantee: **not a basis**. One Swiss gauge (Basel-Rheinhalle) already comes through PEGELONLINE. |
+| **Austria: eHYD (federal) and states** | Federal eHYD: checked archive data as CSV, licence CC BY 4.0 with the source line "Datenquelle: ehyd.gv.at" (reported), covers surface water, groundwater and springs. Tirol "Hydro Online" (`hydro.tirol.gv.at`): over 900 stations incl. groundwater and spring discharge, values every 15 minutes, free (reported). Upper Austria (`hydro.ooe.gv.at`): about 180 gauges, raw data download area (reported). | **No machine-readable real-time access confirmed** for any of them. The WFS address named in the federal metadata and the data.gv.at catalogue API could not be verified (moved or 404). Ask the Hydrographischer Dienst (federal contact in the metadata: `wasserhaushalt@bmluk.gv.at`) before planning; Tirol is the interesting one because it offers groundwater and springs. PEGELONLINE has 9 Austrian Danube gauges (viadonau) but only Achleiten has coordinates. |
+| Poland: IMGW | 913 stations in one JSON file with level, discharge, coordinates and alarm levels (verified). | Licence not checked; some discharge values are months old. |
+| Netherlands (Rijkswaterstaat), Sweden (SMHI), Flanders | A quick probe failed (404, 503, 500). | **Not verified**: the real endpoints need proper research. |
+| USA: USGS | Reachable, JSON (verified). | Out of region; only if the project goes worldwide. |
+
+### Suggested order
+
+1. HyDAS of the states, as soon as one goes live (nothing to build before).
+2. France (Hub'Eau): closest to the data model and the only source with groundwater
+   in an open REST API. Verify the licence and the latest groundwater readings first.
+3. UK (Environment Agency), then Switzerland (LINDAS).
+4. Austria only after the Hydrographischer Dienst confirms a machine-readable
+   real-time interface.
+
+Before building any of them: decide the scope question (Germany only or not),
+read the licence in full, and capture real responses as fixtures with a
+discovery tool like `tools/pegelonline_discovery.py`.
 
 ---
 
