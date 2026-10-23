@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## Unreleased
+## v0.3.1 (2026-10-23)
+
+Fixes the trend sensors, which showed wrong values for everything except
+groundwater, and ships a new logo.
 
 ### Fixed
 
@@ -32,6 +35,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   and `icon@2x.png` 512×512, trimmed, with transparency); the separate,
   identical `logo.png` is gone because the icon is used as the fallback. The
   vector source is in `docs/brand/icon.svg`.
+- The `User-Agent` sent to NIWIS now reports the real version (it still said
+  `0.3.0-alpha2`).
 
 ---
 

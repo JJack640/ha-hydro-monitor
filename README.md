@@ -33,7 +33,7 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 > **Hydro Monitor currently covers Germany only.** Its one supported data provider is NIWIS (Niedrigwasserinformationssystem of the Bundesanstalt für Gewässerkunde), which publishes monitoring stations in nearly all German federal states and on the federal waterways. There are no stations outside Germany yet, so if your Home Assistant is located elsewhere the integration will not be useful to you for now. Support for further providers is planned, and Hydro Monitor is under active development.
 
 > [!NOTE]
-> **Current status:** Beta (`v0.3.0`) – recommended for general use; feedback still welcome.
+> **Current status:** Beta (`v0.3.1`) – recommended for general use; feedback still welcome.
 
 ## Features
 
@@ -73,7 +73,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-**Current release:** `v0.3.0`
+**Current release:** `v0.3.1`
 
 Hydro Monitor currently supports the NIWIS public hydrological data service, which covers Germany.
 
