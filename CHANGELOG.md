@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## Unreleased
+
+### Changed
+
+- New logo: a flat water-drop gauge with a live-data signal, instead of the
+  detailed landscape illustration that was unreadable at small sizes. The
+  brand images now follow Home Assistant's specification (`icon.png` 256×256
+  and `icon@2x.png` 512×512, trimmed, with transparency); the separate,
+  identical `logo.png` is gone because the icon is used as the fallback. The
+  vector source is in `docs/brand/icon.svg`.
+
+---
+
 ## v0.3.0 (2026-10-22)
 
 First regular (non-pre-release) release, and the first one HACS can list.

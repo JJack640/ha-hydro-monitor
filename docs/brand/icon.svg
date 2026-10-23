@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Hydro Monitor">
+  <title>Hydro Monitor</title>
+  <defs>
+    <clipPath id="drop">
+      <path d="M128 30C152 64 190 106 190 150A62 62 0 0 1 66 150C66 106 104 64 128 30Z"/>
+    </clipPath>
+  </defs>
+  <!-- badge -->
+  <circle cx="128" cy="128" r="128" fill="#0D47A1"/>
+  <!-- water drop = gauge: water level at the bottom, scale ticks above it -->
+  <g transform="translate(106 146) scale(1) translate(-128 -122)">
+    <path d="M128 30C152 64 190 106 190 150A62 62 0 0 1 66 150C66 106 104 64 128 30Z" fill="#fff"/>
+    <path clip-path="url(#drop)" d="M40 168C70 150 98 150 128 168S186 186 216 168V230H40Z" fill="#4FC3F7"/>
+    <g stroke="#0D47A1" stroke-width="9" stroke-linecap="round">
+      <line x1="106" y1="104" x2="136" y2="104"/>
+      <line x1="98" y1="128" x2="120" y2="128"/>
+    </g>
+  </g>
+  <!-- live data signal -->
+  <g fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round">
+    <path d="M172 66A32 32 0 0 1 204 98"/>
+    <path d="M172 36A62 62 0 0 1 234 98"/>
+  </g>
+  <circle cx="172" cy="98" r="9" fill="#4FC3F7"/>
+</svg>

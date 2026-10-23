@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="custom_components/hydro_monitor/brand/logo.png" alt="Hydro Monitor logo" width="220">
+  <img src="custom_components/hydro_monitor/brand/icon@2x.png" alt="Hydro Monitor logo" width="160">
 </p>
 
 A modern Home Assistant integration for monitoring groundwater levels and other hydrological measurements from public data providers. **Currently available for Germany only.**
