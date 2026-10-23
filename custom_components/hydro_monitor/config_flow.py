@@ -22,13 +22,13 @@ from .const import (
     CONF_STATION_ID,
     DOMAIN,
     NEARBY_STATION_LIMIT,
-    PROVIDER_NIWIS,
     SEARCH_RESULT_LIMIT,
 )
 from .core.station_discovery import StationDiscoveryService
 from .localization import measurement_type_name, resolve_language
 from .models import HydroMeasurementType, HydroStation
-from .providers.niwis.api import NiwisError
+from .providers import PROVIDERS
+from .providers.base import ProviderError
 
 _SEARCH_SENTINEL: Final = "__search__"
 
@@ -43,7 +43,15 @@ def _station_label(station: HydroStation) -> str:
     if station.distance_km is not None:
         parts.append(f"{station.distance_km:.1f} km")
 
+    provider = PROVIDERS.get(station.provider)
+    parts.append(provider.name if provider is not None else station.provider)
+
     return " · ".join(parts)
+
+
+def _station_key(station: HydroStation) -> str:
+    """Return the dropdown key of a station, unique across providers."""
+    return f"{station.provider}:{station.station_id}"
 
 
 def _search_option_label(hass: HomeAssistant) -> str:
@@ -133,44 +141,44 @@ class HydroMonitorConfigFlow(
                     self._measurement_type,
                     limit=NEARBY_STATION_LIMIT,
                 )
-            except NiwisError:
+            except ProviderError:
                 return self.async_abort(reason="cannot_connect")
 
             if not discovered_stations:
                 return self.async_abort(reason="no_stations_found")
 
             self._stations = {
-                station.station_id: station for station in discovered_stations
+                _station_key(station): station for station in discovered_stations
             }
 
         if user_input is not None:
-            station_id = user_input[CONF_STATION_ID]
+            station_key = user_input[CONF_STATION_ID]
 
-            if station_id == _SEARCH_SENTINEL:
+            if station_key == _SEARCH_SENTINEL:
                 return await self.async_step_search()
 
-            station = self._stations[station_id]
+            station = self._stations[station_key]
 
             await self.async_set_unique_id(
-                (f"{PROVIDER_NIWIS}:{station_id}:{self._measurement_type.value}")
+                f"{station.provider}:{station.station_id}:{self._measurement_type.value}"
             )
             self._abort_if_unique_id_configured()
 
             return self.async_create_entry(
                 title=(f"{station.name} – {self._measurement_type_display_name()}"),
                 data={
-                    CONF_PROVIDER: PROVIDER_NIWIS,
-                    CONF_STATION_ID: station_id,
+                    CONF_PROVIDER: station.provider,
+                    CONF_STATION_ID: station.station_id,
                     CONF_MEASUREMENT_TYPE: self._measurement_type.value,
                 },
             )
 
         station_options = [
             SelectOptionDict(
-                value=station.station_id,
+                value=station_key,
                 label=_station_label(station),
             )
-            for station in self._stations.values()
+            for station_key, station in self._stations.items()
         ]
         station_options.append(
             SelectOptionDict(
@@ -217,14 +225,14 @@ class HydroMonitorConfigFlow(
                         query,
                         limit=SEARCH_RESULT_LIMIT,
                     )
-                except NiwisError:
+                except ProviderError:
                     return self.async_abort(reason="cannot_connect")
 
                 if not results:
                     errors["base"] = "no_search_results"
                 else:
                     self._stations = {
-                        station.station_id: station for station in results
+                        _station_key(station): station for station in results
                     }
                     return await self.async_step_station()
 

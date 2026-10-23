@@ -68,3 +68,77 @@ def test_measurement_type_display_name_empty_without_measurement_type() -> None:
     flow.hass.config.language = "de"
 
     assert flow._measurement_type_display_name() == ""
+
+
+def _flow_station(provider: str, station_id: str, name: str) -> HydroStation:
+    return HydroStation(
+        provider=provider,
+        station_id=station_id,
+        name=name,
+        measurement_types=(HydroMeasurementType.WATER_LEVEL,),
+        waterbody="RHEIN",
+        distance_km=12.34,
+    )
+
+
+def test_station_label_names_the_source() -> None:
+    """Test the combined list tells which provider a station comes from."""
+    from custom_components.hydro_monitor.config_flow import _station_label
+
+    label = _station_label(_flow_station("niwis", "S1", "Kaub"))
+
+    assert label == "Kaub · RHEIN · 12.3 km · NIWIS"
+
+
+def test_station_label_falls_back_to_the_provider_id() -> None:
+    """Test a provider missing from the registry still gets a label."""
+    from custom_components.hydro_monitor.config_flow import _station_label
+
+    label = _station_label(_flow_station("gone", "S1", "Kaub"))
+
+    assert label.endswith(" · gone")
+
+
+def test_station_key_differs_between_providers() -> None:
+    """Test the same id from two providers cannot clash in the dropdown."""
+    from custom_components.hydro_monitor.config_flow import _station_key
+
+    assert _station_key(_flow_station("niwis", "X", "A")) != _station_key(
+        _flow_station("other", "X", "A")
+    )
+
+
+@pytest.mark.asyncio
+async def test_entry_uses_the_selected_stations_provider() -> None:
+    """Test unique id and data follow the station's provider, not a constant."""
+    flow = HydroMonitorConfigFlow()
+    flow.hass = MagicMock()
+    flow.hass.config.language = "en"
+    flow._measurement_type = HydroMeasurementType.WATER_LEVEL
+    flow._stations = {"other:abc": _flow_station("other", "abc", "Kaub")}
+    flow.async_set_unique_id = AsyncMock()
+    flow._abort_if_unique_id_configured = MagicMock()
+    flow.async_create_entry = MagicMock(return_value="created")
+
+    await flow.async_step_station(user_input={"station_id": "other:abc"})
+
+    flow.async_set_unique_id.assert_awaited_once_with("other:abc:water_level")
+    assert flow.async_create_entry.call_args.kwargs["data"]["provider"] == "other"
+
+
+@pytest.mark.asyncio
+async def test_provider_failure_aborts_with_cannot_connect() -> None:
+    """Test any provider error (not just NIWIS) aborts the flow."""
+    from custom_components.hydro_monitor.providers.base import ProviderError
+
+    flow = HydroMonitorConfigFlow()
+    flow._measurement_type = HydroMeasurementType.WATER_LEVEL
+    discovery = MagicMock()
+    discovery.async_discover = AsyncMock(side_effect=ProviderError("down"))
+    flow._discovery = discovery
+    flow.async_abort = MagicMock(return_value="aborted")
+
+    result = await flow.async_step_station()
+
+    assert result == "aborted"
+    flow.async_abort.assert_called_once_with(reason="cannot_connect")

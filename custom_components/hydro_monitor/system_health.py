@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import UTC, date, datetime, time
 from typing import Any
 
 from homeassistant.components import system_health
@@ -10,6 +10,21 @@ from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant, callback
 
 from .const import DOMAIN
+
+
+def _comparable(observed_on: date | datetime) -> datetime:
+    """Return an observation date or time as an aware datetime for ordering.
+
+    Providers report either a calendar day or a point in time; ordering them
+    needs one type.
+    """
+    if isinstance(observed_on, datetime):
+        if observed_on.tzinfo is None:
+            return observed_on.replace(tzinfo=UTC)
+
+        return observed_on
+
+    return datetime.combine(observed_on, time.min, tzinfo=UTC)
 
 
 @callback
@@ -37,7 +52,7 @@ async def async_system_health_info(
     station_ids: set[str] = set()
     update_success_values: list[bool] = []
     update_intervals: set[float] = set()
-    observation_dates: list[date] = []
+    observation_dates: list[date | datetime] = []
 
     for entry in loaded_entries:
         runtime_data = entry.runtime_data
@@ -78,5 +93,7 @@ async def async_system_health_info(
             all(update_success_values) if update_success_values else None
         ),
         "Update interval": update_interval,
-        "Latest observation": (max(observation_dates) if observation_dates else None),
+        "Latest observation": (
+            max(observation_dates, key=_comparable) if observation_dates else None
+        ),
     }

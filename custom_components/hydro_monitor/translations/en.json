@@ -30,7 +30,7 @@
     },
     "abort": {
       "already_configured": "This station and measurement type are already configured.",
-      "cannot_connect": "Could not connect to NIWIS.",
+      "cannot_connect": "Could not connect to the data providers.",
       "no_stations_found": "No matching monitoring stations were found."
     }
   },

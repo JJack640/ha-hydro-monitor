@@ -7,10 +7,11 @@ from typing import Any, ClassVar
 from aiohttp import ClientError, ClientSession
 from yarl import URL
 
+from ..base import ProviderError
 from .const import BASE_URL, KARTE_CACHE_TTL, KARTE_URL
 
 
-class NiwisError(Exception):
+class NiwisError(ProviderError):
     """Base exception for NIWIS API errors."""
 
 

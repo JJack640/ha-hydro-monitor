@@ -7,12 +7,18 @@ from dataclasses import dataclass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
-from .const import CONF_MEASUREMENT_TYPE, CONF_STATION_ID
-from .coordinator import HydroMonitorCoordinator, async_get_station
+from .const import (
+    CONF_MEASUREMENT_TYPE,
+    CONF_PROVIDER,
+    CONF_STATION_ID,
+    PROVIDER_NIWIS,
+)
+from .coordinator import HydroMonitorCoordinator
 from .models import HydroMeasurementType, HydroStation
-from .providers.niwis.api import NiwisError
+from .providers import get_provider
+from .providers.base import ProviderError
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -34,11 +40,18 @@ async def async_setup_entry(
 ) -> bool:
     """Set up Hydro Monitor from a config entry."""
     try:
-        station = await async_get_station(
+        provider = get_provider(entry.data.get(CONF_PROVIDER, PROVIDER_NIWIS))
+    except KeyError as err:
+        raise ConfigEntryError(
+            f"Unknown data provider: {entry.data.get(CONF_PROVIDER)}"
+        ) from err
+
+    try:
+        station = await provider.get_station(
             hass,
             entry.data[CONF_STATION_ID],
         )
-    except NiwisError as err:
+    except ProviderError as err:
         raise ConfigEntryNotReady(str(err)) from err
 
     measurement_type = HydroMeasurementType(entry.data[CONF_MEASUREMENT_TYPE])

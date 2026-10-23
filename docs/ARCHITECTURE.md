@@ -65,6 +65,9 @@ NIWIS Mapper
 HydroStation / HydroObservation
         │
         ▼
+NiwisObservationFetcher
+        │
+        ▼
 HydroMonitorCoordinator
         │
         ▼
@@ -133,11 +136,16 @@ Current provider structure:
 
 ```text
 providers/
+├── __init__.py        registry: PROVIDERS, get_provider(), providers_for()
+├── base.py            ProviderError, ProviderDefinition, StationCatalog,
+│                      ObservationFetcher
 └── niwis/
-    ├── api.py
-    ├── catalog.py
-    ├── const.py
-    └── mapper.py
+    ├── api.py         HTTP client and NiwisError (a ProviderError)
+    ├── catalog.py     station catalog (cached, sorted by distance)
+    ├── const.py       endpoints and quantity names
+    ├── fetcher.py     assembles the observation for one config entry
+    ├── mapper.py      raw response -> Hydro Monitor models
+    └── provider.py    NIWIS_PROVIDER, the definition handed to the registry
 ```
 
 Possible future providers:
@@ -151,12 +159,35 @@ providers/
 └── ...
 ```
 
-Adding a provider should ideally require only:
+#### The provider contract
 
-- an API client,
-- provider-specific constants,
-- response mappers,
-- provider-specific tests.
+The integration never imports a provider's own modules outside of
+`providers/<name>/`. It talks to every provider through a
+`ProviderDefinition` (`providers/base.py`):
+
+| Field | Purpose |
+|---|---|
+| `id` | Stored in config entries and prefixed to every unique id. Never change it. |
+| `name` | Shown to the user, e.g. in the station list. |
+| `measurement_types` | Which of the four measurement types the provider serves. |
+| `update_interval` | How often the coordinator polls this provider. |
+| `observation_sensor_keys` | Keys of the observation sensors the provider can fill; `None` means all of them (NIWIS). Others only get what they can fill. |
+| `create_catalog(hass)` | A catalog with `async_nearby_stations(measurement_type, *, latitude, longitude, limit)`, sorted by distance with `distance_km` set. Created once per config flow, so it may cache. |
+| `get_station(hass, station_id)` | Loads one station at setup. |
+| `create_fetcher(hass, station, measurement_type)` | An object with `async_update() -> HydroObservation`, owned by one config entry. It raises `ProviderError` only when the primary measurement is unavailable; failures of optional extras are recorded on the observation instead. |
+
+Provider failures are `ProviderError`s (or subclasses). The coordinator turns
+them into `UpdateFailed`, the config flow into `cannot_connect`; other
+exceptions are programming errors and are not swallowed.
+
+Station discovery (`core/station_discovery.py`) queries every provider that
+offers the measurement type concurrently and merges the answers into one list
+sorted by distance. A provider being down does not empty the list; only when
+all providers fail does the config flow abort. A station that exists in two
+providers is listed twice, once per source.
+
+Adding a provider means writing its client, mapper, catalog and fetcher,
+describing it with a `ProviderDefinition` and adding it to `PROVIDERS`.
 
 The entity layer and Hydrology Engine should remain unchanged.
 
@@ -314,10 +345,9 @@ The coordinator manages updates for each Home Assistant config entry.
 
 Responsibilities:
 
-- Fetching provider data
-- Updating current observations
-- Fetching selected official derived values
-- Coordinating refresh intervals
+- Scheduling the provider's fetcher at the provider's update interval
+- Making the current observation available (the provider's fetcher decides
+  which official values to fetch and caches what is expensive)
 - Converting provider failures into Home Assistant update failures
 - Making normalized results available to entities
 - Tracking the last successful update
@@ -334,6 +364,10 @@ Examples:
 NIWIS + Inkofen + discharge
 NIWIS + Inkofen + water level
 ```
+
+The coordinator itself is provider-independent: it looks up the provider of
+its station in the registry, lets that provider create the fetcher, and maps
+`ProviderError` to `UpdateFailed`.
 
 This separation prevents sensors from different measurement types from being merged into one device.
 
@@ -383,11 +417,15 @@ measurement type
 entity key
 ```
 
-Example:
+Example (joined with underscores):
 
 ```text
-niwis:DESM_DEBY16607001:discharge:change_7d
+niwis_DESM_DEBY16607001_discharge_change_7d
 ```
+
+Station metadata sensors add `station_` before the key. These formats are
+covered by `tests/test_identifiers.py` and must not change: existing entities
+are matched by them.
 
 Device identifiers should contain:
 
@@ -397,7 +435,7 @@ station ID
 measurement type
 ```
 
-Example:
+Example (joined with colons, like the config entry unique id):
 
 ```text
 niwis:DESM_DEBY16607001:discharge
@@ -649,9 +687,12 @@ Cache invalidation should consider:
 The Config Flow currently follows these steps:
 
 1. Select a measurement type.
-2. Discover nearby stations using the Home Assistant location.
+2. Discover nearby stations of all providers using the Home Assistant
+   location, shown as one list sorted by distance with the source named in
+   each label (or search by name).
 3. Select a station.
-4. Create one config entry for the selected station and measurement type.
+4. Create one config entry for the selected station and measurement type; the
+   provider is the one of the selected station.
 
 The unique Config Entry ID uses:
 

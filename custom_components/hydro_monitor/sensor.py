@@ -31,6 +31,7 @@ from .localization import (
     resolve_language,
 )
 from .models import HydroMeasurementType, HydroObservation
+from .providers import get_provider
 from .providers.niwis.const import (
     CALENDAR_DAY_STATISTIC_MEASUREMENT_TYPES,
     DECILES_MEASUREMENT_TYPES,
@@ -919,11 +920,15 @@ async def async_setup_entry(
 ) -> None:
     """Set up Hydro Monitor sensor entities from a config entry."""
     coordinator = entry.runtime_data.coordinator
+    # A provider that cannot fill every sensor lists the ones it can; None
+    # means all of them (NIWIS).
+    supported_keys = get_provider(coordinator.station.provider).observation_sensor_keys
 
     entities = [
         *(
             HydroObservationSensor(coordinator, description)
             for description in SENSOR_DESCRIPTIONS
+            if supported_keys is None or description.key in supported_keys
         ),
         *(
             HydroStationSensor(coordinator, description)

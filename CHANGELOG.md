@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## Unreleased
+
+### Changed
+
+- Internal: the code now talks to data providers through a common interface
+  (`providers/base.py`, registry in `providers/__init__.py`). NIWIS runs
+  through it unchanged: entity ids, device identifiers, config entry ids and
+  sensor values stay exactly as they were. This prepares additional data
+  providers.
+- The station list in the setup dialog now names the data source of each
+  station (for now always NIWIS), and a failed connection reports "Could not
+  connect to the data providers".
+
 ---
 
 ## v0.3.1 (2026-10-23)

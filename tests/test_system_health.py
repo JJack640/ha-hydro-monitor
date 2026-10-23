@@ -1,6 +1,6 @@
 """Tests for Hydro Monitor system health information."""
 
-from datetime import date, timedelta
+from datetime import UTC, date, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
@@ -181,3 +181,36 @@ def test_register_adds_the_info_callback() -> None:
     async_register(MagicMock(), register)
 
     register.async_register_info.assert_called_once_with(async_system_health_info)
+
+
+@pytest.mark.asyncio
+async def test_latest_observation_orders_days_and_points_in_time() -> None:
+    """Test providers reporting a day and providers reporting a time mix safely.
+
+    NIWIS reports a calendar day, finer providers a timestamp; comparing the
+    two directly raises TypeError.
+    """
+    newest = datetime(2026, 10, 23, 12, 15, tzinfo=UTC)
+
+    info = await async_system_health_info(
+        _hass(
+            _loaded_entry(observed_on=date(2026, 10, 22)),
+            _loaded_entry(station_id="uuid-1", observed_on=newest),
+            _loaded_entry(station_id="DEGM_DEBY15500", observed_on=date(2026, 10, 23)),
+        )
+    )
+
+    assert info["Latest observation"] == newest
+
+
+@pytest.mark.asyncio
+async def test_a_day_after_an_earlier_timestamp_wins() -> None:
+    """Test a calendar day counts from its start (midnight UTC)."""
+    info = await async_system_health_info(
+        _hass(
+            _loaded_entry(observed_on=datetime(2026, 10, 22, 23, 0, tzinfo=UTC)),
+            _loaded_entry(station_id="DEGM_DEBY15500", observed_on=date(2026, 10, 23)),
+        )
+    )
+
+    assert info["Latest observation"] == date(2026, 10, 23)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from enum import StrEnum
 
 
@@ -162,7 +162,8 @@ class HydroObservation:
     measurement_type: HydroMeasurementType
     value: float | None
     unit: str | None
-    observed_on: date | None
+    # A calendar day for daily providers, a point in time for finer ones.
+    observed_on: date | datetime | None
 
     quality_flag: str | None = None
 
