@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## Unreleased
+## v0.4.0-beta1 (2026-10-23)
+
+Pre-release: adds PEGELONLINE as a second data provider. HACS keeps offering
+v0.3.1 as the stable version; enable beta versions in HACS to try this one.
 
 ### Added
 

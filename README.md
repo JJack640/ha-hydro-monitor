@@ -76,6 +76,8 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 **Current release:** `v0.3.1`
 
+**Pre-release:** `v0.4.0-beta1` adds PEGELONLINE as a second data provider (see below). In HACS, open Hydro Monitor, choose **Redownload** and enable beta versions to install it.
+
 Hydro Monitor currently supports two public hydrological data services, which cover Germany: NIWIS and PEGELONLINE.
 
 The architecture is provider-based and designed to support additional national and regional hydrological services without requiring changes to the Home Assistant integration itself.
