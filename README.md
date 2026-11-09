@@ -21,7 +21,7 @@ A modern Home Assistant integration for monitoring groundwater levels and other 
 - 📈 Trend analysis
 - 🩺 Diagnostics & System Health
 - 🌐 English & German
-- ✅ Available in HACS (default repository)
+- ✅ Available in the Home Assistant Marketplace (formerly HACS)
 
 <p align="center">
   <strong>Hydrological monitoring for Home Assistant.</strong>
@@ -65,7 +65,7 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 - Built-in diagnostics download
 - Home Assistant System Health support
 - English and German translations
-- HACS-compatible repository structure
+- HACS- and Marketplace-compatible repository structure
 - Automatic updates via DataUpdateCoordinator
 
 ## Vision
@@ -76,7 +76,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 **Current release:** `v0.3.1`
 
-**Pre-release:** `v0.4.0-beta1` adds PEGELONLINE as a second data provider (see below). In HACS, open Hydro Monitor, choose **Redownload** and enable beta versions to install it.
+**Pre-release:** `v0.4.0-beta1` adds PEGELONLINE as a second data provider (see below). In the Marketplace, switch on the **Pre-release** switch on the Hydro Monitor page (it is off by default) to be offered it. HACS users can enable beta versions in HACS.
 
 Hydro Monitor currently supports two public hydrological data services, which cover Germany: NIWIS and PEGELONLINE.
 
@@ -112,13 +112,23 @@ integration.
 
 ## Installation
 
-### HACS
+### Home Assistant Marketplace (2026.11 and newer)
 
-Hydro Monitor is part of the HACS default repository list, so no custom repository is needed.
+Since Home Assistant 2026.11, HACS is built into Home Assistant as the **Marketplace**. Hydro Monitor is listed there, so no custom repository is needed. If you used HACS before, your installation was migrated automatically.
 
 [![Open your Home Assistant instance and open Hydro Monitor inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=JJack640&repository=ha-hydro-monitor&category=integration)
 
-1. Open **HACS** and search for **Hydro Monitor** (or use the button above).
+1. Open the **Marketplace** (under **Settings**) and search for **Hydro Monitor** (or use the button above; buttons made for HACS still work).
+2. Open it and install it.
+3. Restart Home Assistant if it asks you to. Updates come through **Settings → Updates**; the Marketplace checks for new versions every 6 hours.
+
+By default only stable releases are offered. To try a pre-release, switch on the **Pre-release** switch on the Hydro Monitor page of the Marketplace.
+
+### HACS (before Home Assistant 2026.11)
+
+Hydro Monitor is part of the HACS default repository list, so no custom repository is needed.
+
+1. Open **HACS** and search for **Hydro Monitor**.
 2. Open it and select **Download**.
 3. Restart Home Assistant.
 

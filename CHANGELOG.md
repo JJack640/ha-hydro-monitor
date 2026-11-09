@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## Unreleased
+
+Compatibility with Home Assistant 2026.11, where HACS became the built-in
+Marketplace. Nothing changes in how the integration works.
+
+### Changed
+
+- The manifest declares the categories `weather_alerts` and `water`, which the
+  Marketplace uses to sort integrations (the HACS check warned that they were
+  missing).
+- README: installation through the Marketplace (Home Assistant 2026.11 and
+  newer), including the **Pre-release** switch, next to the HACS steps for older
+  versions.
+- Tests and CI run on Python 3.14, which Home Assistant 2026.11 requires (they
+  ran on 3.13 against Home Assistant 2026.2). `pytest.ini` sets
+  `asyncio_mode = auto`, without which all tests error with current versions of
+  the Home Assistant test plugin.
+
+---
+
 ## v0.4.0-beta1 (2026-10-23)
 
 Pre-release: adds PEGELONLINE as a second data provider. HACS keeps offering

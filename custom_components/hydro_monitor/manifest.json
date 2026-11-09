@@ -1,6 +1,7 @@
 {
   "domain": "hydro_monitor",
   "name": "Hydro Monitor",
+  "categories": ["weather_alerts", "water"],
   "codeowners": ["@JJack640"],
   "config_flow": true,
   "documentation": "https://github.com/JJack640/ha-hydro-monitor",
