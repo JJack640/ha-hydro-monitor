@@ -4,10 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## Unreleased
+## v0.4.0 (2026-11-22)
 
-Compatibility with Home Assistant 2026.11, where HACS became the built-in
-Marketplace. Nothing changes in how the integration works.
+First stable release with **PEGELONLINE as a second data provider**. It is
+`v0.4.0-beta1` (see below for the details) plus the changes for Home Assistant
+2026.11, where HACS became the built-in Marketplace. Nothing changed in how the
+integration works since the beta.
+
+### Added
+
+- PEGELONLINE (federal waterways, water level and discharge every 15 minutes),
+  with one station list for both providers that names each station's source,
+  and the new sensor **Water level vs. mean low/high**. Existing NIWIS entries
+  are unchanged. See `v0.4.0-beta1` below and `docs/pegelonline_reference.md`.
 
 ### Changed
 

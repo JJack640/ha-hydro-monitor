@@ -33,7 +33,7 @@ Hydro Monitor is a custom Home Assistant integration for public hydrological dat
 > **Hydro Monitor currently covers Germany only.** It has two data providers: NIWIS (Niedrigwasserinformationssystem of the Bundesanstalt für Gewässerkunde), which publishes monitoring stations in nearly all German federal states and on the federal waterways, and PEGELONLINE of the federal waterways and shipping administration (WSV), which adds the water level and discharge gauges of the federal waterways, including Hamburg. There are no stations outside Germany yet apart from a few gauges on border waters, so if your Home Assistant is located elsewhere the integration will not be useful to you for now. Support for further providers is planned, and Hydro Monitor is under active development.
 
 > [!NOTE]
-> **Current status:** Beta (`v0.3.1`) – recommended for general use; feedback still welcome.
+> **Current status:** Beta (`v0.4.0`) – recommended for general use; feedback still welcome.
 
 ## Features
 
@@ -74,9 +74,7 @@ Hydro Monitor should become the central hydrological data integration for Home A
 
 ## Current status
 
-**Current release:** `v0.3.1`
-
-**Pre-release:** `v0.4.0-beta1` adds PEGELONLINE as a second data provider (see below). In the Marketplace, switch on the **Pre-release** switch on the Hydro Monitor page (it is off by default) to be offered it. HACS users can enable beta versions in HACS.
+**Current release:** `v0.4.0`
 
 Hydro Monitor currently supports two public hydrological data services, which cover Germany: NIWIS and PEGELONLINE.
 
